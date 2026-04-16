@@ -1,6 +1,6 @@
 ---
 name: icon-finder
-description: Search and retrieve icons from major icon libraries (Lucide, Heroicons, Phosphor, Tabler, Remix Icon, Bootstrap Icons) via Iconify API. Triggers when user needs icons, asks for icon suggestions, or when building UI that requires icons. Returns SVG code, React/Vue components, or CDN links.
+description: "通过 Iconify API 搜索 6 大图标库(Lucide, Heroicons, Phosphor, Tabler, Remix Icon, Bootstrap Icons)。当用户说「找个图标」「icon for X」「需要图标」「搜索图标」「找一个xx图标」或在构建 UI 时需要图标时触发。返回 SVG/React/Vue 组件或 CDN 链接。"
 ---
 
 # Icon Finder
@@ -37,6 +37,36 @@ https://api.simplesvg.com/search?query={keyword}&prefixes=lucide,heroicons,table
 Available prefixes: `lucide`, `heroicons`, `ph`, `tabler`, `ri`, `bi`
 
 The response JSON has an `icons` array with strings like `"lucide:home"`, `"tabler:home"`.
+
+**⚠️ 空结果处理**：
+- 如果 `icons` 数组为空或长度 < 3：
+  1. 尝试同义词/近义词重新搜索（如 `shopping` → `cart`, `mail` → `envelope`）
+  2. 去掉 `prefixes` 限制扩大搜索范围
+  3. 如果仍无结果，告知用户"未找到匹配图标"并建议尝试其他关键词
+- 如果 API 返回错误/超时 → 使用 Fallback 方案（见底部）
+
+### Step 1.5: 项目上下文检测 & 用户确认检查点
+
+在获取 SVG 之前，先检测项目环境并**暂停等待用户选择**：
+
+```
+1. 检查当前项目的 package.json / requirements.txt：
+   - 已安装 lucide-react → 优先推荐 Lucide 图标 + native import
+   - 已安装 @heroicons/react → 优先推荐 Heroicons + native import
+   - 已安装 @tabler/icons-react → 优先推荐 Tabler + native import
+   - 未安装任何图标库 → 推荐 Iconify Runtime 或 raw SVG
+   - ⚠️ 检测失败(无 package.json) → 默认全库搜索 + raw SVG 输出
+
+2. ⏸️ 【用户确认检查点】展示搜索结果，按库分组：
+   "找到 N 个图标，推荐使用 [检测到的库]：
+    ✦ Lucide: shopping-cart, shopping-bag
+    ✦ Heroicons: shopping-cart
+    ✦ Tabler: shopping-cart, basket
+    请选择图标，或输入其他关键词重新搜索。"
+
+3. 用户选择后 → 进入 Step 2 获取 SVG
+   用户要求重搜 → 回到 Step 1 换关键词
+```
 
 ### Step 2: Get SVG Code
 
