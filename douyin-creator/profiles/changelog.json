@@ -1,0 +1,32 @@
+[
+  {
+    "date": "2026-03-24",
+    "platform": "douyin",
+    "change": "Initial skill creation. All selectors verified against live page.",
+    "verified": true
+  },
+  {
+    "date": "2026-03-24",
+    "platform": "wechat",
+    "change": "Initial skill creation. Video and image publish pages documented.",
+    "verified": true
+  },
+  {
+    "date": "2026-03-24",
+    "platform": "douyin",
+    "change": "Profile switch test: 16 cookies FAILED (missing security chain). 29 cookies SUCCEEDED. Must include bd_ticket_guard_*, __security_mc_*, _bd_ticket_crypt_* cookies.",
+    "verified": true
+  },
+  {
+    "date": "2026-03-24",
+    "platform": "wechat",
+    "change": "Profile switch test: 2 cookies (sessionid + wxuin) is sufficient. K1ENTO <-> Osipov931 bidirectional switching verified.",
+    "verified": true
+  },
+  {
+    "date": "2026-03-24",
+    "platform": "all",
+    "change": "CDP Network.deleteCookies by domain filter is the correct way to clear per-platform cookies. context.clearCookies() clears everything and breaks cross-platform sessions.",
+    "verified": true
+  }
+]

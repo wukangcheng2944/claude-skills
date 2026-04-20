@@ -1,0 +1,8 @@
+interface:
+  display_name: "Deploy Automation Playbook"
+  short_description: "Design safe CI/CD, rollback, and HA deploy flows."
+  default_prompt: "Use $deploy-automation-playbook to design or harden an automated deployment workflow with rollback, health checks, and branch-safety guardrails."
+
+policy:
+  allow_implicit_invocation: true
+

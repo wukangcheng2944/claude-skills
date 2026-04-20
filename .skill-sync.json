@@ -1,0 +1,38 @@
+{
+  "branch": "master",
+  "sourceRoots": [
+    "D:\\workspace\\.agents\\skills",
+    "%USERPROFILE%\\.codex\\skills",
+    "%USERPROFILE%\\.agents\\skills"
+  ],
+  "ignoreNames": [
+    ".system"
+  ],
+  "excludeDirectories": [
+    ".git",
+    "__pycache__",
+    ".pytest_cache",
+    ".mypy_cache",
+    ".ruff_cache",
+    "node_modules",
+    ".venv",
+    ".idea",
+    ".vscode"
+  ],
+  "excludeFiles": [
+    ".DS_Store",
+    "Thumbs.db",
+    "*Zone.Identifier*",
+    "*.cookies.json",
+    "*.cookies.b64",
+    "*.storage.json",
+    "*.session",
+    "*.session.*",
+    "*.env",
+    "*.env.*",
+    "*.token",
+    "*.token.*",
+    "*.key",
+    "*.pem"
+  ]
+}

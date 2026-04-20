@@ -134,43 +134,7 @@ built, document it here with a one-liner command.
 
 ## Examples
 
-Four production-quality entries covering different categories live in `references/example_entries.md`. **Read that file before writing a new entry if it exists** — it shows the exact cadence and depth to match.
-
-**⚠️ 如果 `references/example_entries.md` 不存在，使用下方内联示例作为正面范例：**
-
-```markdown
-## 🔥 P0 · 评论解析器重写 — 状态 2026-04-10 晚
-
-**背景**: 用户 2026-04-09 反馈评论抓取返回空列表。排查发现 DOM 结构
-在 2026-04-08 版本更新后变化，`.comment-item` 选择器失效。
-
-**目标**: 恢复评论抓取功能，输出包含 `author / text / timestamp / likes`
-四字段的结构化 JSON，覆盖 ≥95% 的评论格式。
-
-### 已确认约束 / 已知事实
-- 新 DOM 用 `[data-comment-id]` 属性标识评论节点
-- 嵌套回复最多 3 层，用 `.reply-container` 包裹
-- 每页默认加载 20 条，需滚动触发懒加载
-
-### 实现路径 / 剩余工作
-1. 修改 `D:/workspace/finder-catch/parsers/comment_parser.py:L45`
-   选择器从 `.comment-item` 改为 `[data-comment-id]`
-2. 新增嵌套回复提取逻辑，递归解析 `.reply-container`
-3. 添加滚动加载等待：`await page.wait_for_selector('[data-comment-id]', timeout=5000)`
-
-### 验证
-```bash
-python -m pytest tests/test_comment_parser.py -v
-# expected: 3 passed, 0 failed
-```
-
-### 风险 / 成本 vs 收益
-| 维度 | 值 |
-|------|-----|
-| 工时 | 2-3 小时 |
-| 风险 | DOM 可能再次变化，建议加选择器版本检测 |
-| 收益 | 恢复核心功能，解除用户阻塞 |
-```
+Four production-quality entries covering different categories (P0 code-heavy, multi-week RE task, roadmap phase, strategic tech decision) live in `references/example_entries.md`. **Always read that file before writing a new entry** — it shows the exact cadence, depth, and section-by-section structure to match. The "Non-example: what NOT to write" section at the end is especially important for calibrating the bar.
 
 ## Anti-Patterns
 
