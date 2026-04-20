@@ -1,6 +1,6 @@
 ---
 name: development-flow-logging
-description: Add and refine detailed development and debugging logs across mainstream languages so AI can pinpoint failures to the exact function, branch, external call, mutation, or timing boundary. Use when implementing or debugging Python, JavaScript, TypeScript, Go, Java, Kotlin, Rust, C, C++, C#, PHP, Shell, APIs, workers, scripts, migrations, or tests that need DEBUG-gated function-level observability.
+description: Add, review, and iteratively optimize detailed development and debugging logs across mainstream languages so AI can pinpoint failures to the exact function, branch, external call, mutation, or timing boundary. Use when implementing or debugging Python, JavaScript, TypeScript, Go, Java, Kotlin, Rust, C, C++, C#, PHP, Shell, APIs, workers, scripts, migrations, or tests that need DEBUG-gated function-level observability.
 ---
 
 # Development Flow Logging
@@ -62,6 +62,10 @@ Use this skill for:
 - "add DEBUG logging"
 - "instrument every step"
 - "make this logging standard reusable across languages"
+- "review these logs"
+- "why are these logs still not enough"
+- "refactor noisy or useless logs"
+- "improve logs so AI can localize failures immediately"
 
 ## Logging Standard
 
@@ -230,6 +234,25 @@ After instrumentation:
 
 If AI still needs to guess, improve the logs.
 
+### 9. Review and refactor existing logs
+
+When logs already exist, do not assume they are useful.
+
+Review them in this order:
+1. can the failing function be identified immediately
+2. can the failing checkpoint or branch be identified immediately
+3. is the causal context present, not just the symptom
+4. are repeated lines adding signal or just noise
+5. does `DEBUG=false` stay readable
+6. does `DEBUG=true` expose the exact path and boundary interactions
+
+If the answer to 1 or 2 is no, the logging is still insufficient.
+
+Read `references/logging-antipatterns.md` when reviewing bad or misleading logs.
+Read `references/failure-library.md` when the current logs still force guessing.
+Read `references/before-after-examples.md` for concrete rewrites from weak logs to diagnosable logs.
+Read `references/review-rubric.md` to score whether the current logs are good enough for AI-driven debugging.
+
 ## Function Checklist
 
 Apply this checklist to every critical function during debug instrumentation:
@@ -253,6 +276,10 @@ Read `references/language-mapping.md` for stack-specific logging choices.
 Read `references/language-templates.md` for minimal copy-paste templates for every supported language.
 Read `references/scenario-selector.md` for language + scenario composition rules.
 Read `references/scenario-templates.md` for higher-level flow templates such as Web/API, worker, scheduler, DB mutation, and external call paths.
+Read `references/logging-antipatterns.md` for bad patterns that look useful but block diagnosis.
+Read `references/failure-library.md` for common failure types and the minimum logs needed to isolate them.
+Read `references/before-after-examples.md` for concrete rewrites from weak logs to strong logs.
+Read `references/review-rubric.md` to audit whether a logging implementation is actually AI-diagnosable.
 
 ## Patterns
 
@@ -286,6 +313,8 @@ After each incident:
 3. add a better example pattern for that language or failure type
 4. remove noisy logs that did not help diagnosis
 5. update the language mapping if a stack-specific gap was discovered
+6. add the failure to the failure library if the current references would not have predicted it
+7. add a before/after rewrite if the original logs looked plausible but still slowed diagnosis
 
 The standard is not "more logs".
 The standard is "AI can isolate the exact failing function and step immediately".
