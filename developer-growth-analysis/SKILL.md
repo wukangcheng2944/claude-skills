@@ -7,6 +7,19 @@ description: Analyzes your recent Claude Code chat history to identify coding pa
 
 This skill provides personalized feedback on your recent coding work by analyzing your Claude Code chat interactions and identifying patterns that reveal strengths and areas for growth.
 
+## Agent-First Output Rule
+
+This skill is meant to localize the highest-leverage growth gap, not just generate a motivational report. The output must help the next agent decide exactly which skill gap, artifact, or learning resource deserves immediate attention.
+
+Every report should make these explicit:
+- `suspected_scope`: the smallest recurring skill gap, workflow weakness, or technology area that matters most
+- `strongest_evidence`: the clearest repeated pattern from chat history that supports the conclusion
+- `next_best_action`: the single next learning or practice action to take
+- `next_target`: the exact topic, resource, code pattern, or recent project area to inspect next
+- `confidence`: high, medium, or low
+
+If Slack delivery fails, also report the smallest failing integration step and the exact reconnection or resend target.
+
 ## When to Use This Skill
 
 Use this skill when you want to:
@@ -34,6 +47,20 @@ This skill performs a six-step analysis of your development work:
 5. **Finds Learning Resources**: Uses HackerNews to curate high-quality articles and discussions directly relevant to your improvement areas, providing you with a reading list tailored to your actual development work.
 
 6. **Sends to Your Slack DMs**: Automatically delivers the complete report to your own Slack direct messages so you can reference it anytime, anywhere.
+
+## Recommended Output Shape
+
+At the end of the report, append:
+
+```markdown
+## Agent Handoff
+
+- suspected_scope: ...
+- strongest_evidence: ...
+- next_best_action: ...
+- next_target: ...
+- confidence: high|medium|low
+```
 
 ## How to Use
 

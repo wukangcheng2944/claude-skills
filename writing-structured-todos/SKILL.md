@@ -9,6 +9,19 @@ description: Use this skill whenever the user asks to write, add, update, append
 
 This skill captures a specific, battle-tested style for writing long-form project TODO entries in `.llm/todo.md` files. The style treats each entry as a **mini design doc** — background, goal, concrete steps with real file paths and commands, honest cost estimates, verification steps, and cited evidence — not as a one-line reminder. The format has been iterated on across multi-month projects where the TODO file is the single source of truth that bridges sessions.
 
+## Agent-First Output Rule
+
+These TODO entries are continuation artifacts for future agents. A good entry should let the next agent resume work without reopening the whole investigation.
+
+Every substantial TODO entry should make these points easy to find:
+- `suspected_scope`: the smallest repo, path, component, migration, prompt, or workflow in play
+- `strongest_evidence`: the concrete fact, log, measurement, diff, or user clarification that justifies the plan
+- `next_best_action`: the one action with the highest expected value
+- `next_target`: the exact file, command, route, service, doc section, or dataset to inspect next
+- `verification_target`: the command, query, or observable output that will confirm progress
+
+When replying in chat after editing the TODO file, do not summarize the whole plan. Report the section header added or updated, plus the exact next pickup target for the next agent.
+
 ## When to Use
 
 Use this skill when:

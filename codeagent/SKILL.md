@@ -9,6 +9,23 @@ description: Execute codeagent-wrapper for multi-backend AI code tasks. Supports
 
 Execute codeagent-wrapper commands with pluggable AI backends (Codex, Claude, Gemini). Supports file references via `@` syntax, parallel task execution with backend selection, and configurable security controls.
 
+## Agent-First Orchestration Rule
+
+Use this skill to narrow and delegate work, not to create vague sub-agents. Every codeagent task should leave the next agent with a smaller search space than before.
+
+Before invoking `codeagent-wrapper`, explicitly decide:
+- the smallest subproblem worth delegating
+- the backend best suited to that subproblem
+- the exact files, commands, or artifacts the sub-agent must inspect or produce
+- the success signal that will tell the parent agent whether to continue, retry, or switch tactics
+
+When summarizing a codeagent result, do not stop at "task completed" or "task failed". Report:
+- `suspected_scope`: the smallest failing or changed area
+- `strongest_evidence`: the key output, diff, error, or verification result
+- `next_best_action`: the single next action to take
+- `next_target`: the exact file, command, task id, session id, or artifact to inspect next
+- `confidence`: high, medium, or low
+
 ## When to Use
 
 - Complex code analysis requiring deep understanding
@@ -83,6 +100,17 @@ Agent response text here...
 
 ---
 SESSION_ID: 019a7247-ac9d-71f3-89e2-a823dbd8fd14
+```
+
+For multi-step or failing runs, append a short handoff block in the parent agent summary:
+
+```text
+Handoff:
+- suspected_scope: ...
+- strongest_evidence: ...
+- next_best_action: ...
+- next_target: ...
+- confidence: high|medium|low
 ```
 
 ## Resume Session

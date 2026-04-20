@@ -7,6 +7,19 @@ description: Assists in writing high-quality content by conducting research, add
 
 This skill acts as your writing partner, helping you research, outline, draft, and refine content while maintaining your unique voice and style.
 
+## Agent-First Output Rule
+
+This skill should leave the next agent with a precise writing handoff, not a vague note like "continue drafting". Whether the task is research, outline work, or revision, make the next writing move explicit.
+
+Every substantial response should identify:
+- `suspected_scope`: the exact section, claim cluster, audience mismatch, citation gap, or voice issue being worked on
+- `strongest_evidence`: the paragraph, source gap, structural weakness, or user instruction driving the recommendation
+- `next_best_action`: the single best next writing or research step
+- `next_target`: the exact section heading, outline node, citation placeholder, or source file to inspect next
+- `confidence`: high, medium, or low
+
+When handing off unfinished work, prefer naming the next section to draft, the missing evidence to collect, or the specific passage that still needs rewriting.
+
 ## When to Use This Skill
 
 - Writing blog posts, articles, or newsletters
@@ -27,6 +40,20 @@ This skill acts as your writing partner, helping you research, outline, draft, a
 5. **Voice Preservation**: Maintains your writing style and tone
 6. **Citation Management**: Adds and formats references properly
 7. **Iterative Refinement**: Helps you improve through multiple drafts
+
+## Recommended Output Shape
+
+When work is iterative, structure the response so the next agent can continue immediately:
+1. **Current State**: what exists already
+2. **Diagnosis**: strongest writing or research issue
+3. **Suggested Revision / Research Output**
+4. **Open Gaps**: unresolved citations, evidence, audience, or voice issues
+5. **Agent Handoff**:
+   - `suspected_scope`
+   - `strongest_evidence`
+   - `next_best_action`
+   - `next_target`
+   - `confidence`
 
 ## How to Use
 
@@ -535,4 +562,3 @@ Recommended structure for writing projects:
 - Creating presentation content
 - Writing case studies
 - Developing course outlines
-

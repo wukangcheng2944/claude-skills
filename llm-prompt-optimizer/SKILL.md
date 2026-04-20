@@ -1,9 +1,10 @@
 ---
 name: llm-prompt-optimizer
 description: "Use when improving prompts for any LLM. Applies proven prompt engineering techniques to boost output quality, reduce hallucinations, and cut token usage."
-risk: safe
-source: community
-date_added: "2026-03-04"
+metadata:
+  risk: safe
+  source: community
+  date_added: "2026-03-04"
 ---
 
 # LLM Prompt Optimizer
@@ -11,6 +12,18 @@ date_added: "2026-03-04"
 ## Overview
 
 This skill transforms weak, vague, or inconsistent prompts into precision-engineered instructions that reliably produce high-quality outputs from any LLM (Claude, Gemini, GPT-4, Llama, etc.). It applies systematic prompt engineering frameworks — from zero-shot to few-shot, chain-of-thought, and structured output patterns.
+
+## Agent-First Output Rule
+
+This skill is not complete when it produces a "better prompt". It is complete when the next agent can see exactly why the old prompt failed, what changed, and which evaluation case should be run next.
+
+Every optimization pass should make these explicit:
+- `suspected_scope`: the exact prompt block, instruction pattern, or model-specific mismatch causing the issue
+- `strongest_evidence`: the observed failure mode, bad output sample, token waste, hallucination, or formatting miss
+- `prompt_delta`: the smallest meaningful change made to the prompt
+- `next_best_action`: the single next test or iteration to run
+- `next_target`: the exact prompt file, message block, eval case, or model pairing to inspect next
+- `confidence`: high, medium, or low
 
 ## When to Use This Skill
 
@@ -166,6 +179,20 @@ Before using a prompt in production:
 - [ ] Is the length appropriate (not too long/short)?
 - [ ] Has it been tested on 5+ varied inputs?
 - [ ] Is hallucination risk addressed for factual tasks?
+
+## Recommended Output Shape
+
+When returning an optimized prompt, include:
+1. **Failure Diagnosis**: what was wrong with the original prompt
+2. **Revised Prompt**: the improved prompt text
+3. **Prompt Delta**: what changed and why
+4. **Evaluation Plan**: 3-5 concrete test cases, including at least one edge case
+5. **Agent Handoff**:
+   - `suspected_scope`
+   - `strongest_evidence`
+   - `next_best_action`
+   - `next_target`
+   - `confidence`
 
 ## Troubleshooting
 

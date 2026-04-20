@@ -9,6 +9,19 @@ A persistent memory space for storing knowledge that survives across conversatio
 
 **Location:** `.claude/skills/agent-memory/memories/`
 
+## Agent-First Memory Rule
+
+Memories are resumable handoff artifacts for the next agent. A good memory must reduce the next search space immediately.
+
+When saving or updating a memory, make these explicit whenever known:
+- `suspected_scope`: the smallest repo, path, subsystem, workflow, or environment that matters
+- `strongest_evidence`: the concrete log, diff, measurement, command result, or observation that justifies the memory
+- `current_state`: what is done, blocked, or still uncertain
+- `next_best_action`: the single highest-value next step
+- `next_target`: the exact file, command, service, table, prompt, or document to inspect next
+
+When replying in chat after a memory operation, prefer a compact handoff: memory path created or updated, why it matters, and the next pickup target.
+
 ## Proactive Usage
 
 Save memories when you discover something worth preserving:
@@ -149,6 +162,8 @@ When writing detailed memories, consider including:
 - **Context**: Goal, background, constraints
 - **State**: What's done, in progress, or blocked
 - **Details**: Key files, commands, code snippets
+- **Evidence**: Logs, measurements, stack traces, screenshots, or comparisons that justify the current conclusion
+- **Handoff**: Exact next target and next best action for the next agent
 - **Next steps**: What to do next, open questions
 
 Not all memories need all sections - use what's relevant.
