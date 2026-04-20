@@ -229,6 +229,7 @@ Read `references/function-checklist.md` for a compact per-function template.
 Read `references/log-contract.md` for the standard field contract.
 Read `references/debug-switch-patterns.md` for DEBUG gating guidance.
 Read `references/language-mapping.md` for stack-specific logging choices.
+Read `references/language-templates.md` for minimal copy-paste templates for every supported language.
 
 ## Patterns
 

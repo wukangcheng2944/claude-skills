@@ -130,6 +130,8 @@ Typical adaptation:
 
 When editing code, choose the smallest change that matches the existing language stack.
 
+If the user asks for starter code, use `language-templates.md` first and then adapt it to repo conventions.
+
 Do:
 - extend the existing logger
 - preserve project conventions
