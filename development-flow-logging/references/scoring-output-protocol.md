@@ -38,6 +38,13 @@ Use this protocol when a logging review result should be machine-readable and co
     "log selected window with source inputs",
     "log explicit skip reason when window rejected"
   ],
+  "agent_handoff": {
+    "suspected_scope": "schedule dispatch -> window selection branch",
+    "strongest_evidence": "selected window and timezone normalization are both invisible before skip",
+    "next_best_action": "open code",
+    "next_target": "scheduler/window.py::select_window",
+    "confidence": "high"
+  },
   "canary": {
     "id": "CANARY-004",
     "used": true
@@ -51,8 +58,8 @@ Use this protocol when a logging review result should be machine-readable and co
 Use this when results need to be appended to a table:
 
 ```text
-target	language	scenario	total	localizability	step_precision	boundary_visibility	branch_explainability	signal_to_noise_ratio	debug_discipline	safety	outcome_quality	baseline_latency	target_latency	canary_id	decision
-schedule dispatch path	Python	scheduler_window	29	3	4	4	3	4	4	4	3	multiple_guesses	immediate	CANARY-004	revise
+target	language	scenario	total	localizability	step_precision	boundary_visibility	branch_explainability	signal_to_noise_ratio	debug_discipline	safety	outcome_quality	baseline_latency	target_latency	suspected_scope	next_best_action	next_target	confidence	canary_id	decision
+schedule dispatch path	Python	scheduler_window	29	3	4	4	3	4	4	4	3	multiple_guesses	immediate	schedule dispatch -> window selection branch	open code	scheduler/window.py::select_window	high	CANARY-004	revise
 ```
 
 ## Allowed Values
@@ -84,3 +91,4 @@ schedule dispatch path	Python	scheduler_window	29	3	4	4	3	4	4	4	3	multiple_guess
 3. do not change the latency vocabulary
 4. list failures and rewrite actions in priority order
 5. keep one canary id attached when the review used a fixed case
+6. always include one agent handoff with smallest plausible scope and next move

@@ -1,6 +1,6 @@
 ---
 name: development-flow-logging
-description: Add, review, and iteratively optimize detailed development and debugging logs across mainstream languages so AI can pinpoint failures to the exact function, branch, external call, mutation, or timing boundary. Use when implementing or debugging Python, JavaScript, TypeScript, Go, Java, Kotlin, Rust, C, C++, C#, PHP, Shell, APIs, workers, scripts, migrations, or tests that need DEBUG-gated function-level observability, review existing logs, or turn incidents into reusable canary cases.
+description: Add, review, and iteratively optimize detailed development and debugging logs across mainstream languages so AI agents can pinpoint failures to the exact function, branch, external call, mutation, or timing boundary. Use when implementing or debugging Python, JavaScript, TypeScript, Go, Java, Kotlin, Rust, C, C++, C#, PHP, Shell, APIs, workers, scripts, migrations, or tests that need DEBUG-gated function-level observability, review existing logs, or turn incidents into reusable canary cases.
 ---
 
 # Development Flow Logging
@@ -23,10 +23,17 @@ It should work for:
 
 The goal is simple:
 - every important execution path should leave a readable trail
-- AI should be able to locate the failing function or branch in one pass
+- AI agents should be able to locate the failing function or branch in one pass
 - verbose logs should be controlled by `DEBUG`, not left permanently noisy
 
 This skill is for application code, scripts, workers, schedulers, migrations, tests, and local tools.
+
+This is an agent-first skill.
+Its purpose is not just to make logs "better".
+Its purpose is to help the next agent:
+- narrow the search space quickly
+- identify the likeliest failing file, function, branch, or boundary
+- choose the next verification step without re-reading the whole system
 
 ## Cross-Language Rules
 
@@ -50,6 +57,11 @@ This skill is for application code, scripts, workers, schedulers, migrations, te
 
 6. Never log secrets.
    - Redact tokens, passwords, cookies, private keys, full auth headers, or raw PII.
+
+7. Optimize for agent handoff, not just human readability.
+   - Logs and review outputs should tell the next agent where to look next.
+   - Good output reduces search space and proposes the next best check.
+   - Weak output says "something is wrong" without naming the likeliest code boundary.
 
 ## When To Apply
 
@@ -75,6 +87,9 @@ Use this skill for:
 - "wire this into CI"
 - "make PR review enforce logging quality"
 - "turn incidents into logging upgrades"
+- "help the agent locate the bug faster"
+- "make this agent-readable"
+- "reduce the search space for the next agent"
 
 ## Logging Standard
 
@@ -99,6 +114,20 @@ Recommended fields:
 - `resource`
 - `status`
 - `summary`
+
+## Agent-First Output Contract
+
+Every serious review or logging rewrite should help the next agent answer:
+
+1. what is the smallest plausible failing scope
+2. what evidence supports that scope
+3. what should be checked next
+4. which file, function, or boundary should be opened next
+5. how confident the handoff is
+
+If the output cannot drive the next debugging move, it is incomplete.
+
+Read `references/agent-localization-contract.md` for the normalized agent-handoff shape.
 
 ## Workflow
 
@@ -263,6 +292,7 @@ Read `references/before-after-examples.md` for concrete rewrites from weak logs 
 Read `references/review-rubric.md` to score whether the current logs are good enough for AI-driven debugging.
 Read `references/log-review-workflow.md` when you need a repeatable way to audit existing code or log output.
 Read `references/review-report-template.md` when the output needs a stable audit structure that humans and tools can both consume.
+Read `references/agent-localization-contract.md` when the review result must explicitly guide the next agent action.
 
 ### 10. Build reusable canary cases
 
@@ -299,6 +329,7 @@ The point is to reduce diagnosis latency and ambiguity.
 
 Read `references/darwin-optimization-loop.md` for the iteration rules.
 Read `references/scoring-output-protocol.md` when the review result must be emitted in a consistent machine-readable format.
+Read `references/agent-localization-contract.md` when the output must narrow the next agent's search space explicitly.
 
 ### 12. Integrate with PR and CI flows
 
@@ -376,6 +407,7 @@ Read `references/scoring-output-protocol.md` for the normalized score payload.
 Read `references/ci-pr-integration.md` for how to apply the review protocol in PR and CI flows.
 Read `references/incident-feedback-loop.md` for how to turn real incidents into permanent logging improvements.
 Read `references/example-artifacts.md` for end-to-end examples of the canary, report, score, and PR note outputs.
+Read `references/agent-localization-contract.md` for the agent-facing handoff requirements.
 
 ## Patterns
 
@@ -416,6 +448,7 @@ After each incident:
 10. preserve the output format so later reviews can be compared automatically
 11. push the best new incident pattern into PR and CI guidance so the gain is not lost
 12. refresh example artifacts when the standard output format changes
+13. prefer changes that help the next agent decide where to look next, not just changes that sound more descriptive
 
 The standard is not "more logs".
-The standard is "AI can isolate the exact failing function and step immediately".
+The standard is "the next AI agent can isolate the exact failing function and step immediately".

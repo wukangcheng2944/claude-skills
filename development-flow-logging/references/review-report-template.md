@@ -41,6 +41,13 @@ Use this template when auditing logs, code instrumentation, or a canary-driven r
 - target_latency:
 - canary_case_needed: yes | no
 
+## Agent Handoff
+- suspected_scope:
+- strongest_evidence:
+- next_best_action:
+- next_target:
+- confidence: high | medium | low
+
 ## Decision
 - keep:
 - revisit_after:
@@ -55,6 +62,7 @@ Use this when the output needs to stay short but comparable:
 scope=worker_dedup score=27/40 latency=multiple_guesses
 top_failures=missing_skip_reason,silent_cache_boundary,repetitive_finish_log
 rewrite_plan=add_dedup_branch_reason+log_cache_key_summary+compress_finish_log
+suspected_scope=dedup check before queue ack next_action=open_code next_target=worker.ts::shouldSkip
 verify_with=failure_path canary=CANARY-002 decision=revise
 ```
 
@@ -64,3 +72,4 @@ verify_with=failure_path canary=CANARY-002 decision=revise
 2. rewrite plan must be minimum viable change, not a full rewrite by default
 3. canary impact must stay tied to one fixed case when possible
 4. decision must be one of `keep`, `revise`, `revert`, `needs_more_data`
+5. agent handoff must point to one smallest plausible scope and one next best action
