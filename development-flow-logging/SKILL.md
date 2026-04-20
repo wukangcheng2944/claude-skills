@@ -114,6 +114,27 @@ Examples:
 - Shell: thin `log_debug` and `log_info` helpers
 
 Read `references/language-mapping.md` before choosing implementation details for a specific stack.
+Read `references/language-templates.md` when you need a minimal copy-paste starter for the current language.
+
+### 2.5 Pick the execution scenario
+
+After choosing the language, choose the runtime scenario.
+
+Common scenarios:
+- generic function or utility flow
+- Web or API request handling
+- worker or queue consumer
+- scheduler or cron job
+- DB write or migration path
+- external HTTP or RPC dependency
+
+Rule:
+- start from the language template
+- layer one scenario template on top
+- add repo-specific field names only after the base pattern is clear
+
+Read `references/scenario-selector.md` to choose the scenario template quickly.
+Read `references/scenario-templates.md` for reusable scenario-level log checkpoints.
 
 ### 3. Define the DEBUG switch
 
@@ -230,6 +251,8 @@ Read `references/log-contract.md` for the standard field contract.
 Read `references/debug-switch-patterns.md` for DEBUG gating guidance.
 Read `references/language-mapping.md` for stack-specific logging choices.
 Read `references/language-templates.md` for minimal copy-paste templates for every supported language.
+Read `references/scenario-selector.md` for language + scenario composition rules.
+Read `references/scenario-templates.md` for higher-level flow templates such as Web/API, worker, scheduler, DB mutation, and external call paths.
 
 ## Patterns
 
