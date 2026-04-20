@@ -1,6 +1,6 @@
 ---
 name: development-flow-logging
-description: Add, review, and iteratively optimize detailed development and debugging logs across mainstream languages so AI can pinpoint failures to the exact function, branch, external call, mutation, or timing boundary. Use when implementing or debugging Python, JavaScript, TypeScript, Go, Java, Kotlin, Rust, C, C++, C#, PHP, Shell, APIs, workers, scripts, migrations, or tests that need DEBUG-gated function-level observability.
+description: Add, review, and iteratively optimize detailed development and debugging logs across mainstream languages so AI can pinpoint failures to the exact function, branch, external call, mutation, or timing boundary. Use when implementing or debugging Python, JavaScript, TypeScript, Go, Java, Kotlin, Rust, C, C++, C#, PHP, Shell, APIs, workers, scripts, migrations, or tests that need DEBUG-gated function-level observability, review existing logs, or turn incidents into reusable canary cases.
 ---
 
 # Development Flow Logging
@@ -66,6 +66,9 @@ Use this skill for:
 - "why are these logs still not enough"
 - "refactor noisy or useless logs"
 - "improve logs so AI can localize failures immediately"
+- "score this logging"
+- "turn this incident into a reusable canary"
+- "build a logging review workflow"
 
 ## Logging Standard
 
@@ -252,6 +255,41 @@ Read `references/logging-antipatterns.md` when reviewing bad or misleading logs.
 Read `references/failure-library.md` when the current logs still force guessing.
 Read `references/before-after-examples.md` for concrete rewrites from weak logs to diagnosable logs.
 Read `references/review-rubric.md` to score whether the current logs are good enough for AI-driven debugging.
+Read `references/log-review-workflow.md` when you need a repeatable way to audit existing code or log output.
+
+### 10. Build reusable canary cases
+
+When a real incident exposes weak logging, do not just patch the code and move on.
+
+Capture it as a reusable canary:
+1. record the original symptom in one sentence
+2. save the weak or misleading logs that slowed diagnosis
+3. record the exact function, branch, boundary, or mutation that should have been obvious
+4. rewrite the relevant logging pattern
+5. add the case to a fixed canary set for future review
+
+A canary case is good if:
+- it represents a real failure mode
+- the old logs looked plausible but were not enough
+- the improved logs make the failing step obvious in one pass
+
+Read `references/canary-corpus.md` for the corpus format and starter cases.
+
+### 11. Use Darwin-style review loops
+
+Do not optimize logging by taste alone.
+
+Use a fixed review loop:
+1. choose one logging weakness or hypothesis
+2. compare baseline logs against the same canary cases
+3. score the result with the review rubric
+4. keep the change only if diagnosis becomes faster and more exact
+5. revert or simplify if the change only adds noise
+
+The point is not to maximize line count.
+The point is to reduce diagnosis latency and ambiguity.
+
+Read `references/darwin-optimization-loop.md` for the iteration rules.
 
 ## Function Checklist
 
@@ -280,6 +318,9 @@ Read `references/logging-antipatterns.md` for bad patterns that look useful but 
 Read `references/failure-library.md` for common failure types and the minimum logs needed to isolate them.
 Read `references/before-after-examples.md` for concrete rewrites from weak logs to strong logs.
 Read `references/review-rubric.md` to audit whether a logging implementation is actually AI-diagnosable.
+Read `references/log-review-workflow.md` for a fixed review sequence when auditing existing logs or code.
+Read `references/canary-corpus.md` for reusable canary incidents to test whether improved logging really helps.
+Read `references/darwin-optimization-loop.md` for the change-compare-keep-or-revert loop.
 
 ## Patterns
 
@@ -315,6 +356,8 @@ After each incident:
 5. update the language mapping if a stack-specific gap was discovered
 6. add the failure to the failure library if the current references would not have predicted it
 7. add a before/after rewrite if the original logs looked plausible but still slowed diagnosis
+8. add or refresh a canary case when the incident exposed a repeatable blind spot
+9. keep only logging changes that improve the rubric score or reduce diagnosis latency on the canary set
 
 The standard is not "more logs".
 The standard is "AI can isolate the exact failing function and step immediately".
