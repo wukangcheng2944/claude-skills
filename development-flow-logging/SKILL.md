@@ -1,6 +1,6 @@
 ---
 name: development-flow-logging
-description: Add and refine detailed development and debugging logs so AI can pinpoint failures to the exact function, branch, external call, mutation, or timing boundary. Use when implementing or debugging application code, APIs, workers, scripts, migrations, or tests that need function-level observability controlled by a DEBUG switch.
+description: Add and refine detailed development and debugging logs across mainstream languages so AI can pinpoint failures to the exact function, branch, external call, mutation, or timing boundary. Use when implementing or debugging Python, JavaScript, TypeScript, Go, Java, Kotlin, Rust, C#, PHP, Shell, APIs, workers, scripts, migrations, or tests that need DEBUG-gated function-level observability.
 ---
 
 # Development Flow Logging
@@ -9,6 +9,17 @@ description: Add and refine detailed development and debugging logs so AI can pi
 
 Use this skill when code needs richer observability during development, debugging, stabilization, or regression hunting.
 
+This skill is intentionally cross-language.
+It should work for:
+- Python
+- JavaScript and TypeScript
+- Go
+- Java and Kotlin
+- Rust
+- C#
+- PHP
+- Shell scripts
+
 The goal is simple:
 - every important execution path should leave a readable trail
 - AI should be able to locate the failing function or branch in one pass
@@ -16,23 +27,27 @@ The goal is simple:
 
 This skill is for application code, scripts, workers, schedulers, migrations, tests, and local tools.
 
-## Core Rules
+## Cross-Language Rules
 
 1. Treat logs as diagnostic infrastructure.
-   - Do not add vague `print("here")` or `console.log("x")` markers.
+   - Do not add vague `print("here")`, `console.log("x")`, or equivalent temporary markers.
    - Add logs that explain state, decision, and effect.
 
-2. Instrument at function granularity when debugging.
-   - Every important function should log entry, exit, failure, and key internal checkpoints.
+2. Instrument at function or routine granularity when debugging.
+   - Every important function, method, handler, routine, or script step should log entry, exit, failure, and key checkpoints.
 
 3. Use `DEBUG` to control verbosity.
    - `DEBUG=false` or unset: keep normal operational logs concise.
    - `DEBUG=true`: enable function-level and branch-level diagnostics.
 
-4. Prefer structured logs.
+4. Prefer native logging primitives for the stack.
+   - Extend the logging framework already idiomatic for that language.
+   - Do not force one language's logging style onto another stack.
+
+5. Prefer structured logs.
    - Include fields instead of burying everything in prose when the language stack allows it.
 
-5. Never log secrets.
+6. Never log secrets.
    - Redact tokens, passwords, cookies, private keys, full auth headers, or raw PII.
 
 ## When To Apply
@@ -45,12 +60,13 @@ Use this skill for:
 - "make this easier for AI to diagnose"
 - "add DEBUG logging"
 - "instrument every step"
+- "make this logging standard reusable across languages"
 
 ## Logging Standard
 
 At minimum, detailed debug logging should answer:
 
-1. Which function ran?
+1. Which function or routine ran?
 2. With what sanitized inputs?
 3. Which branch or decision path was taken?
 4. Which dependency or external call ran next?
@@ -82,7 +98,23 @@ Before editing code:
 
 Do not spray logs randomly. Instrument the path intentionally.
 
-### 2. Define the DEBUG switch
+### 2. Pick the native logging shape for the language
+
+Use the stack's native or already-adopted logging layer.
+
+Examples:
+- Python: `logging`, `structlog`, existing app logger
+- JavaScript or TypeScript: `pino`, `winston`, existing logger, or a thin wrapper if none exists
+- Go: `slog`, `zap`, `logrus`, or existing wrapper
+- Java or Kotlin: `SLF4J` with project-standard backend
+- Rust: `tracing` or `log`
+- C#: `ILogger`
+- PHP: `Monolog` or project-standard logger
+- Shell: thin `log_debug` and `log_info` helpers
+
+Read `references/language-mapping.md` before choosing implementation details for a specific stack.
+
+### 3. Define the DEBUG switch
 
 Use one explicit switch:
 - environment variable `DEBUG`
@@ -93,10 +125,13 @@ Rules:
 - `DEBUG=true` should enable verbose developer logs
 - normal production or routine runs should not emit full function chatter
 - the switch behavior must be documented close to the logger setup
+- normalize `DEBUG` once instead of scattering ad hoc checks
 
-### 3. Add function-level diagnostics
+Read `references/debug-switch-patterns.md` for language-aware DEBUG patterns.
 
-For each important function, add:
+### 4. Add function-level diagnostics
+
+For each important function or routine, add:
 
 1. entry log
    - function name
@@ -119,7 +154,7 @@ For each important function, add:
    - current step or branch
    - key local context that explains the failure
 
-### 4. Log decisions, not just events
+### 5. Log decisions, not just events
 
 Always log why the code chose a branch when that choice affects behavior.
 
@@ -132,7 +167,7 @@ Examples:
 
 If an AI still has to infer the reason from raw values, the log is too weak.
 
-### 5. Instrument boundaries
+### 6. Instrument boundaries
 
 Detailed logs are mandatory around:
 - HTTP requests and responses
@@ -147,7 +182,7 @@ Detailed logs are mandatory around:
 Log summaries, counts, ids, and timing.
 Do not log secret payloads blindly.
 
-### 6. Keep the log trail compressible
+### 7. Keep the log trail compressible
 
 Verbose does not mean chaotic.
 
@@ -162,13 +197,14 @@ Avoid:
 - printing the same state at every line
 - hiding the failing step inside multiline noise
 
-### 7. Validate the logs
+### 8. Validate the logs
 
 After instrumentation:
 - run the happy path once
 - run a known failing or edge path once
 - confirm the failing function and failing checkpoint are obvious from logs alone
 - confirm `DEBUG=false` reduces noise as intended
+- confirm the chosen implementation matches the idioms of the language
 
 If AI still needs to guess, improve the logs.
 
@@ -186,10 +222,12 @@ Apply this checklist to every critical function during debug instrumentation:
 8. elapsed time present
 9. DEBUG gating correct
 10. no secrets leaked
+11. implementation fits the language stack
 
 Read `references/function-checklist.md` for a compact per-function template.
 Read `references/log-contract.md` for the standard field contract.
 Read `references/debug-switch-patterns.md` for DEBUG gating guidance.
+Read `references/language-mapping.md` for stack-specific logging choices.
 
 ## Patterns
 
@@ -215,13 +253,14 @@ Add:
 
 ## Continuous Optimization
 
-This skill should keep improving from real debugging sessions.
+This skill should keep improving from real debugging sessions across different stacks.
 
 After each incident:
 1. record which missing log would have made diagnosis immediate
 2. tighten the checklist or references
-3. add a better example pattern for that failure type
+3. add a better example pattern for that language or failure type
 4. remove noisy logs that did not help diagnosis
+5. update the language mapping if a stack-specific gap was discovered
 
 The standard is not "more logs".
 The standard is "AI can isolate the exact failing function and step immediately".
