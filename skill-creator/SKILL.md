@@ -8,6 +8,22 @@ license: Complete terms in LICENSE.txt
 
 This skill provides guidance for creating effective skills.
 
+## Agent-First Default
+
+By default, create skills for another agent to use under uncertainty and time pressure.
+
+A good skill should help the next agent:
+- narrow the search space
+- find the most relevant file, function, boundary, or artifact quickly
+- choose the next best action without re-reading the whole system
+
+When designing or updating a skill, ask:
+1. what would the next agent need to know first
+2. what output structure would reduce the next agent's guesswork
+3. what references or scripts would let the next agent act immediately
+
+Skills that only describe a domain but do not improve the next agent's next move are incomplete.
+
 ## About Skills
 
 Skills are modular, self-contained packages that extend Claude's capabilities by providing
@@ -171,6 +187,17 @@ To complete SKILL.md, answer the following questions:
 1. What is the purpose of the skill, in a few sentences?
 2. When should the skill be used?
 3. In practice, how should Claude use the skill? All reusable skill contents developed above should be referenced so that Claude knows how to use them.
+4. How should the skill help the next agent localize the problem or choose the next action?
+
+When applicable, make the skill emit an explicit handoff contract such as:
+- `suspected_scope`
+- `strongest_evidence`
+- `next_best_action`
+- `next_target`
+- `confidence`
+
+Do not add these fields mechanically to every skill.
+Add them whenever the skill will be used for debugging, investigation, triage, review, deployment, research synthesis, or any multi-agent relay workflow.
 
 ### Step 5: Packaging a Skill
 

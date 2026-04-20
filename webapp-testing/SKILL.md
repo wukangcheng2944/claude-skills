@@ -1,10 +1,38 @@
 ---
 name: webapp-testing
-description: Toolkit for interacting with and testing local web applications using Playwright. Supports verifying frontend functionality, debugging UI behavior, capturing browser screenshots, and viewing browser logs.
+description: Toolkit for interacting with and testing local web applications using Playwright. Supports verifying frontend functionality, debugging UI behavior, capturing browser screenshots, and viewing browser logs. Optimize outputs for the next agent by naming the smallest failing page, selector, route, console error, artifact path, and next inspection target.
 license: Complete terms in LICENSE.txt
 ---
 
 # Web Application Testing
+
+## Agent-First Output Rule
+
+Do not stop at "the test failed" or "the page looks broken".
+
+Outputs should help the next agent:
+- identify the failing route, page state, selector, network request, or console error
+- know which artifact to inspect next
+- choose one next debugging move
+
+When a failure or ambiguity remains, end with:
+- `suspected_scope`
+- `strongest_evidence`
+- `next_best_action`
+- `next_target`
+- `confidence`
+- `artifacts`
+
+Example:
+
+```md
+suspected_scope=login page submit flow
+strongest_evidence=click succeeds but POST /auth/login returns 500 and button stays disabled
+next_best_action=inspect network and backend logs
+next_target=/auth/login handler and failing request payload
+confidence=high
+artifacts=screenshot:/tmp/login-fail.png,console:/tmp/console.log
+```
 
 To test local web applications, write native Python Playwright scripts.
 
@@ -74,6 +102,7 @@ with sync_playwright() as p:
 2. **Identify selectors** from inspection results
 
 3. **Execute actions** using discovered selectors
+4. **Summarize for the next agent** with the smallest failing UI scope and best next target
 
 ## Common Pitfall
 
@@ -87,6 +116,8 @@ with sync_playwright() as p:
 - Always close the browser when done
 - Use descriptive selectors: `text=`, `role=`, CSS selectors, or IDs
 - Add appropriate waits: `page.wait_for_selector()` or `page.wait_for_timeout()`
+- When multiple selectors fail, rank them and name the most likely blocking selector first
+- Always surface screenshot paths, console errors, and failing request clues if they exist
 
 ## Reference Files
 

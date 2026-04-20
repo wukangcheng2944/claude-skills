@@ -1,11 +1,37 @@
 ---
 name: github-kb
-description: Manage a local GitHub knowledge base and provide GitHub search capabilities via gh CLI. Use when users ask about repos, PRs, issues, request to clone GitHub repositories, explore codebases, or need information about GitHub projects. Supports searching GitHub via gh CLI and managing local KB with GITHUB_KB.md catalog. Configure via GITHUB_TOKEN and GITHUB_KB_PATH environment variables.
+description: Manage a local GitHub knowledge base and provide GitHub search capabilities via gh CLI. Use when users ask about repos, PRs, issues, request to clone GitHub repositories, explore codebases, or need information about GitHub projects. Supports searching GitHub via gh CLI and managing local KB with GITHUB_KB.md catalog. Configure via GITHUB_TOKEN and GITHUB_KB_PATH environment variables. Optimize outputs for the next agent by narrowing results to the most relevant repo, file, PR, or issue and naming the next best inspection target.
 ---
 
 # GitHub Knowledge Base
 
 Manage a local GitHub knowledge base and provide GitHub search capabilities via gh CLI. Key file: GITHUB_KB.md at the root of the KB directory catalogs all projects with brief descriptions.
+
+## Agent-First Output Rule
+
+Do not dump raw search results when the real job is navigation or triage.
+
+Outputs should help the next agent:
+- identify the most relevant repository or discussion quickly
+- locate the next file, PR, issue, or directory to inspect
+- understand why that target is most relevant
+
+When the result set is large, end with an explicit handoff:
+- `suspected_scope`
+- `strongest_evidence`
+- `next_best_action`
+- `next_target`
+- `confidence`
+
+Example:
+
+```md
+suspected_scope=open PR touching auth middleware
+strongest_evidence=only this PR changes token refresh and matches the reported failure window
+next_best_action=open code
+next_target=owner/repo#123 and middleware/auth.ts
+confidence=high
+```
 
 ## Configuration
 
@@ -115,6 +141,8 @@ gh pr view <number> --repo <owner/repo> --comments
 
 1. Read GITHUB_KB.md to understand what projects exist
 2. Locate the project directory under ${GITHUB_KB_PATH:-/home/node/clawd/github-kb}/
+3. If the user is debugging or investigating, do not stop at `repo found`
+4. Name the most relevant next path, file, PR, or issue explicitly
 
 ### Cloning a New Repo to KB
 
