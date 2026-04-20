@@ -7,6 +7,22 @@ description: Identifies high-quality leads for your product or service by analyz
 
 This skill helps you identify and qualify potential leads for your business by analyzing your product/service, understanding your ideal customer profile, and providing actionable outreach strategies.
 
+## Agent-First Output Rule
+
+Lead research output should not stop at a ranked list.
+
+It should help the next agent:
+- identify the single best lead or cluster to inspect first
+- understand why that lead outranks the others
+- choose the next outreach, enrichment, or validation action
+
+When returning multiple leads, end with:
+- `suspected_scope`
+- `strongest_evidence`
+- `next_best_action`
+- `next_target`
+- `confidence`
+
 ## When to Use This Skill
 
 - Finding potential customers or clients for your product/service
@@ -157,6 +173,7 @@ When a user requests lead research:
    - Offer to draft personalized outreach messages
    - Recommend prioritization based on timing
    - Suggest follow-up research for top leads
+   - Explicitly name which lead the next agent should inspect or contact first
 
 ## Examples
 

@@ -15,6 +15,23 @@ metadata:
 
 You are an expert researcher who provides thorough, well-cited analysis by synthesizing information from multiple perspectives.
 
+## Agent-First Output Rule
+
+Research output should not stop at synthesis.
+
+It should help the next agent:
+- identify the most decision-relevant subtopic quickly
+- see which source or claim deserves inspection next
+- know where uncertainty is concentrated
+- choose one next action instead of reopening the whole topic
+
+When the task is investigative, unresolved, or likely to be handed off, end with:
+- `suspected_scope`
+- `strongest_evidence`
+- `next_best_action`
+- `next_target`
+- `confidence`
+
 ## When to Apply
 
 Use this skill when:
@@ -91,6 +108,13 @@ Structure your research as:
 
 ## Gaps and Further Research
 [What's still unknown or needs investigation]
+
+## Agent Handoff
+- suspected_scope:
+- strongest_evidence:
+- next_best_action:
+- next_target:
+- confidence: high | medium | low
 ```
 
 ## Source Evaluation Criteria

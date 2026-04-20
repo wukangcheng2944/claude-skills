@@ -8,6 +8,22 @@ license: MIT
 
 This skill generates comprehensive, requirement-driven test cases from PRD documents or user requirements.
 
+## Agent-First Output Rule
+
+Generated test cases should help the next agent see where risk remains, not just produce a long checklist.
+
+Outputs should make it obvious:
+- which requirement or flow is riskiest
+- which scenarios still need clarification
+- which test file or feature area should be reviewed first
+
+When ambiguity or coverage gaps remain, end with:
+- `suspected_scope`
+- `strongest_evidence`
+- `next_best_action`
+- `next_target`
+- `confidence`
+
 ## Purpose
 
 Transform product requirements into structured test cases that ensure complete coverage of functionality, edge cases, error scenarios, and state transitions. The skill follows a pragmatic testing philosophy: test what matters, ensure every requirement has corresponding test coverage, and maintain test quality over quantity.
@@ -165,6 +181,7 @@ After generating test cases, provide a brief summary in Chinese:
 - Coverage breakdown (functional, edge, error, state)
 - Any assumptions made or areas needing clarification
 - File path where test cases were saved
+- The highest-risk requirement or flow the next agent should inspect first
 
 ## Quality Checklist
 
