@@ -1,9 +1,21 @@
 ---
 name: deploy-automation-playbook
-description: Build and harden automatic deployment workflows for apps and servers, especially self-hosted CI/CD, server-side pull/build deploys, rollback-capable deploy scripts, detailed deploy-step logging, database backup and restore, branch safety rules, and high-availability guardrails. Use when Codex needs to design, review, or modify deployment automation, GitHub or GitLab self-hosted runners, release branches, health checks, failure rollback, or operational runbooks.
+description: Build and harden automatic deployment workflows for apps and servers, especially self-hosted CI/CD, server-side pull/build deploys, rollback-capable deploy scripts, detailed deploy-step logging, database backup and restore, branch safety rules, and high-availability guardrails. Use when Codex needs to design, review, or modify deployment automation, GitHub or GitLab self-hosted runners, release branches, health checks, failure rollback, or operational runbooks, and when AI agents need deployment outputs that localize the exact failing phase, target, backup state, and next action.
 ---
 
 # Deploy Automation Playbook
+
+## Purpose
+
+This is an agent-first operational skill.
+
+Its outputs must help the next agent answer:
+- which deploy phase or step is the smallest plausible failure scope
+- which host, service, ref, artifact, or database is implicated
+- whether rollback is available, in progress, succeeded, or failed
+- what single next action should be taken
+
+If a deploy review or log stream cannot drive the next debugging move, it is incomplete.
 
 ## Quick Start
 
@@ -25,6 +37,11 @@ description: Build and harden automatic deployment workflows for apps and server
    - Every deploy phase must emit start, success, and failure logs.
    - Every log line must make it obvious which step failed and what the next rollback target is.
    - If a deploy plan cannot explain where logs will be written and how to read them, the plan is incomplete.
+
+5. Treat deploy output as agent handoff material.
+   - Every failure summary should reduce the next agent's search space.
+   - Name the smallest failing scope, strongest evidence, and next action explicitly.
+   - Do not end with vague outcomes such as "deploy unhealthy" or "rollback maybe incomplete".
 
 ## Non-Negotiable Logging Rules
 
@@ -57,6 +74,40 @@ For every deployment workflow you design or edit, require these logging guarante
 
 Read `references/deploy-logging-checklist.md` whenever you need a deploy-step log contract or example phase breakdown.
 Read `references/rollback-ha-checklist.md` whenever rollback, database restore, or HA readiness is involved.
+Read `references/deploy-agent-handoff.md` whenever the output must guide the next agent directly.
+Read `references/deploy-triage-matrix.md` whenever you need a fast route from symptom to likely failing deploy scope.
+
+## Agent-First Deploy Contract
+
+Every serious deploy review, failure summary, or rollback summary should help the next agent answer:
+
+1. what is the smallest plausible failing scope
+2. what target is implicated
+3. what evidence makes that the best current hypothesis
+4. what should be checked next
+5. what the rollback state is
+6. how confident the handoff is
+
+Minimum handoff fields:
+- `suspected_scope`
+- `target`
+- `strongest_evidence`
+- `next_best_action`
+- `next_target`
+- `rollback_state`
+- `confidence`
+
+Good handoff:
+- narrows to a phase, step, host, service, ref, or database boundary
+- names one best next move
+- states whether rollback is still pending, complete, unavailable, or failed
+
+Bad handoff:
+- says only "deploy failed"
+- mixes multiple possible failures without priority
+- omits whether the database or code was restored
+
+Read `references/deploy-agent-handoff.md` for the normalized shape.
 
 ## Workflow
 
@@ -75,6 +126,7 @@ Logging requirement:
 - log the endpoint or alias used
 - log timeout or DNS failure details
 - do not collapse multiple failed probes into one message
+- when a reachability check fails, emit an agent handoff that names the broken leg and next probe target
 
 ### 2. Make deploys idempotent
 
@@ -89,6 +141,7 @@ Logging requirement:
 - each mutation step must log its before-state and intended after-state
 - log the exact commit or artifact version being deployed
 - log whether a rebuild was skipped, reused, or executed
+- if the deploy is re-running an already-deployed ref, log whether side effects are gated or deduped
 
 ### 3. Add automatic rollback
 
@@ -107,6 +160,7 @@ Logging requirement:
 - log the exact schema or migration step that was about to run
 - log code rollback and database rollback as separate steps
 - log the final restored commit after rollback completes
+- log rollback state explicitly as one of `not_needed`, `started`, `code_restored`, `db_restored`, `completed`, or `failed`
 
 ### 4. Add health gates
 
@@ -123,6 +177,7 @@ Logging requirement:
 - log each health probe independently
 - log attempt counts, endpoint, timeout, and failure reason
 - log the final gate that declares the deploy successful
+- when health gates fail, log whether rollback has already started or is still pending
 
 ### 5. Handle self-hosted SSH safely
 
@@ -144,6 +199,7 @@ Logging requirement:
 - log which SSH strategy was chosen
 - log alias, username, and host, but not private key content
 - log auth fallback decisions explicitly
+- if SSH negotiation fails, log the exact strategy and next allowed fallback
 
 ### 6. Protect business side effects
 
@@ -157,6 +213,7 @@ Logging requirement:
 - log dedup decisions and replay prevention checks
 - log business timezone assumptions explicitly
 - log whether a scheduled push was skipped because it was already sent
+- when duplicate side effects are prevented, log the dedup key or schedule window summary in sanitized form
 
 ## Red Flags
 
@@ -177,7 +234,7 @@ For the RedFi pattern used here:
 - GitHub and GitLab `main` or `master` are storage branches by default
 - `ma_club` `master` requires explicit confirmation before push
 - scheduler code must preserve Beijing-time behavior and avoid duplicate pushes after restart
-- deployment scripts must emit enough logs for AI to identify the failing step without guesswork
+- deployment scripts must emit enough logs for AI agents to identify the failing step and next target without guesswork
 
 ## Continuous Optimization
 
@@ -188,9 +245,13 @@ After each deploy failure or rollback drill:
 2. update the logging checklist or workflow guidance
 3. tighten the step-level log requirements if AI or humans still had to guess
 4. keep examples focused on the latest real failure modes
+5. prefer changes that reduce the next agent's search space, not just changes that add description
+6. add or refine a triage entry when the failure pattern becomes repeatable
 
 ## References
 
 Read `references/redfi-self-hosted-github.md` for the self-hosted GitHub pattern used in this environment.
 Read `references/deploy-logging-checklist.md` for required deploy-step logging fields and examples.
 Read `references/rollback-ha-checklist.md` when adding rollback, health checks, and high-availability guardrails.
+Read `references/deploy-agent-handoff.md` for agent-facing deployment failure summaries.
+Read `references/deploy-triage-matrix.md` for symptom-to-scope deploy triage.

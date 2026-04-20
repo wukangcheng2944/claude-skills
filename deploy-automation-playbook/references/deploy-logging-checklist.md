@@ -12,6 +12,7 @@ A deploy log stream should let an AI or engineer answer these questions immediat
 4. What target ref, host, service, or database was involved?
 5. What rollback point is available?
 6. Did rollback start, succeed, or fail?
+7. What should the next agent check next?
 
 ## Minimum Log Contract
 
@@ -37,6 +38,8 @@ Recommended optional fields:
 - `exit_code`
 - `http_status`
 - `artifact`
+- `rollback_state`
+- `next_target`
 
 ## Required Phase Coverage
 
@@ -110,6 +113,28 @@ Always log these as dedicated steps, not generic exceptions:
 - health endpoint timeout
 - smoke check data error
 - rollback restore failure
+
+## Agent Handoff Requirement
+
+When a deploy fails, the summary should end with:
+
+- `suspected_scope`
+- `target`
+- `strongest_evidence`
+- `next_best_action`
+- `next_target`
+- `rollback_state`
+- `confidence`
+
+Good:
+- narrows to one phase or step
+- names the target host, service, ref, or database
+- states rollback status explicitly
+
+Bad:
+- says only `deploy failed`
+- does not say whether code or DB restore happened
+- leaves the next agent to inspect the entire deploy script
 
 ## Anti-Patterns
 
