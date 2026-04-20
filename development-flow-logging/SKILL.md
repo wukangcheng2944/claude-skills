@@ -69,6 +69,9 @@ Use this skill for:
 - "score this logging"
 - "turn this incident into a reusable canary"
 - "build a logging review workflow"
+- "make the review output structured"
+- "define a machine-readable logging audit"
+- "standardize logging score output"
 
 ## Logging Standard
 
@@ -256,6 +259,7 @@ Read `references/failure-library.md` when the current logs still force guessing.
 Read `references/before-after-examples.md` for concrete rewrites from weak logs to diagnosable logs.
 Read `references/review-rubric.md` to score whether the current logs are good enough for AI-driven debugging.
 Read `references/log-review-workflow.md` when you need a repeatable way to audit existing code or log output.
+Read `references/review-report-template.md` when the output needs a stable audit structure that humans and tools can both consume.
 
 ### 10. Build reusable canary cases
 
@@ -274,6 +278,7 @@ A canary case is good if:
 - the improved logs make the failing step obvious in one pass
 
 Read `references/canary-corpus.md` for the corpus format and starter cases.
+Read `references/canary-schema.md` when the canary set needs to be machine-readable and stable across iterations.
 
 ### 11. Use Darwin-style review loops
 
@@ -290,6 +295,7 @@ The point is not to maximize line count.
 The point is to reduce diagnosis latency and ambiguity.
 
 Read `references/darwin-optimization-loop.md` for the iteration rules.
+Read `references/scoring-output-protocol.md` when the review result must be emitted in a consistent machine-readable format.
 
 ## Function Checklist
 
@@ -321,6 +327,9 @@ Read `references/review-rubric.md` to audit whether a logging implementation is 
 Read `references/log-review-workflow.md` for a fixed review sequence when auditing existing logs or code.
 Read `references/canary-corpus.md` for reusable canary incidents to test whether improved logging really helps.
 Read `references/darwin-optimization-loop.md` for the change-compare-keep-or-revert loop.
+Read `references/canary-schema.md` for the normalized canary record shape.
+Read `references/review-report-template.md` for the expected audit output sections.
+Read `references/scoring-output-protocol.md` for the normalized score payload.
 
 ## Patterns
 
@@ -358,6 +367,7 @@ After each incident:
 7. add a before/after rewrite if the original logs looked plausible but still slowed diagnosis
 8. add or refresh a canary case when the incident exposed a repeatable blind spot
 9. keep only logging changes that improve the rubric score or reduce diagnosis latency on the canary set
+10. preserve the output format so later reviews can be compared automatically
 
 The standard is not "more logs".
 The standard is "AI can isolate the exact failing function and step immediately".
