@@ -55,6 +55,13 @@ DEBUG=true    -> debug/info/warn/error with function-level diagnostics
 - Prefer subscriber or filter configuration once at startup.
 - Keep field names stable across `tracing` spans and events.
 
+### C and C++
+
+- Normalize `DEBUG` through one config header, build flag, environment-derived config, or logging macro layer.
+- Route verbose diagnostics through shared macros or helper functions instead of scattered `printf` calls.
+- Keep expensive formatting and large dumps behind `DEBUG`.
+- In C++, prefer the project's logger if one exists; otherwise use a thin wrapper with stable fields.
+
 ### C#
 
 - Prefer the application's existing `ILogger` pipeline.

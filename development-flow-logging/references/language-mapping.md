@@ -77,6 +77,24 @@ Typical adaptation:
 - attach timing and resource ids as fields
 - configure verbosity centrally
 
+## C and C++
+
+Preferred tools:
+- the project's existing logger
+- a thin wrapper around `fprintf`, `printf`, or stream output if no logger exists
+- lightweight logging macros for `DEBUG`, `INFO`, `WARN`, `ERROR`
+
+Typical adaptation:
+- use one shared header or logging utility instead of ad hoc prints
+- include function name, step, status, and elapsed time in macro arguments or helper calls
+- gate verbose diagnostics through compile-time flags, runtime `DEBUG`, or both
+- keep error-path context explicit around system calls, file IO, sockets, threads, and external libraries
+
+Notes:
+- in C, prefer small logging helpers or macros over scattered direct prints
+- in C++, prefer the repo's logger or a thin RAII-safe wrapper if one already exists
+- if the codebase uses compile-time debug flags, document how they relate to runtime `DEBUG`
+
 ## C#
 
 Preferred tools:

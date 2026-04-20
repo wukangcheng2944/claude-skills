@@ -1,6 +1,6 @@
 ---
 name: development-flow-logging
-description: Add and refine detailed development and debugging logs across mainstream languages so AI can pinpoint failures to the exact function, branch, external call, mutation, or timing boundary. Use when implementing or debugging Python, JavaScript, TypeScript, Go, Java, Kotlin, Rust, C#, PHP, Shell, APIs, workers, scripts, migrations, or tests that need DEBUG-gated function-level observability.
+description: Add and refine detailed development and debugging logs across mainstream languages so AI can pinpoint failures to the exact function, branch, external call, mutation, or timing boundary. Use when implementing or debugging Python, JavaScript, TypeScript, Go, Java, Kotlin, Rust, C, C++, C#, PHP, Shell, APIs, workers, scripts, migrations, or tests that need DEBUG-gated function-level observability.
 ---
 
 # Development Flow Logging
@@ -16,6 +16,7 @@ It should work for:
 - Go
 - Java and Kotlin
 - Rust
+- C and C++
 - C#
 - PHP
 - Shell scripts
