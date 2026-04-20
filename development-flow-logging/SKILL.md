@@ -72,6 +72,9 @@ Use this skill for:
 - "make the review output structured"
 - "define a machine-readable logging audit"
 - "standardize logging score output"
+- "wire this into CI"
+- "make PR review enforce logging quality"
+- "turn incidents into logging upgrades"
 
 ## Logging Standard
 
@@ -297,6 +300,46 @@ The point is to reduce diagnosis latency and ambiguity.
 Read `references/darwin-optimization-loop.md` for the iteration rules.
 Read `references/scoring-output-protocol.md` when the review result must be emitted in a consistent machine-readable format.
 
+### 12. Integrate with PR and CI flows
+
+Logging quality should not depend on memory or taste.
+
+When a change touches one of these zones, require an explicit logging review:
+- API handlers
+- workers or queue consumers
+- schedulers or cron paths
+- DB mutations or migrations
+- external HTTP or RPC boundaries
+- deploy, rollback, or automation scripts
+
+For each such change, record one of:
+1. `no_logging_impact`
+2. `logging_review_completed`
+3. `canary_updated`
+4. `existing_logs_sufficient`
+
+Prefer a soft gate first:
+- fail only on missing review metadata or obvious regression
+- do not block on a perfect score at the start
+- tighten the gate only after the team has stable canary coverage
+
+Read `references/ci-pr-integration.md` for PR templates, CI gate patterns, and rollout rules.
+
+### 13. Feed incidents back into the system
+
+A production or staging incident should improve the logging standard, not just the code.
+
+After each incident:
+1. capture the symptom and the log gap
+2. decide whether an existing canary already covers it
+3. if not, add a new canary
+4. update the review report or rewrite examples if the failure mode was novel
+5. re-run the same review protocol so the gain is measurable
+
+If postmortems do not change the canary set or review guidance, the skill will stagnate.
+
+Read `references/incident-feedback-loop.md` for the incident-to-canary workflow.
+
 ## Function Checklist
 
 Apply this checklist to every critical function during debug instrumentation:
@@ -330,6 +373,9 @@ Read `references/darwin-optimization-loop.md` for the change-compare-keep-or-rev
 Read `references/canary-schema.md` for the normalized canary record shape.
 Read `references/review-report-template.md` for the expected audit output sections.
 Read `references/scoring-output-protocol.md` for the normalized score payload.
+Read `references/ci-pr-integration.md` for how to apply the review protocol in PR and CI flows.
+Read `references/incident-feedback-loop.md` for how to turn real incidents into permanent logging improvements.
+Read `references/example-artifacts.md` for end-to-end examples of the canary, report, score, and PR note outputs.
 
 ## Patterns
 
@@ -368,6 +414,8 @@ After each incident:
 8. add or refresh a canary case when the incident exposed a repeatable blind spot
 9. keep only logging changes that improve the rubric score or reduce diagnosis latency on the canary set
 10. preserve the output format so later reviews can be compared automatically
+11. push the best new incident pattern into PR and CI guidance so the gain is not lost
+12. refresh example artifacts when the standard output format changes
 
 The standard is not "more logs".
 The standard is "AI can isolate the exact failing function and step immediately".
