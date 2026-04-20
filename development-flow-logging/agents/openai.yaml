@@ -1,0 +1,8 @@
+interface:
+  display_name: "Development Flow Logging"
+  short_description: "Add DEBUG-gated function-level logs for faster diagnosis."
+  default_prompt: "Use $development-flow-logging to add detailed function-level DEBUG logging so AI can pinpoint the exact failing step, branch, external call, or mutation."
+
+policy:
+  allow_implicit_invocation: true
+

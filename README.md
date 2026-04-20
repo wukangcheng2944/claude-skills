@@ -67,6 +67,7 @@ That installs a local watcher which listens for file changes in the configured s
 | [deploy-automation-playbook](./deploy-automation-playbook) | %USERPROFILE%\.codex\skills |
 | [dev](./dev) | %USERPROFILE%\.codex\skills |
 | [developer-growth-analysis](./developer-growth-analysis) | %USERPROFILE%\.codex\skills |
+| [development-flow-logging](./development-flow-logging) | %USERPROFILE%\.codex\skills |
 | [distill](./distill) | %USERPROFILE%\.codex\skills |
 | [douyin-creator](./douyin-creator) | %USERPROFILE%\.codex\skills |
 | [fact-checker](./fact-checker) | %USERPROFILE%\.codex\skills |
