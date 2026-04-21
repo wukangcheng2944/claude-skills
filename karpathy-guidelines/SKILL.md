@@ -10,6 +10,17 @@ Behavioral guidelines to reduce common LLM coding mistakes, derived from [Andrej
 
 **Tradeoff:** These guidelines bias toward caution over speed. For trivial tasks, use judgment.
 
+
+## Agent-First Output Rule
+
+These guidelines should make the next agent more likely to choose the right scope, not just produce cleaner prose about coding discipline.
+
+When applying this skill in a response, make sure the output leaves behind:
+- the smallest problem boundary worth changing
+- the strongest assumption or uncertainty still in play
+- the single next verification step
+- the exact file, test, or command that should be checked next
+
 ## 1. Think Before Coding
 
 **Don't assume. Don't hide confusion. Surface tradeoffs.**
@@ -53,15 +64,15 @@ The test: Every changed line should trace directly to the user's request.
 **Define success criteria. Loop until verified.**
 
 Transform tasks into verifiable goals:
-- "Add validation" → "Write tests for invalid inputs, then make them pass"
-- "Fix the bug" → "Write a test that reproduces it, then make it pass"
-- "Refactor X" → "Ensure tests pass before and after"
+- "Add validation" 鈫?"Write tests for invalid inputs, then make them pass"
+- "Fix the bug" 鈫?"Write a test that reproduces it, then make it pass"
+- "Refactor X" 鈫?"Ensure tests pass before and after"
 
 For multi-step tasks, state a brief plan:
 ```
-1. [Step] → verify: [check]
-2. [Step] → verify: [check]
-3. [Step] → verify: [check]
+1. [Step] 鈫?verify: [check]
+2. [Step] 鈫?verify: [check]
+3. [Step] 鈫?verify: [check]
 ```
 
 Strong success criteria let you loop independently. Weak criteria ("make it work") require constant clarification.

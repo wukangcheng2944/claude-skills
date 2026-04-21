@@ -9,300 +9,299 @@ metadata:
 
 # base
 
-> **閸撳秶鐤嗛弶鈥叉閿?* 閸忓牓妲勭拠?[`../lark-shared/SKILL.md`](../lark-shared/SKILL.md)閵?
-> **閹笛嗩攽閸撳秴绻€閸嬫熬绱?* 閹笛嗩攽娴犺缍?`base` 閸涙垝鎶ら崜宥忕礉韫囧懘銆忛崗鍫ユ鐠囪顕惔鏂挎嚒娴犮倗娈?reference 閺傚洦銆傞敍灞藉晙鐠嬪啰鏁ら崨鎴掓姢閵?
-> **閸涜棄鎮曠痪锕€鐣鹃敍?* 娴犲懍濞囬悽?`lark-cli base +...` 瑜般垹绱￠惃鍕嚒娴犮們鈧?
+> **闁告挸绉堕悿鍡涘级閳ュ弶顐介柨?* 闁稿繐鐗撳Σ鍕嫚?[`../lark-shared/SKILL.md`](../lark-shared/SKILL.md)闁?
+> **闁圭瑳鍡╂斀闁告挸绉寸换鈧柛瀣啲缁?* 闁圭瑳鍡╂斀濞寸姾顔婄紞?`base` 闁告稒鍨濋幎銈夊礈瀹ュ繒绀夐煫鍥ф嚇閵嗗繘宕楅崼銉︻潐閻犲洩顕ч顔芥償閺傛寧鍤掑ù鐘€楀▓?reference 闁哄倸娲﹂妴鍌炴晬鐏炶棄鏅欓悹瀣暟閺併倝宕ㄩ幋鎺撳Б闁?
+> **闁告稖妫勯幃鏇犵棯閿曗偓閻ｉ箖鏁?* 濞寸姴鎳嶆繛鍥偨?`lark-cli base +...` 鐟滆埇鍨圭槐锟犳儍閸曨偅鍤掑ù鐘€戦埀?
 
 
-## Agent-First Output Rule
+## Execution-Focused Rule
 
-`base` outputs must narrow failures to the smallest table, field, view, formula, lookup, or record boundary instead of reporting a generic Base error.
+For `base` workflows, optimize for correct operation selection and parameter accuracy. The AI should choose the right command family before trying to solve the business problem.
 
-Always make these explicit:
-- `suspected_scope`: the most relevant table, field, view, formula, lookup, or record
-- `strongest_evidence`: the key schema result, write rejection, empty response, or command error
-- `next_best_action`: the single best next inspection or verification step
-- `next_target`: the exact `table_id`, `field_id`, command, or reference doc to inspect next
-- `confidence`: high, medium, or low
+When guiding execution, make sure the result clearly states:
+- whether the task is schema, records, formula, lookup, view, or query work
+- which command should be used first
+- which table, field, or record identifier must be confirmed before writing
+- which reference doc or structure query must be read before the next mutation
 
-## Agent 韫囶偊鈧喐澧界悰宀勩€庢惔?
+## Agent 闊浂鍋婇埀顒傚枑婢х晫鎮板畝鍕┾偓搴㈡償?
 
-1. **閸忓牆鍨介弬顓濇崲閸旓紕琚崹?*
-   - 娑撳瓨妞傜紒鐔活吀 / 閼辨艾鎮庨崚鍡樼€?閳?`+data-query`
-   - 鐟曚焦濡哥紒鎾寸亯闂€鎸庢埂閺勫墽銇氶崷銊ㄣ€冮柌?閳?formula 鐎涙顔?
-   - 閻劍鍩涢弰搴ｂ€樼憰?lookup閿涘本鍨ㄧ涵顔肩杽閺囨挳鈧倸鎮?`from/select/where/aggregate` 閳?lookup 鐎涙顔?
-   - 閺勫海绮忕拠璇插絿 / 鐎电厧鍤?閳?`+record-list / +record-get`
-2. **閸忓牊瀣佺紒鎾寸€敍灞藉晙閸愭瑥鎳℃禒?*
-   - 閼峰啿鐨崗鍫熷瑏瑜版挸澧犵悰銊х波閺嬪嫸绱癭+field-list` 閹?`+table-get`
-   - 鐠恒劏銆冮崷鐑樻珯韫囧懘銆忛崘宥嗙叀**閻╊喗鐖ｇ悰?*閻ㄥ嫮绮ㄩ弸?
-3. **formula / lookup 閺堝鈥栭梻銊︻潬**
-   - 閸忓牐顕扮€电懓绨?guide
-   - 鐠囪鐣?guide 閸氬函绱濋崘宥呭灡瀵ゅ搫顕惔鏂跨摟濞?
-4. **閸愭瑨顔囪ぐ鏇炲閸忓牆鍨介弬顓炵摟濞堥潧褰查崘娆愨偓?*
-   - 閸欘亜鍟撶€涙ê鍋嶇€涙顔?
-   - 缁崵绮虹€涙顔?/ formula / lookup 姒涙顓婚崣顏囶嚢
+1. **闁稿繐鐗嗛崹浠嬪棘椤撴繃宕查柛鏃撶磿鐞氼偊宕?*
+   - 濞戞挸鐡ㄥ鍌滅磼閻旀椿鍚€ / 闁艰鲸鑹鹃幃搴ㄥ礆閸℃鈧?闁?`+data-query`
+   - 閻熸洑鐒︽俊鍝ョ磼閹惧浜梻鈧幐搴㈠焸闁哄嫬澧介妵姘跺捶閵娿劊鈧啴鏌?闁?formula 閻庢稒顨嗛?
+   - 闁活潿鍔嶉崺娑㈠及鎼达絺鈧鎲?lookup闁挎稑鏈崹銊ф兜椤旇偐鏉介柡鍥ㄦ尦閳ь剙鍊搁幃?`from/select/where/aggregate` 闁?lookup 閻庢稒顨嗛?
+   - 闁哄嫬娴风划蹇曟嫚鐠囨彃绲?/ 閻庣數鍘ч崵?闁?`+record-list / +record-get`
+2. **闁稿繐鐗婄€ｄ胶绱掗幘瀵糕偓顖炴晬鐏炶棄鏅欓柛鎰懃閹斥剝绂?*
+   - 闁煎嘲鍟块惃顖炲礂閸喎鐟忕憸鐗堟尭婢х姷鎮伴妸褏娉㈤柡瀣缁辩櫗+field-list` 闁?`+table-get`
+   - 閻犳亽鍔忛妴鍐捶閻戞ɑ鐝煫鍥ф嚇閵嗗繘宕樺鍡欏弨**闁烩晩鍠楅悥锝囨偘?*闁汇劌瀚划銊╁几?
+3. **formula / lookup 闁哄牆顦遍垾鏍⒒閵婏富娼?*
+   - 闁稿繐鐗愰鎵偓鐢垫嚀缁?guide
+   - 閻犲洩顕ч悾?guide 闁告艾鍑界槐婵嬪礃瀹ュ懎鐏＄€点倕鎼顔芥償閺傝法鎽熸繛?
+4. **闁告劖鐟ㄩ鍥亹閺囩偛顤呴柛蹇撶墕閸ㄤ粙寮鐐垫憻婵炲牓娼цぐ鏌ュ礃濞嗘劏鍋?*
+   - 闁告瑯浜滈崯鎾垛偓娑櫭崑宥団偓娑欘殕椤?
+   - 缂侇垵宕电划铏光偓娑欘殕椤?/ formula / lookup 濮掓稒顭堥濠氬矗椤忓浂鍤?
 
-## Agent 缁備焦顒涚悰灞艰礋
+## Agent 缂佸倷鐒﹂娑氭偘鐏炶壈绀?
 
-- 娑撳秷顩﹂幎?`+record-list` 瑜版捁浠涢崥鍫濆瀻閺嬫劕绱╅幙?
-- 娑撳秷顩﹀▽陇顕?guide 鐏忚京娲块幒銉ュ灡瀵?formula / lookup 鐎涙顔?
-- 娑撳秷顩﹂崙顓″殰閻掓儼顕㈢懛鈧悮婊嗐€冮崥宥冣偓浣哥摟濞堥潧鎮曢妴浣稿彆瀵繗銆冩潏鎯х础闁插瞼娈戠€涙顔屽鏇犳暏
-- 娑撳秷顩﹂幎濠勯兇缂佺喎鐡у▓鐐光偓涔玱rmula 鐎涙顔岄妴涔磑okup 鐎涙顔岃ぐ鎾村灇 `+record-upsert` 閻ㄥ嫬鍟撻崗銉ф窗閺?
-- 娑撳秷顩﹂崷?Base 閸︾儤娅欓弨纭呰泲 `lark-cli api GET /open-apis/bitable/v1/...`
-- 娑撳秷顩﹂崶鐘辫礋 wiki 鐟欙絾鐎界紒鎾寸亯闁插瞼娈?`obj_type=bitable` 鐏忓崬骞撻幍?`bitable.*`閿涙稑婀張?CLI 闁插苯绨茬紒褏鐢绘担璺ㄦ暏 `lark-cli base +...`
+- 濞戞挸绉烽々锕傚箮?`+record-list` 鐟滅増鎹佹禒娑㈠触閸繂鐎婚柡瀣姇缁扁晠骞?
+- 濞戞挸绉烽々锕€鈻介檱椤?guide 閻忓繗浜ú鍧楀箳閵夈儱鐏＄€?formula / lookup 閻庢稒顨嗛?
+- 濞戞挸绉烽々锕傚礄椤撯€虫闁绘帗鍎奸銏㈡嚊閳ь剟鎮鍡愨偓鍐触瀹ュ啠鍋撴担鍝ユ憻婵炲牓娼ч幃鏇㈠Υ娴ｇ褰嗙€殿喖绻楅妴鍐╂綇閹呯闂佹彃鐬煎▓鎴犫偓娑欘殕椤斿苯顕ｉ弴鐘虫殢
+- 濞戞挸绉烽々锕傚箮婵犲嫰鍏囩紓浣哄枎閻⊙冣枔閻愬厜鍋撴稊鐜眗mula 閻庢稒顨嗛宀勫Υ娑旂okup 閻庢稒顨嗛宀冦亹閹炬潙鐏?`+record-upsert` 闁汇劌瀚崯鎾诲礂閵壯勭獥闁?
+- 濞戞挸绉烽々锕傚捶?Base 闁革妇鍎ゅ▍娆撳绩绾懓娉?`lark-cli api GET /open-apis/bitable/v1/...`
+- 濞戞挸绉烽々锕傚炊閻樿精绀?wiki 閻熸瑱绲鹃悗鐣岀磼閹惧浜梺鎻掔灱濞?`obj_type=bitable` 閻忓繐宕獮鎾诲箥?`bitable.*`闁挎稒绋戝﹢顏堝嫉?CLI 闂佹彃鑻花鑼磼瑜忛悽缁樻媴鐠恒劍鏆?`lark-cli base +...`
 
-## Base 閸╃儤婀拌箛鍐╂濡€崇€?
+## Base 闁糕晝鍎ゅ﹢鎷岀疀閸愨晜顏℃俊顖椻偓宕団偓?
 
-1. **Base 鐎涙顔岄崚鍡曠瑏缁?*
-   - **鐎涙ê鍋嶇€涙顔?*閿涙氨婀＄€圭偛鐡ㄩ悽銊﹀煕鏉堟挸鍙嗛惃鍕殶閹诡噯绱濋柅姘埗闁倸鎮?`+record-upsert` 閸愭瑥鍙嗛敍灞肩伐婵″倹鏋冮張顑锯偓浣规殶鐎涙ぜ鈧焦妫╅張鐔粹偓浣稿礋闁鈧礁顦块柅澶堚偓浣锋眽閸涙ǜ鈧礁鍙ч懕鏂烩偓?*闂勫嫪娆㈢€涙顔屾笟瀣樆**閿涙艾顕?agent 閼板矁鈻堥敍灞炬瀮娴犳湹绗傛导鐘茬箑妞ゆ槒铔?`+record-upload-attachment`閵?
-   - **缁崵绮虹€涙顔?*閿涙艾閽╅崣鎷屽殰閸斻劎娣幎銈忕礉閸欘亣顕伴敍灞藉悁閸ㄥ瀵橀幏顒€鍨卞鐑樻闂傛番鈧焦娓堕崥搴㈡纯閺傜増妞傞梻娣偓浣稿灡瀵よ桨姹夐妴浣锋叏閺€閫涙眽閵嗕浇鍤滈崝銊х椽閸欐灚鈧?
-   - **鐠侊紕鐣荤€涙顔?*閿涙岸鈧俺绻冪悰銊ㄦ彧瀵繑鍨ㄧ捄銊ㄣ€冪憴鍕灟閹恒劌顕遍敍灞藉涧鐠囦紮绱濋崗绋跨€烽崠鍛 **閸忣剙绱＄€涙顔岄敍鍧抩rmula閿?* 閸?**閺屻儲澹樺鏇犳暏鐎涙顔岄敍鍧檕okup閿?*閵?
-2. **閸愭瑨顔囪ぐ鏇炲閸忓牆鍨介弬顓炵摟濞堢數琚崚?* 閳?閸欘亝婀佺€涙ê鍋嶇€涙顔岄崣顖滄纯閹恒儱鍟撻敍娑樺彆瀵?/ lookup / 閸掓稑缂撻弮鍫曟？ / 閺囧瓨鏌婇弮鍫曟？ / 閸掓稑缂撴禍?/ 娣囶喗鏁兼禍?/ 閼奉亜濮╃紓鏍у娇闁棄绨茬憴鍡曡礋閸欘亣顕版潏鎾冲毉鐎涙顔岄敍灞肩瑝閼宠姤瀣侀弶銉ヤ粵 `+record-upsert` 閸忋儱寮妴?
-3. **Base 娑撳秴褰ч弰顖氱摠鐞涖劍鏆熼幑顕嗙礉娑旂喕鍏橀崘鍛紦鐠侊紕鐣?* 閳?閻劍鍩涢幓鎰毉閳ユ粎绮虹拋掳鈧焦鐦潏鍐︹偓浣瑰笓閸氬秲鈧焦鏋冮張顒佸閹恒儯鈧焦妫╅張鐔锋▕閵嗕浇娉曠悰銊︾湽閹眹鈧胶濮搁幀浣稿灲閺傤厸鈧繄鐡戦棁鈧Ч鍌涙閿涘奔绗夐懗浠嬬帛鐠併倕顕遍崙鐑樻殶閹诡喖鎮楅幍瀣暬閿涙稖顩﹂崗鍫濆灲閺傤厽妲搁崥锕€绨查柅姘崇箖 `+data-query` 閹存牕鍙曞蹇撶摟濞堥潧婀?Base 閸愬懎鐣幋鎰┾偓?
+1. **Base 閻庢稒顨嗛宀勫礆閸℃洜鐟忕紒?*
+   - **閻庢稒锚閸嬪秶鈧稒顨嗛?*闁挎稒姘ㄥ﹢锛勨偓鍦仜閻°劑鎮介妸锕€鐓曢弶鍫熸尭閸欏棝鎯冮崟顒佹闁硅鍣槐婵嬫焻濮橆剛鍩楅梺顐㈠€搁幃?`+record-upsert` 闁告劖鐟ラ崣鍡涙晬鐏炶偐浼愬┑鈥冲€归弸鍐嫉椤戦敮鍋撴担瑙勬閻庢稒銇滈埀顑跨劍濡晠寮甸悢绮瑰亾娴ｇ绀嬮梺顐㈩槶閳ь兛绀侀ˇ鍧楁焻婢跺牃鍋撴担閿嬬溄闁告稒菧閳ь兛绀侀崣褔鎳曢弬鐑╁亾?*闂傚嫬瀚▎銏⑩偓娑欘殕椤斿本绗熺€ｎ亶妯?*闁挎稒鑹鹃?agent 闁兼澘鐭侀埢鍫ユ晬鐏炵偓鐎ù鐘虫构缁楀倹瀵奸悩鑼畱濡炪倖妲掗摂?`+record-upload-attachment`闁?
+   - **缂侇垵宕电划铏光偓娑欘殕椤?*闁挎稒鑹鹃柦鈺呭矗閹峰苯娈伴柛鏂诲妿濞ｎ噣骞庨妶蹇曠闁告瑯浜ｉ浼存晬鐏炶棄鎮侀柛銊ヮ儏鐎垫﹢骞忛鈧崹鍗烆嚈閻戞ɑ顦ч梻鍌涚暘閳ь兛鐒﹀〒鍫曞触鎼淬垺绾柡鍌滃濡炲倿姊诲ǎ顑藉亾娴ｇ鐏＄€点倛妗ㄥЧ澶愬Υ娴ｉ攱鍙忛柡鈧柅娑欑溄闁靛棔娴囬崵婊堝礉閵娧呮そ闁告瑦鐏氶埀?
+   - **閻犱緤绱曢悾鑽も偓娑欘殕椤?*闁挎稒宀搁埀顒佷亢缁诲啰鎮伴妸銊﹀涧鐎殿喖绻戦崹銊ф崉閵娿劊鈧啰鎲撮崟顐㈢仧闁规亽鍔岄閬嶆晬鐏炶棄娑ч悹鍥︾串缁辨繈宕楃粙璺ㄢ偓鐑藉礌閸涱喖顏?**闁稿浚鍓欑槐锛勨偓娑欘殕椤斿矂鏁嶉崸鎶﹔mula闁?* 闁?**闁哄被鍎叉竟妯侯嚕閺囩姵鏆忛悗娑欘殕椤斿矂鏁嶉崸妾昽kup闁?*闁?
+2. **闁告劖鐟ㄩ鍥亹閺囩偛顤呴柛蹇撶墕閸ㄤ粙寮鐐垫憻婵炲牏鏁哥悮顐﹀礆?* 闁?闁告瑯浜濆﹢浣衡偓娑櫭崑宥団偓娑欘殕椤斿矂宕ｉ婊勭函闁规亽鍎遍崯鎾绘晬濞戞ê褰嗙€?/ lookup / 闁告帗绋戠紓鎾诲籍閸洘锛?/ 闁哄洤鐡ㄩ弻濠囧籍閸洘锛?/ 闁告帗绋戠紓鎾寸?/ 濞ｅ浂鍠楅弫鍏肩?/ 闁煎浜滄慨鈺冪磽閺嵮冨▏闂侇喛妫勭花鑼喆閸℃洝绀嬮柛娆樹海椤曠増娼忛幘鍐叉瘔閻庢稒顨嗛宀勬晬鐏炶偐鐟濋柤瀹犲Г鐎ｄ線寮堕妷銉ょ驳 `+record-upsert` 闁稿繈鍎卞顒勫Υ?
+3. **Base 濞戞挸绉磋ぐ褔寮伴姘辨憼閻炴稏鍔嶉弳鐔煎箲椤曞棛绀夊☉鏃傚枙閸忔﹢宕橀崨顓犵处閻犱緤绱曢悾?* 闁?闁活潿鍔嶉崺娑㈠箵閹邦剙姣夐柍銉︾矌缁櫣鎷嬫幊閳ь兛鐒﹂惁顔芥綇閸愶腹鍋撴担鐟扮瑩闁告艾绉查埀顑跨劍閺嬪啴寮甸浣割伝闁规亽鍎埀顑跨劍濡晠寮甸悢閿嬧枙闁靛棔娴囧▔鏇犳偘閵婏妇婀介柟顒佺湽閳ь兛鑳舵慨鎼佸箑娴ｇ鐏查柡鍌ゅ幐閳ь剚绻勯悺鎴︽閳ь剙效閸屾稒顦ч柨娑樺缁楀鎳楁禒瀣笡閻犱降鍊曢閬嶅礄閻戞ɑ娈堕柟璇″枛閹骞嶇€ｎ剛鏆柨娑欑椤╋箓宕楅崼婵嗙伈闁哄偆鍘藉Σ鎼佸触閿曗偓缁ㄦ煡鏌呭宕囩畺 `+data-query` 闁瑰瓨鐗曢崣鏇烆嚕韫囨挾鎽熸繛鍫ユ涧濠€?Base 闁告劕鎳庨悾顒勫箣閹扳斁鍋?
 
-## 閸掑棙鐎界捄顖氱窞閸愬磭鐡?
+## 闁告帒妫欓悗鐣屾崉椤栨氨绐為柛鎰－閻?
 
-1. **娑撯偓濞嗏剝鈧冨瀻閺?/ 娑撳瓨妞傞弻銉嚄** 閳?娴兼ê鍘?`+data-query`
-   - 闁倸鎮庨敍姘瀻缂佸嫮绮虹拋掳鈧讣UM / AVG / COUNT / MAX / MIN閵嗕焦娼禒鍓佺摣闁鎮楅懕姘値閵?
-   - 閻楃懓绶涢敍姘愁洣閻ㄥ嫭妲搁垾婊嗙箹濞嗭紕鐣婚崙鐑樻降閻ㄥ嫮绮ㄩ弸婧锯偓婵撶礉娑撳秵妲搁幎濠勭波閺嬫粍鐭囧ǎ鈧幋鎰€冮崘鍛摟濞堢偣鈧?
-2. **闂€鎸庢埂婢跺秶鏁ら惃鍕烦閻㈢喐瀵氶弽?/ 鐞涘瞼楠囩拋锛勭暬缂佹挻鐏?* 閳?娴兼ê鍘涢崗顒€绱＄€涙顔?
-   - 闁倸鎮庨敍姘焺濞戯妇宸奸妴浣规Ц閸氾箑娆㈤張鐔粹偓浣稿⒖娴ｆ瑥銇夐弫鑸偓浣稿瀻濡楋絾鐖ｇ粵淇扁偓浣芥硶鐞涖劍鐪归幀璇叉倵閻ㄥ嫭娣抽悽鐔虹波閺嬫嚎鈧?
-   - 閻楃懓绶涢敍姘愁洣閹跺﹦绮ㄩ弸婊堟毐閺堢喐妯夌粈鍝勬躬 Base 闁插矉绱濈捄鐔兼鐠佹澘缍嶉懛顏勫З閺囧瓨鏌婇妴?
-3. **閺勬儳绱＄憰浣圭湴 Lookup閿涘本鍨ㄧ涵顔肩杽鐟曚焦瀵?source/select/where/aggregate 瀵ょ儤膩** 閳?閻?lookup 鐎涙顔?
-   - 姒涙顓绘禒宥勭喘閸忓牐鈧啳妾?formula閵嗕康ookup 閸欘亜婀悽銊﹀煕閺勫海鈥樼憰浣圭湴閵嗕焦鍨ㄩ弴瀵割儊閸氬牆娴愮€规碍鐓￠幍楣冨帳缂冾喗妞傛担璺ㄦ暏閵?
-4. **閸樼喎顫愮拋鏉跨秿鐠囪褰?/ 閺勫海绮忕€电厧鍤?* 閳?`+record-list / +record-get`
-   - 娑撳秷顩﹂幎?`+record-list` 瑜版挸鍨庨弸鎰穿閹垮函绱辩€瑰啳绀嬬拹锝呭絿閺勫海绮忛敍灞肩瑝鐠愮喕鐭楅懕姘値鐠侊紕鐣婚妴?
+1. **濞戞挴鍋撴繛鍡忓墲閳ь儸鍐ㄧ€婚柡?/ 濞戞挸鐡ㄥ鍌炲蓟閵夘煈鍤?* 闁?濞村吋锚閸?`+data-query`
+   - 闂侇偄鍊搁幃搴ㄦ晬濮橆剙鐎荤紓浣稿缁櫣鎷嬫幊閳ь兛璁M / AVG / COUNT / MAX / MIN闁靛棔鐒﹀顖涚閸撲胶鎽ｉ梺顐㈩槸閹鎳曞顒佸€ら柕?
+   - 闁绘鎳撶欢娑㈡晬濮樻剚娲ｉ柣銊ュ濡叉悂鍨惧鍡欑婵炲棴绱曢悾濠氬礄閻戞ɑ闄嶉柣銊ュ缁劑寮稿┃閿亾濠垫挾绀夊☉鎾崇У濡叉悂骞庢繝鍕尝闁哄绮嶉惌鍥庨埀顒勫箣閹邦垬鈧啴宕橀崨顓犳憻婵炲牏鍋ｉ埀?
+2. **闂傗偓閹稿孩鍩傚璺虹Ф閺併倝鎯冮崟顒佺儲闁汇垻鍠愮€垫岸寮?/ 閻炴稑鐬兼鍥╂媼閿涘嫮鏆紓浣规尰閻?* 闁?濞村吋锚閸樻盯宕楅鈧槐锛勨偓娑欘殕椤?
+   - 闂侇偄鍊搁幃搴ㄦ晬濮橆剙鐒烘繛鎴瀹稿ジ濡存担瑙勑﹂柛姘剧畱濞嗐垽寮甸悢绮瑰亾娴ｇ鈷栧ù锝嗙懃閵囧寮懜顑藉亾娴ｇ鐎绘俊妤嬬稻閻栵絿绮垫穱鎵佸亾娴ｈ姤纭堕悶娑栧妽閻綊骞€鐠囧弶鍊甸柣銊ュ濞ｆ娊鎮介悢铏规尝闁哄鍤庨埀?
+   - 闁绘鎳撶欢娑㈡晬濮樻剚娲ｉ柟璺猴功缁劑寮稿鍫熸瘣闁哄牏鍠愬Ο澶岀矆閸濆嫭韬?Base 闂佹彃鐭夌槐婵堟崉閻斿吋顓归悹浣规緲缂嶅秹鎳涢鍕楅柡鍥х摠閺屽﹪濡?
+3. **闁哄嫭鍎崇槐锛勬啺娴ｅ湱婀?Lookup闁挎稑鏈崹銊ф兜椤旇偐鏉介悷鏇氱劍鐎?source/select/where/aggregate 鐎点倗鍎よ啯** 闁?闁?lookup 閻庢稒顨嗛?
+   - 濮掓稒顭堥缁樼瀹ュ嫮鍠橀柛蹇撶墣閳ь剙鍟冲?formula闁靛棔搴穙okup 闁告瑯浜滃﹢顏堟偨閵婏箑鐓曢柡鍕捣閳ユ鎲版担鍦勾闁靛棔鐒﹂崹銊╁即鐎靛壊鍎婇柛姘墕濞存劗鈧纰嶉悡锟犲箥妤ｅ啫甯崇紓鍐惧枟濡炲倹鎷呯捄銊︽殢闁?
+4. **闁告鍠庨～鎰媼閺夎法绉块悹鍥嚙瑜?/ 闁哄嫬娴风划蹇曗偓鐢靛帶閸?* 闁?`+record-list / +record-get`
+   - 濞戞挸绉烽々锕傚箮?`+record-list` 鐟滅増鎸搁崹搴ㄥ几閹邦剛绌块柟鍨嚱缁辫京鈧懓鍟崇粈瀣嫻閿濆懎绲块柡鍕捣缁繘鏁嶇仦鑲╃憹閻犳劗鍠曢惌妤呮嚂濮橆剚鍊ら悹渚婄磿閻ｅ濡?
 
-## 閸忣剙绱?/ Lookup 娑撴捇銆嶇憴鍕灟
+## 闁稿浚鍓欑槐?/ Lookup 濞戞挻鎹囬妴宥囨喆閸曨偄鐏?
 
-1. **濞戝寮?formula / lookup 閺冭绱濋崗鍫ｎ嚢 guide閿涘苯鍟€閸戝搫鎳℃禒?*
-   - formula閿涙瓟`formula-field-guide.md`](references/formula-field-guide.md)
-   - lookup閿涙瓟`lookup-field-guide.md`](references/lookup-field-guide.md)
-2. **guide 閸忓牅绨崚娑樼紦閸涙垝鎶?*
-   - 濞屄ゎ嚢鐎电懓绨?guide 閸撳稄绱濇稉宥堫洣閻╁瓨甯撮崚娑樼紦 formula / lookup 鐎涙顔?
-   - 鐠囪鐣?guide 閸氬函绱濋崘宥埶夋鎰嚠鎼?JSON 楠炶泛鍨卞鍝勭摟濞?
-   - `type=formula` 韫囧懘銆忛幓鎰返 `expression`
-   - `type=lookup` 韫囧懘銆忛幓鎰返 `from / select / where`閿涘苯绻€鐟曚焦妞傜悰?`aggregate`
-3. **閸忣剙绱＄€涙顔屾导妯哄帥娴?lookup 鐎涙顔?*
-   - 閸欘亣顩﹂悽銊﹀煕閻ㄥ嫯鐦斿Ч鍌涙Ц閳ユ粏顓哥粻?/ 閺夆€叉閸掋倖鏌?/ 閺傚洦婀版径鍕倞 / 閺冦儲婀″?/ 鐠恒劏銆冮懕姘値 / 鐠恒劏銆冪粵娑⑩偓澶婃倵閸欐牕鈧皷鈧繐绱濇妯款吇娴兼ê鍘涚亸婵婄槸 formula閵?
-   - 閸欘亝婀侀悽銊﹀煕閺勫海鈥樼拠纾嬵洣 lookup閿涘本鍨ㄩ柊宥囩枂婢垛晝鍔ч弴鎾偓鍌氭値 lookup 閸ユ稑鍘撶紒鍕閿涘苯鍟€鐠?lookup閵?
-4. **鐞涖劌鎮?/ 鐎涙顔岄崥宥呯箑妞よ崵绨跨涵顔煎爱闁?*
-   - 閸忣剙绱￠妴涔磑okup閵嗕龚ata-query 娑擃厼鍤悳鎵畱鐞涖劌鎮?/ 鐎涙顔岄崥宥忕礉韫囧懘銆忛弶銉ㄥ殰 `+table-list` / `+table-get` / `+field-list` 閻ㄥ嫮婀＄€圭偠绻戦崶鐑囩礉缁備焦顒涢崙顓☆嚔娑斿瀵藉ù瀣暭閸愭瑣鈧?
-5. **閸忓牊瀣佺紒鎾寸€崘宥呭晸鐞涖劏鎻?*
-   - 閸忣剙绱￠幋?lookup 娑撯偓瀵板鍘涢懢宄板絿閻╃鍙х悰銊х波閺嬪嫸绱濋崘宥囨晸閹存劘銆冩潏鎯х础 / 闁板秶鐤嗛敍娑楃瑝鐟曚胶娲块幒銉ュ殶閻劍鍩涢崣锝堝牚閹风厧鐡у▓闈涙倳閵?
+1. **婵炴垵顦?formula / lookup 闁哄啳顔愮槐婵嬪礂閸綆鍤?guide闁挎稑鑻崯鈧柛鎴濇惈閹斥剝绂?*
+   - formula闁挎稒鐡焋formula-field-guide.md`](references/formula-field-guide.md)
+   - lookup闁挎稒鐡焋lookup-field-guide.md`](references/lookup-field-guide.md)
+2. **guide 闁稿繐鐗呯花顒勫礆濞戞绱﹂柛娑欏灊閹?*
+   - 婵炲眲銈庡殺閻庣數鎳撶花?guide 闁告挸绋勭槐婵囩▔瀹ュ牜娲ｉ柣鈺佺摠鐢挳宕氬☉妯肩处 formula / lookup 閻庢稒顨嗛?
+   - 閻犲洩顕ч悾?guide 闁告艾鍑界槐婵嬪礃瀹ュ煻澶嬵瀲閹邦剦鍤犻幖?JSON 妤犵偠娉涢崹鍗烆嚈閸濆嫮鎽熸繛?
+   - `type=formula` 闊洤鎳橀妴蹇涘箵閹邦亞杩?`expression`
+   - `type=lookup` 闊洤鎳橀妴蹇涘箵閹邦亞杩?`from / select / where`闁挎稑鑻换鈧悷鏇氱劍濡炲倻鎮?`aggregate`
+3. **闁稿浚鍓欑槐锛勨偓娑欘殕椤斿本瀵煎Ο鍝勫弗濞?lookup 閻庢稒顨嗛?*
+   - 闁告瑯浜ｉ々锕傛偨閵婏箑鐓曢柣銊ュ閻︽柨效閸屾稒笑闁炽儲绮忛鍝ョ不?/ 闁哄鈧弶顐介柛鎺嬪€栭弻?/ 闁哄倸娲﹀﹢鐗堝緞閸曨厽鍊?/ 闁哄啨鍎插﹢鈥愁啅?/ 閻犳亽鍔忛妴鍐嚂濮橆剚鍊?/ 閻犳亽鍔忛妴鍐驳濞戔懇鍋撴径濠冨€甸柛娆愮墪閳ь剙鐨烽埀顒佺箰缁辨繃顪€濡鍚囧ù鍏济崢娑氫焊濠靛﹦妲?formula闁?
+   - 闁告瑯浜濆﹢渚€鎮介妸锕€鐓曢柡鍕捣閳ユ鎷犵壕瀣垫矗 lookup闁挎稑鏈崹銊╂煀瀹ュ洨鏋傚鍨涙櫇閸斞囧即閹绢喒鍋撻崒姘€?lookup 闁搞儲绋戦崢鎾剁磼閸曨剚顦ч柨娑樿嫰閸熲偓閻?lookup闁?
+4. **閻炴稏鍔岄幃?/ 閻庢稒顨嗛宀勫触瀹ュ懐绠戝銈堝吹缁ㄨ法娑甸鐓庣埍闂?*
+   - 闁稿浚鍓欑槐锟犲Υ娑旂okup闁靛棔榫歛ta-query 濞戞搩鍘奸崵顓㈡偝閹殿喗鐣遍悶娑栧妼閹?/ 閻庢稒顨嗛宀勫触瀹ュ繒绀夐煫鍥ф嚇閵嗗繘寮堕妷銊ユ `+table-list` / `+table-get` / `+field-list` 闁汇劌瀚﹢锛勨偓鍦仩缁绘垿宕堕悜鍥╃缂佸倷鐒﹂娑㈠礄椤撯槅鍤斿☉鏂款槺鐎佃棄霉鐎ｎ偅鏆柛鎰懀閳?
+5. **闁稿繐鐗婄€ｄ胶绱掗幘瀵糕偓顖炲礃瀹ュ懎鏅搁悶娑栧姀閹活亜顕?*
+   - 闁稿浚鍓欑槐锟犲箣?lookup 濞戞挴鍋撶€垫澘顑呴崢娑㈡嚔瀹勬澘绲块柣鈺冾焾閸櫻呮偘閵娧呮尝闁哄瀚哥槐婵嬪礃瀹ュ洦鏅搁柟瀛樺姌閵嗗啯娼忛幆褏纭€ / 闂佹澘绉堕悿鍡涙晬濞戞鐟濋悷鏇氳兌濞插潡骞掗妷銉ユ闁活潿鍔嶉崺娑㈠矗閿濆牆鐗氶柟椋庡帶閻⊙冣枔闂堟稒鍊抽柕?
 
-## Workflow 娑撴捇銆嶇憴鍕灟
+## Workflow 濞戞挻鎹囬妴宥囨喆閸曨偄鐏?
 
-1. **閹笛嗩攽娴犺缍?workflow 閸涙垝鎶ら崜宥忕礉韫囧懘銆忛崗鍫ｎ嚢娑撱倓鍞ら弬鍥ㄣ€傞敍姘嚠鎼存梻娈戦崨鎴掓姢閺傚洦銆?+ [lark-base-workflow-schema.md](references/lark-base-workflow-schema.md)**
-   - `+workflow-create` 閳?閸忓牐顕?[lark-base-workflow-create.md](references/lark-base-workflow-create.md) + schema
-   - `+workflow-update` 閳?閸忓牐顕?[lark-base-workflow-update.md](references/lark-base-workflow-update.md) + schema
-   - `+workflow-list` 閳?閸忓牐顕?[lark-base-workflow-list.md](references/lark-base-workflow-list.md) + schema
-   - `+workflow-get` 閳?閸忓牐顕?[lark-base-workflow-get.md](references/lark-base-workflow-get.md) + schema
-   - `+workflow-enable` 閳?閸忓牐顕?[lark-base-workflow-enable.md](references/lark-base-workflow-enable.md) + schema
-   - `+workflow-disable` 閳?閸忓牐顕?[lark-base-workflow-disable.md](references/lark-base-workflow-disable.md) + schema
-   - schema 娑擃厼鐣炬稊澶夌啊閹碘偓閺?StepType 閺嬫矮濡囬妴浣诡劄妤犮倗绮ㄩ弸鍕┾偓涔€rigger/Action/Branch/Loop 閻?data 閺嶇厧绱￠妴浣糕偓鐓庣穿閻劏顕㈠▔鏇犵搼
-   - 缁備焦顒涢崙顓″殰閻掓儼顕㈢懛鈧悮婊勭ゴ `type` 閸婄》绱欐俊鍌涘Ω"閺傛澘顤冪拋鏉跨秿"閻氭粍鍨?`CreateTrigger`閿涘绱濊箛鍛淬€忔禒?schema 閻?StepType 閺嬫矮濡囨稉顓烆槻閸掕泛鍣涵顔炬畱缁鐎烽崥宥囆?
+1. **闁圭瑳鍡╂斀濞寸姾顔婄紞?workflow 闁告稒鍨濋幎銈夊礈瀹ュ繒绀夐煫鍥ф嚇閵嗗繘宕楅崼锝庡殺濞戞挶鍊撻崬銈夊棘閸ャ劊鈧倿鏁嶅顒夊殸閹煎瓨姊诲▓鎴﹀川閹存帗濮㈤柡鍌氭处閵?+ [lark-base-workflow-schema.md](references/lark-base-workflow-schema.md)**
+   - `+workflow-create` 闁?闁稿繐鐗愰?[lark-base-workflow-create.md](references/lark-base-workflow-create.md) + schema
+   - `+workflow-update` 闁?闁稿繐鐗愰?[lark-base-workflow-update.md](references/lark-base-workflow-update.md) + schema
+   - `+workflow-list` 闁?闁稿繐鐗愰?[lark-base-workflow-list.md](references/lark-base-workflow-list.md) + schema
+   - `+workflow-get` 闁?闁稿繐鐗愰?[lark-base-workflow-get.md](references/lark-base-workflow-get.md) + schema
+   - `+workflow-enable` 闁?闁稿繐鐗愰?[lark-base-workflow-enable.md](references/lark-base-workflow-enable.md) + schema
+   - `+workflow-disable` 闁?闁稿繐鐗愰?[lark-base-workflow-disable.md](references/lark-base-workflow-disable.md) + schema
+   - schema 濞戞搩鍘奸悾鐐▕婢跺鍟婇柟纰樺亾闁?StepType 闁哄鐭俊鍥Υ娴ｈ鍔勫Δ鐘€楃划銊╁几閸曗斁鍋撴稊鈧瑀igger/Action/Branch/Loop 闁?data 闁哄秶鍘х槐锟犲Υ娴ｇ硶鍋撻悡搴ｇ┛闁活潿鍔忛銏犫枖閺囩姷鎼?
+   - 缂佸倷鐒﹂娑㈠礄椤撯€虫闁绘帗鍎奸銏㈡嚊閳ь剟鎮鍕偞 `type` 闁稿﹦銆嬬槐娆愪繆閸屾稑惟"闁哄倹婢橀·鍐媼閺夎法绉?闁绘碍绮嶉崹?`CreateTrigger`闁挎稑顧€缁辨繆绠涢崨娣偓蹇旂?schema 闁?StepType 闁哄鐭俊鍥ㄧ▔椤撶儐妲婚柛鎺曟硾閸ｎ垳娑甸鐐暠缂侇偉顕ч悗鐑藉触瀹ュ泦?
 
-2. **閸掓稑缂撻崜宥団€樼拋銈勭贩鐠ф牔淇婇幁?*
-   - 閸忓牓鈧俺绻?`+table-list` / `+field-list` 閼惧嘲褰囬惇鐔风杽閻ㄥ嫯銆冮崥宥冣偓浣哥摟濞堥潧鎮?
-   - 缁備焦顒涢崙顓″殰閻掓儼顕㈢懛鈧悮婊勭ゴ鐞涖劌鎮?鐎涙顔岄崥宥咃綖閸?workflow 闁板秶鐤?
+2. **闁告帗绋戠紓鎾诲礈瀹ュ洠鈧鎷嬮妶鍕穿閻犙勭墧娣囧﹪骞?*
+   - 闁稿繐鐗撻埀顒佷亢缁?`+table-list` / `+field-list` 闁兼儳鍢茶ぐ鍥儑閻旈鏉介柣銊ュ閵嗗啴宕ュ鍐ｅ亾娴ｅ摜鎽熸繛鍫ユ涧閹?
+   - 缂佸倷鐒﹂娑㈠礄椤撯€虫闁绘帗鍎奸銏㈡嚊閳ь剟鎮鍕偞閻炴稏鍔岄幃?閻庢稒顨嗛宀勫触瀹ュ拑缍栭柛?workflow 闂佹澘绉堕悿?
 
-## 閺嶇绺剧憴鍕灟
+## 闁哄秶顭堢缓鍓ф喆閸曨偄鐏?
 
-1. **閸欘亙濞囬悽銊ュ斧鐎涙劕鎳℃禒?* 閳?娴ｈ法鏁?`+table-list / +table-get / +field-create / +record-upsert / +view-set-filter / +record-history-list / +base-get` 鏉╂瑧琚稉鈧崨鎴掓姢娑撯偓閸斻劋缍旈惃鍕晸濞夋洩绱濇稉宥勫▏閻劍妫懕姘値瀵?`+table / +field / +record / +view / +history / +workspace`
-2. **閸愭瑨顔囪ぐ鏇炲閸忓牐顕扮€涙顔岀紒鎾寸€?* 閳?閸忓牐鐨熼悽?`+field-list` 閼惧嘲褰囩€涙顔岀紒鎾寸€敍灞藉晙鐠?[lark-base-shortcut-record-value.md](references/lark-base-shortcut-record-value.md) 绾喛顓婚崥鍕摟濞堢數琚崹瀣畱閸愭瑥鍙嗛崐鍏肩壐瀵?
-3. **閸愭瑥鐡у▓闈涘閸忓牏婀呯€涙顔岀仦鐐粹偓褑顫夐懠?* 閳?閸忓牐顕?[lark-base-shortcut-field-properties.md](references/lark-base-shortcut-field-properties.md) 绾喛顓?`+field-create/+field-update` 閻?JSON 缂佹挻鐎?
-4. **缁涙盯鈧鐓＄拠銏″瘻鐟欏棗娴橀懗钘夊閹笛嗩攽** 閳?閸忓牐顕?[lark-base-view-set-filter.md](references/lark-base-view-set-filter.md) 閸?[lark-base-record-list.md](references/lark-base-record-list.md)閿涘矂鈧俺绻?`+view-set-filter` + `+record-list` 缂佸嫬鎮庣€瑰本鍨氱粵娑⑩偓澶庮嚢閸?
-5. **鐎电顔囪ぐ鏇＄箻鐞涘苯鍨庨弸鎰剁礄濞戝寮?閺堚偓妤?閺堚偓娴?閹槒顓?楠炲啿娼?閹烘帒鎮?濮ｆ棁绶?閺佷即鍣?缁涘鍨庨弸鎰壈閸ユ拝绱?* 閳?閸忓牐顕?[lark-base-data-query.md](references/lark-base-data-query.md)閿涘矂鈧俺绻?`+data-query` 鏉╂稖顢戦弫鐗堝祦缁涙盯鈧浠涢崥鍫㈡畱閺堝秴濮熺粩顖濐吀缁?
-6. **閼辨艾鎮庨崚鍡樼€芥稉搴″絿閺侀绨伴弬?* 閳?闂団偓鐟曚礁鍨庣紒鍕埠鐠?/ SUM / MAX / AVG / COUNT 閺冭绱濊箛鍛淬€忔担璺ㄦ暏 `+data-query`閿涘牊婀囬崝锛勵伂鐠侊紕鐣婚敍澶涚礉缁備焦顒涢悽?`+record-list` 閹峰鍙忛柌蹇氼唶瑜版洖鍟€閹靛濮╃拋锛勭暬閿涙稑寮芥稊瀣剁礉`+data-query` 娑撳秷绻戦崶鐐插斧婵顔囪ぐ鏇礉閸欐牗鏆熼崷鐑樻珯娴犲秷铔?`+record-list / +record-get`
-7. **閹碘偓閺?`+xxx-list` 缁備焦顒涢獮璺哄絺鐠嬪啰鏁?* 閳?`+table-list / +field-list / +record-list / +view-list / +record-history-list / +role-list` 閸欘亣鍏樻稉鑼额攽閹笛嗩攽
-8. **閹靛綊鍣烘稉濠囨 500 閺?濞?* 閳?閸氬奔绔寸悰銊ョ紦鐠侇喕瑕嗙悰灞藉晸閸忋儻绱濋獮璺烘躬閹佃顐奸梻鏉戞鏉?0.5閳? 缁?
-9. **缂佺喍绔撮崣鍌涙殶閸?* 閳?娑撯偓瀵板濞囬悽?`--base-token`閿涘奔绗夋担璺ㄦ暏閺?`--app-token`
-10. **闁洤鍩岄垾婊冨彆瀵?/ 閺屻儲澹樺鏇犳暏 / 濞插墽鏁撻幐鍥ㄧ垼 / 鐠恒劏銆冪拋锛勭暬閳ユ繈娓跺Ч鍌︾礉娴兼ê鍘涚挧鏉跨摟濞堝灚鏌熷鍫濆灲閺?* 閳?閸忓牆鍨介弬顓炵安瀵?formula / lookup 鐎涙顔岄敍宀冪箷閺勵垰褰ч崑姘濞嗏剝鈧?`+data-query`
-11. **閸忣剙绱￠妴涔磑okup閵嗕胶閮寸紒鐔风摟濞堢敻绮拋銈堫潒娑撳搫褰х拠?* 閳?闂?`+field-create / +field-update` 缂佸瓨濮㈢€涙顔岀€规矮绠熸径鏍电礉娑撳秷顩﹂幎濠呯箹娴滄稑鐡у▓鍏哥稊娑撻缚顔囪ぐ鏇炲晸閸忋儳娲伴弽?
-12. **閺€鐟版倳閸滃苯鍨归梽銈嗗瘻閺勫海鈥橀幇蹇撴禈閹笛嗩攽** 閳?`+view-rename` 閸︺劎娲伴弽鍥潒閸ユ儳鎷伴弬鏉挎倳缁変即鍏橀弰搴ｂ€橀弮璺哄讲閻╁瓨甯撮幍褑顢戦敍娌?record-delete / +field-delete / +table-delete` 閸︺劎鏁ら幋宄板嚒缂佸繑妲戠涵顔款洣濮瑰倸鍨归梽銈勭瑬閻╊喗鐖ｉ弰搴ｂ€橀弮鏈电瘍閸欘垳娲块幒銉﹀⒔鐞涘矉绱濇稉宥夋付鐟曚礁鍟€鐞涖儰绔村▎锛勨€樼拋銈忕礉楠炴湹绗栭幍褑顢戦崚鐘绘珟閸涙垝鎶ら弮鎯邦洣娑撹濮╃悰銉ょ瑐 `--yes`閿涙稑褰ч張澶屾窗閺嶅洣绗夐弰搴ｂ€橀弮鑸靛缂佈呯敾鏉╀粙妫?
+1. **闁告瑯浜欐繛鍥偨閵娿儱鏂ч悗娑欏姇閹斥剝绂?* 闁?濞达綀娉曢弫?`+table-list / +table-get / +field-create / +record-upsert / +view-set-filter / +record-history-list / +base-get` 閺夆晜鐟х悮顐ｇ▔閳ь剟宕ㄩ幋鎺撳Б濞戞挴鍋撻柛鏂诲妺缂嶆棃鎯冮崟顐㈡櫢婵炲娲╃槐婵囩▔瀹ュ嫬鈻忛柣顫妽濡偊鎳曞顒佸€ょ€?`+table / +field / +record / +view / +history / +workspace`
+2. **闁告劖鐟ㄩ鍥亹閺囩偛顤呴柛蹇撶墣椤曟壆鈧稒顨嗛宀€绱掗幘瀵糕偓?* 闁?闁稿繐鐗愰惃鐔兼偨?`+field-list` 闁兼儳鍢茶ぐ鍥┾偓娑欘殕椤斿瞼绱掗幘瀵糕偓顖炴晬鐏炶棄鏅欓悹?[lark-base-shortcut-record-value.md](references/lark-base-shortcut-record-value.md) 缁绢収鍠涢濠氬触閸曨偆鎽熸繛鍫㈡暩鐞氼偊宕圭€ｎ剚鐣遍柛鎰懃閸欏棝宕愰崗鑲╁鐎?
+3. **闁告劖鐟ラ悺褍鈻撻棃娑橆枀闁稿繐鐗忓﹢鍛偓娑欘殕椤斿瞼浠﹂悙绮瑰亾瑜戦～澶愭嚑?* 闁?闁稿繐鐗愰?[lark-base-shortcut-field-properties.md](references/lark-base-shortcut-field-properties.md) 缁绢収鍠涢?`+field-create/+field-update` 闁?JSON 缂備焦鎸婚悗?
+4. **缂佹稒鐩埀顒€顦伴悡锛勬嫚閵忊€崇樆閻熸瑥妫楀ù姗€鎳楅挊澶婎潝闁圭瑳鍡╂斀** 闁?闁稿繐鐗愰?[lark-base-view-set-filter.md](references/lark-base-view-set-filter.md) 闁?[lark-base-record-list.md](references/lark-base-record-list.md)闁挎稑鐭傞埀顒佷亢缁?`+view-set-filter` + `+record-list` 缂備礁瀚幃搴ｂ偓鐟版湰閸ㄦ氨绮靛☉鈶╁亾婢跺寒鍤㈤柛?
+5. **閻庣數顢婇鍥亹閺囷紕绠婚悶娑樿嫰閸ㄥ酣寮搁幇鍓佺婵炴垵顦?闁哄牃鍋撳Δ?闁哄牃鍋撳ù?闁诡剚妲掗?妤犵偛鍟垮?闁圭儤甯掗幃?婵絾妫佺欢?闁轰椒鍗抽崳?缂佹稑顦崹搴ㄥ几閹邦厼澹堥柛銉︽嫕缁?* 闁?闁稿繐鐗愰?[lark-base-data-query.md](references/lark-base-data-query.md)闁挎稑鐭傞埀顒佷亢缁?`+data-query` 閺夆晜绋栭、鎴﹀极閻楀牆绁︾紒娑欑洴閳ь剙顦虫禒娑㈠触閸垺鐣遍柡鍫濈Т婵喓绮╅婵愬悁缂?
+6. **闁艰鲸鑹鹃幃搴ㄥ礆閸℃鈧姤绋夋惔鈥崇悼闁轰線顣︾花浼村棘?* 闁?闂傚洠鍋撻悷鏇氱閸ㄥ海绱掗崟顓犲煚閻?/ SUM / MAX / AVG / COUNT 闁哄啳顔愮槐婵婄疀閸涙番鈧繑鎷呯捄銊︽殢 `+data-query`闁挎稑鐗婂﹢鍥礉閿涘嫷浼傞悹渚婄磿閻ｅ鏁嶆径娑氱缂佸倷鐒﹂娑㈡偨?`+record-list` 闁瑰嘲顦崣蹇涙煂韫囨凹鍞剁憸鐗堟礀閸熲偓闁归潧顑呮慨鈺冩媼閿涘嫮鏆柨娑欑☉瀵姤绋婄€ｅ墎绀塦+data-query` 濞戞挸绉风换鎴﹀炊閻愭彃鏂у┑顔碱儓椤斿洩銇愰弴顏嗙闁告瑦鐗楅弳鐔煎捶閻戞ɑ鐝ù鐘茬Х閾?`+record-list / +record-get`
+7. **闁圭鍋撻柡?`+xxx-list` 缂佸倷鐒﹂娑㈢嵁鐠哄搫绲洪悹瀣暟閺?* 闁?`+table-list / +field-list / +record-list / +view-list / +record-history-list / +role-list` 闁告瑯浜ｉ崗妯荤▔閼奸鏀介柟绗涘棭鏀?
+8. **闁归潧缍婇崳鐑樼▔婵犲洦顎?500 闁?婵?* 闁?闁告艾濂旂粩瀵告偘閵娿儳绱﹂悹渚囧枙鐟曞棛鎮扮仦钘夋櫢闁稿繈鍎荤槐婵嬬嵁鐠虹儤韬柟浣冾潐椤愬ジ姊婚弶鎴烆偨閺?0.5闁? 缂?
+9. **缂備胶鍠嶇粩鎾矗閸屾稒娈堕柛?* 闁?濞戞挴鍋撶€垫澘顑勬繛鍥偨?`--base-token`闁挎稑濂旂粭澶嬫媴鐠恒劍鏆忛柡?`--app-token`
+10. **闂侇剙娲ら崺宀勫灳濠婂啫褰嗙€?/ 闁哄被鍎叉竟妯侯嚕閺囩姵鏆?/ 婵炴彃澧介弫鎾诲箰閸ャ劎鍨?/ 閻犳亽鍔忛妴鍐媼閿涘嫮鏆柍銉︾箞濞撹泛效閸岋妇绀夊ù鍏济崢娑氭導閺夎法鎽熸繛鍫濈仛閺岀喎顩奸崼婵嗙伈闁?* 闁?闁稿繐鐗嗛崹浠嬪棘椤撶偟瀹夌€?formula / lookup 閻庢稒顨嗛宀勬晬瀹€鍐闁哄嫷鍨拌ぐ褔宕戝顐ゎ伇婵炲棌鍓濋埀?`+data-query`
+11. **闁稿浚鍓欑槐锟犲Υ娑旂okup闁靛棔鑳堕柈瀵哥磼閻旈鎽熸繛鍫㈡暬缁垳鎷嬮妶鍫綊濞戞挸鎼ぐ褏鎷?* 闁?闂?`+field-create / +field-update` 缂備礁鐡ㄦ慨銏⑩偓娑欘殕椤斿瞼鈧鐭粻鐔稿緞閺嶇數绀夊☉鎾崇Х椤╋箓骞庢繝鍛濞存粍绋戦悺褍鈻撻崗鍝ョ▕濞戞捇缂氶鍥亹閺囩偛鏅搁柛蹇嬪劤濞蹭即寮?
+12. **闁衡偓閻熺増鍊抽柛婊冭嫰閸ㄥ綊姊介妶鍡楃樆闁哄嫬娴烽垾姗€骞囪箛鎾寸闁圭瑳鍡╂斀** 闁?`+view-rename` 闁革负鍔庡ú浼村冀閸ヮ亶娼掗柛銉﹀劤閹蜂即寮弶鎸庡€崇紒澶夊嵆閸忔﹢寮版惔锝傗偓姗€寮捄鍝勮闁烩晛鐡ㄧ敮鎾箥瑜戦、鎴︽晬濞?record-delete / +field-delete / +table-delete` 闁革负鍔庨弫銈夊箣瀹勬澘鍤掔紓浣哥箲濡叉垹娑甸娆炬矗婵懓鍊搁崹褰掓⒔閵堝嫮鐟柣鈺婂枟閻栵綁寮版惔锝傗偓姗€寮張鐢电槏闁告瑯鍨冲ú鍧楀箳閵夛箑鈷旈悶娑樼焿缁辨繃绋夊澶嬩粯閻熸洑绀侀崯鈧悶娑栧劙缁旀潙鈻庨敍鍕ㄢ偓妯兼媼閵堝繒绀夋鐐存构缁楁牠骞嶈椤㈡垿宕氶悩缁樼彑闁告稒鍨濋幎銈夊籍閹偊娲ｅ☉鎾诡嚙婵晝鎮伴妷銈囩憪 `--yes`闁挎稒绋戣ぐ褔寮垫径灞剧獥闁哄秴娲ｇ粭澶愬及鎼达絺鈧﹢寮懜闈涱枀缂備綀鍛暰閺夆晙绮欏Λ?
 
-## 闂傤喖宓?/ 鐞涖劌宕熼幓鎰仛
+## 闂傚偆鍠栧畵?/ 閻炴稏鍔屽畷鐔煎箵閹邦喓浠?
 
-- **閼惧嘲褰囬梻顔煎祹閸掓銆?*閿涙矮濞囬悽?`+form-list`閿涘牆鍘涢幏?`form-id`閿?
-- **閼惧嘲褰囬崡鏇氶嚋闂傤喖宓?*閿涙矮濞囬悽?`+form-get`
-- **閼惧嘲褰囩悰銊ュ礋 / 闂傤喖宓庨梻顕€顣?*閿涙矮濞囬悽?`+form-questions-list`
-- **閸掔娀娅庨梻顔煎祹 / 鐞涖劌宕熼梻顕€顣?*閿涙矮濞囬悽?`+form-questions-delete`
-- **閸掓稑缂?/ 閺囧瓨鏌婇梻顕€顣?*閿涙矮濞囬悽?`+form-questions-create / +form-questions-update`
+- **闁兼儳鍢茶ぐ鍥⒒椤旂厧绁归柛鎺擃殙閵?*闁挎稒鐭繛鍥偨?`+form-list`闁挎稑鐗嗛崢娑㈠箯?`form-id`闁?
+- **闁兼儳鍢茶ぐ鍥础閺囨岸鍤嬮梻鍌ゅ枛瀹?*闁挎稒鐭繛鍥偨?`+form-get`
+- **闁兼儳鍢茶ぐ鍥╂偘閵娿儱绀?/ 闂傚偆鍠栧畵搴ㄦ⒒椤曗偓椤?*闁挎稒鐭繛鍥偨?`+form-questions-list`
+- **闁告帞濞€濞呭酣姊婚鐓庣ス / 閻炴稏鍔屽畷鐔兼⒒椤曗偓椤?*闁挎稒鐭繛鍥偨?`+form-questions-delete`
+- **闁告帗绋戠紓?/ 闁哄洤鐡ㄩ弻濠囨⒒椤曗偓椤?*闁挎稒鐭繛鍥偨?`+form-questions-create / +form-questions-update`
 
-## 閹板繐娴?閳?閸涙垝鎶ょ槐銏犵穿
+## 闁规澘绻愬ù?闁?闁告稒鍨濋幎銈囨閵忕姷绌?
 
-| 閹板繐娴?| 閹恒劏宕橀崨鎴掓姢 | 婢跺洦鏁?|
+| 闁规澘绻愬ù?| 闁规亽鍔忓畷姗€宕ㄩ幋鎺撳Б | 濠㈣泛娲﹂弫?|
 |------|---------|------|
-| 閸掓銆?/ 閼惧嘲褰囬弫鐗堝祦鐞?| `lark-cli base +table-list` / `+table-get` | 閸樼喎鐡欓崨鎴掓姢 |
-| 閸掓稑缂?/ 閺囧瓨鏌?/ 閸掔娀娅庨弫鐗堝祦鐞?| `lark-cli base +table-create` / `+table-update` / `+table-delete` | 娑撯偓閸涙垝鎶ゆ稉鈧崝銊ょ稊 |
-| 閸掓銆?/ 閼惧嘲褰囩€涙顔?| `lark-cli base +field-list` / `+field-get` | 閸樼喎鐡欓崨鎴掓姢 |
-| 閸掓稑缂?/ 閺囧瓨鏌婄€涙顔?| `lark-cli base +field-create` / `+field-update` | 娴ｈ法鏁?`--json` |
-| 閸掓稑缂?/ 閺囧瓨鏌婇崗顒€绱＄€涙顔?| `lark-cli base +field-create` / `+field-update` | `type=formula`閿涙稑鍘涚拠?formula guide閿涘苯鍟€閸掓稑缂?/ 閺囧瓨鏌?|
-| 閸掓稑缂?/ 閺囧瓨鏌?lookup 鐎涙顔?| `lark-cli base +field-create` / `+field-update` | `type=lookup`閿涙稑鍘涚拠?lookup guide閿涘苯鍟€閸掓稑缂?/ 閺囧瓨鏌婇敍宀勭帛鐠併倕鍘涢崚銈嗘焽 formula 閺勵垰鎯侀弴鏉戞値闁?|
-| 閸掓銆?/ 閼惧嘲褰囩拋鏉跨秿 | `lark-cli base +record-list` / `+record-get` | 閸樼喎鐡欓崨鎴掓姢閿涘苯顩ч弸婊堟付鐟曚梗閼辨艾鎮庣拋锛勭暬`閿涘畭閸掑棛绮嶇紒鐔活吀` 閹恒劏宕樼挧?`+data-query` |
-| 閸掓稑缂?/ 閺囧瓨鏌婄拋鏉跨秿 | `lark-cli base +record-upsert` | `--table-id [--record-id] --json` |
-| 閼辨艾鎮庨崚鍡樼€?/ 濮ｆ棁绶濋幒鎺戠碍 / 濮瑰倹娓堕崐?/ 缁涙盯鈧绮虹拋?| `lark-cli base +data-query` | 娑撳秷顩﹂悽?`+record-list` 閹峰鍙忛柌蹇旀殶閹诡喖鍟€閹靛濮╃拋锛勭暬閿涘矂娓舵担璺ㄦ暏 `+data-query` 鐠х増婀囬崝锛勵伂鐠侊紕鐣?|
-| 闁板秶鐤?/ 閺屻儴顕楃憴鍡楁禈 | `lark-cli base +view-*` | `list/get/create/delete/get-*/set-*/rename` |
-| 閺屻儳婀呯拋鏉跨秿閸樺棗褰?| `lark-cli base +record-history-list` | 閹稿銆冮崪宀冾唶瑜版洘鐓＄拠銏犲綁閺囨潙宸婚崣?|
-| 閹稿顫嬮崶鍓х摣闁鐓＄拠?| `lark-cli base +view-set-filter` + `lark-cli base +record-list` | 缂佸嫬鎮庣拫鍐暏 |
-| 閸掓稑缂?/ 閼惧嘲褰?/ 婢跺秴鍩?Base | `lark-cli base +base-create` / `+base-get` / `+base-copy` | 閸樼喎鐡欓崨鎴掓姢 |
-| 閸掓銆?/ 閼惧嘲褰囧銉ょ稊濞?| `lark-cli base +workflow-list` / `+workflow-get` | 閸樼喎鐡欓崨鎴掓姢 |
-| 閸掓稑缂?/ 閺囧瓨鏌婂銉ょ稊濞?| `lark-cli base +workflow-create` / `+workflow-update` | 娴ｈ法鏁?`--json`閿涘苯绻€妞ゅ妲勭拠?schema |
-| 閸氼垳鏁?/ 閸嬫粎鏁ゅ銉ょ稊濞?| `lark-cli base +workflow-enable` / `+workflow-disable` | 娑撯偓閸涙垝鎶ゆ稉鈧崝銊ょ稊 |
-| 閸氼垳鏁?/ 閸嬫粎鏁ゆ妯奸獓閺夊啴妾?| `lark-cli base +advperm-enable` / `+advperm-disable` | 閸氼垳鏁ら崥搴㈠閼虫垝濞囬悽銊ㄥ殰鐎规矮绠熺憴鎺曞閿涙稑浠犻悽銊ょ窗娴ｅ灝鍑￠張澶庮潡閼规彃銇戦弫?|
-| 閸掓銆?/ 閼惧嘲褰囩憴鎺曞 | `lark-cli base +role-list / +role-get` | 閺屻儳婀呯憴鎺曞閹芥顩﹂幋鏍х暚閺佹挳鍘ょ純?|
-| 閸掓稑缂?/ 閺囧瓨鏌?/ 閸掔娀娅庣憴鎺曞 | `lark-cli base +role-create / +role-update / +role-delete` | 缁狅紕鎮婇懛顏勭暰娑斿顫楅懝鍙夋綀闂?|
-| 閸掓銆?/ 閼惧嘲褰囩悰銊ュ礋 | `lark-cli base +form-list` / `+form-get` | 閸樼喎鐡欓崨鎴掓姢 |
-| 閸掓稑缂?/ 閺囧瓨鏌?/ 閸掔娀娅庣悰銊ュ礋 | `lark-cli base +form-create` / `+form-update` / `+form-delete` | 娑撯偓閸涙垝鎶ゆ稉鈧崝銊ょ稊 |
-| 閸掓銆?/ 閸掓稑缂?/ 閺囧瓨鏌?/ 閸掔娀娅庣悰銊ュ礋闂傤噣顣?| `lark-cli base +form-questions-list` / `+form-questions-create` / `+form-questions-update` / `+form-questions-delete` | 娑撯偓閸涙垝鎶ゆ稉鈧崝銊ょ稊 |
-| 閸掓銆?/ 閼惧嘲褰囨禒顏囥€冮惄?| `lark-cli base +dashboard-list` / `+dashboard-get` | 閸樼喎鐡欓崨鎴掓姢 |
-| 閸掓稑缂?/ 閺囧瓨鏌?/ 閸掔娀娅庢禒顏囥€冮惄?| `lark-cli base +dashboard-create` / `+dashboard-update` / `+dashboard-delete` | 娑撯偓閸涙垝鎶ゆ稉鈧崝銊ょ稊 |
-| 閸掓銆?/ 閼惧嘲褰囨禒顏囥€冮惄?Block | `lark-cli base +dashboard-block-list` / `+dashboard-block-get` | 閸樼喎鐡欓崨鎴掓姢 |
-| 閸掓稑缂?/ 閺囧瓨鏌?/ 閸掔娀娅庢禒顏囥€冮惄?Block | `lark-cli base +dashboard-block-create` / `+dashboard-block-update` / `+dashboard-block-delete` | 娑撯偓閸涙垝鎶ゆ稉鈧崝銊ょ稊 |
+| 闁告帗顨夐妴?/ 闁兼儳鍢茶ぐ鍥极閻楀牆绁﹂悶?| `lark-cli base +table-list` / `+table-get` | 闁告鍠庨悺娆撳川閹存帗濮?|
+| 闁告帗绋戠紓?/ 闁哄洤鐡ㄩ弻?/ 闁告帞濞€濞呭酣寮悧鍫濈ウ閻?| `lark-cli base +table-create` / `+table-update` / `+table-delete` | 濞戞挴鍋撻柛娑欏灊閹躲倖绋夐埀顒勫礉閵娿倗绋?|
+| 闁告帗顨夐妴?/ 闁兼儳鍢茶ぐ鍥┾偓娑欘殕椤?| `lark-cli base +field-list` / `+field-get` | 闁告鍠庨悺娆撳川閹存帗濮?|
+| 闁告帗绋戠紓?/ 闁哄洤鐡ㄩ弻濠勨偓娑欘殕椤?| `lark-cli base +field-create` / `+field-update` | 濞达綀娉曢弫?`--json` |
+| 闁告帗绋戠紓?/ 闁哄洤鐡ㄩ弻濠囧礂椤掆偓缁憋紕鈧稒顨嗛?| `lark-cli base +field-create` / `+field-update` | `type=formula`闁挎稒绋戦崢娑氭嫚?formula guide闁挎稑鑻崯鈧柛鎺撶☉缂?/ 闁哄洤鐡ㄩ弻?|
+| 闁告帗绋戠紓?/ 闁哄洤鐡ㄩ弻?lookup 閻庢稒顨嗛?| `lark-cli base +field-create` / `+field-update` | `type=lookup`闁挎稒绋戦崢娑氭嫚?lookup guide闁挎稑鑻崯鈧柛鎺撶☉缂?/ 闁哄洤鐡ㄩ弻濠囨晬瀹€鍕笡閻犱降鍊曢崢娑㈠礆閵堝棙鐒?formula 闁哄嫷鍨伴幆渚€寮撮弶鎴炲€ら梺?|
+| 闁告帗顨夐妴?/ 闁兼儳鍢茶ぐ鍥╂媼閺夎法绉?| `lark-cli base +record-list` / `+record-get` | 闁告鍠庨悺娆撳川閹存帗濮㈤柨娑樿嫰椤┭囧几濠婂牊浠橀悷鏇氭闁艰鲸鑹鹃幃搴ｆ媼閿涘嫮鏆琡闁挎稑鐣柛鎺戞缁秶绱掗悢娲诲悁` 闁规亽鍔忓畷妯兼導?`+data-query` |
+| 闁告帗绋戠紓?/ 闁哄洤鐡ㄩ弻濠勬媼閺夎法绉?| `lark-cli base +record-upsert` | `--table-id [--record-id] --json` |
+| 闁艰鲸鑹鹃幃搴ㄥ礆閸℃鈧?/ 婵絾妫佺欢婵嬪箳閹烘垹纰?/ 婵懓鍊瑰〒鍫曞磹?/ 缂佹稒鐩埀顒€顦辩划铏规媼?| `lark-cli base +data-query` | 濞戞挸绉烽々锕傛偨?`+record-list` 闁瑰嘲顦崣蹇涙煂韫囨梹娈堕柟璇″枛閸熲偓闁归潧顑呮慨鈺冩媼閿涘嫮鏆柨娑樼焸濞撹埖鎷呯捄銊︽殢 `+data-query` 閻犙呭濠€鍥礉閿涘嫷浼傞悹渚婄磿閻?|
+| 闂佹澘绉堕悿?/ 闁哄被鍎撮妤冩喆閸℃绂?| `lark-cli base +view-*` | `list/get/create/delete/get-*/set-*/rename` |
+| 闁哄被鍎冲﹢鍛媼閺夎法绉块柛妯烘瑜?| `lark-cli base +record-history-list` | 闁圭顦抽妴鍐椽瀹€鍐惧敹鐟滅増娲橀悡锛勬嫚閵忕姴缍侀柡鍥ㄦ綑瀹稿宕?|
+| 闁圭顦抽～瀣炊閸撗呮懀闂侇偄顦伴悡锛勬嫚?| `lark-cli base +view-set-filter` + `lark-cli base +record-list` | 缂備礁瀚幃搴ｆ嫬閸愵亝鏆?|
+| 闁告帗绋戠紓?/ 闁兼儳鍢茶ぐ?/ 濠㈣泛绉撮崺?Base | `lark-cli base +base-create` / `+base-get` / `+base-copy` | 闁告鍠庨悺娆撳川閹存帗濮?|
+| 闁告帗顨夐妴?/ 闁兼儳鍢茶ぐ鍥ь啅閵夈倗绋婃繛?| `lark-cli base +workflow-list` / `+workflow-get` | 闁告鍠庨悺娆撳川閹存帗濮?|
+| 闁告帗绋戠紓?/ 闁哄洤鐡ㄩ弻濠傤啅閵夈倗绋婃繛?| `lark-cli base +workflow-create` / `+workflow-update` | 濞达綀娉曢弫?`--json`闁挎稑鑻换鈧銈咁煼濡插嫮鎷?schema |
+| 闁告凹鍨抽弫?/ 闁稿绮庨弫銈咁啅閵夈倗绋婃繛?| `lark-cli base +workflow-enable` / `+workflow-disable` | 濞戞挴鍋撻柛娑欏灊閹躲倖绋夐埀顒勫礉閵娿倗绋?|
+| 闁告凹鍨抽弫?/ 闁稿绮庨弫銈嗩殗濡ジ鐛撻柡澶婂暣濡?| `lark-cli base +advperm-enable` / `+advperm-disable` | 闁告凹鍨抽弫銈夊触鎼淬垹顤呴柤铏灊婵炲洭鎮介妸銊ユ閻庤鐭粻鐔烘喆閹烘洖顥忛柨娑欑☉娴犵娀鎮介妸銈囩獥濞达絽鐏濋崙锟犲嫉婢跺寒娼￠柤瑙勫絻閵囨垿寮?|
+| 闁告帗顨夐妴?/ 闁兼儳鍢茶ぐ鍥╂喆閹烘洖顥?| `lark-cli base +role-list / +role-get` | 闁哄被鍎冲﹢鍛喆閹烘洖顥忛柟鑺ヮ焾椤╋箓骞嬮弽褏鏆氶柡浣规尦閸樸倗绱?|
+| 闁告帗绋戠紓?/ 闁哄洤鐡ㄩ弻?/ 闁告帞濞€濞呭海鎲撮幒鏇烆棌 | `lark-cli base +role-create / +role-update / +role-delete` | 缂佺媴绱曢幃濠囨嚊椤忓嫮鏆板☉鏂款槼椤鎳濋崣澶嬬秬闂?|
+| 闁告帗顨夐妴?/ 闁兼儳鍢茶ぐ鍥╂偘閵娿儱绀?| `lark-cli base +form-list` / `+form-get` | 闁告鍠庨悺娆撳川閹存帗濮?|
+| 闁告帗绋戠紓?/ 闁哄洤鐡ㄩ弻?/ 闁告帞濞€濞呭海鎮伴妸銉ョ | `lark-cli base +form-create` / `+form-update` / `+form-delete` | 濞戞挴鍋撻柛娑欏灊閹躲倖绋夐埀顒勫礉閵娿倗绋?|
+| 闁告帗顨夐妴?/ 闁告帗绋戠紓?/ 闁哄洤鐡ㄩ弻?/ 闁告帞濞€濞呭海鎮伴妸銉ョ闂傚偆鍣ｉ。?| `lark-cli base +form-questions-list` / `+form-questions-create` / `+form-questions-update` / `+form-questions-delete` | 濞戞挴鍋撻柛娑欏灊閹躲倖绋夐埀顒勫礉閵娿倗绋?|
+| 闁告帗顨夐妴?/ 闁兼儳鍢茶ぐ鍥ㄧ椤忓洢鈧啴鎯?| `lark-cli base +dashboard-list` / `+dashboard-get` | 闁告鍠庨悺娆撳川閹存帗濮?|
+| 闁告帗绋戠紓?/ 闁哄洤鐡ㄩ弻?/ 闁告帞濞€濞呭孩绂掗鍥モ偓鍐儎?| `lark-cli base +dashboard-create` / `+dashboard-update` / `+dashboard-delete` | 濞戞挴鍋撻柛娑欏灊閹躲倖绋夐埀顒勫礉閵娿倗绋?|
+| 闁告帗顨夐妴?/ 闁兼儳鍢茶ぐ鍥ㄧ椤忓洢鈧啴鎯?Block | `lark-cli base +dashboard-block-list` / `+dashboard-block-get` | 闁告鍠庨悺娆撳川閹存帗濮?|
+| 闁告帗绋戠紓?/ 闁哄洤鐡ㄩ弻?/ 闁告帞濞€濞呭孩绂掗鍥モ偓鍐儎?Block | `lark-cli base +dashboard-block-create` / `+dashboard-block-update` / `+dashboard-block-delete` | 濞戞挴鍋撻柛娑欏灊閹躲倖绋夐埀顒勫礉閵娿倗绋?|
 
 
-## 閹垮秳缍斿▔銊﹀壈娴滃銆?
+## 闁瑰灝绉崇紞鏂库枖閵婏箑澹堝ù婊冾儔閵?
 
-- **Base token 閸欙絽绶炵紒鐔剁**閿涙氨绮烘稉鈧担璺ㄦ暏 `--base-token`
-- **`+xxx-list` 鐠嬪啰鏁ょ痪顏勭伐**閿涙瓪+table-list / +field-list / +record-list / +view-list / +record-history-list / +role-list / +dashboard-list / +dashboard-block-list / +workflow-list` 缁備焦顒涢獮璺哄絺鐠嬪啰鏁ら敍娑欏闁插繑澧界悰灞炬閸欘亣鍏樻稉鑼额攽
-- **`+record-list` limit 娑撳﹪妾?*閿涙瓪--limit` 閺堚偓婢?`200`閵嗗倿娓剁憰浣规纯婢舵碍鏆熼幑顔芥韫囧懘銆忛悽銊ュ瀻妞ょ绱檂offset` 闁帒顤冮敍澶婂瀻閹佃濯洪崣鏍电礉缁備焦顒涢崡鏇燁偧娴肩姾绉存潻?`200`
-- **鐎涙顔岄崣顖氬晸閹冨帥閸掋倖鏌?*閿涙艾鐡ㄩ崒銊ョ摟濞堝灚澧犻崣顖氬晸閿涙稑鍙曞?/ lookup / 缁崵绮虹€涙顔屾妯款吇閸欘亣顕伴敍灞藉晸鐠佹澘缍嶉弮璺虹安鐠哄疇绻?
-- **閸忣剙绱￠懗钘夊鐟曚椒瀵岄崝銊﹀厒閸?*閿涙氨鏁ら幋鐤嚛閳ユ粎鐣绘稉鈧稉瀣р偓婵冣偓婊呮晸閹存劖鐖ｇ粵閿偓婵冣偓婊冨灲閺傤厽妲搁崥锕€绱撶敮绯曗偓婵冣偓婊嗘硶鐞涖劍鐪归幀鐑┾偓婵冣偓婊勫瘻閺冦儲婀″顕€顣╃拃锔光偓婵囨閿涘矁顩﹂崗鍫濆灲閺傤厽妲搁崥锕€绨茬拠銉ョ紦閸忣剙绱＄€涙顔岄敍宀冣偓灞肩瑝閺勵垰褰ф潻鏂挎礀閹靛浼愰崚鍡樼€介弬瑙勵攳
-- **lookup 娑撳秵妲告妯款吇妫ｆ牠鈧?*閿涙ookup 閸欘亜婀悽銊﹀煕閺勫海鈥樼憰浣圭湴閹存牜鈥樼€圭偞娲块柅鍌氭値閸ュ搫鐣鹃弻銉﹀濡€崇€烽弮鏈靛▏閻㈩煉绱辩敮姝岊潐鐠侊紕鐣婚妴浣芥硶鐞涖劏浠涢崥鍫濇嫲閺夆€叉閸掋倖鏌囨导妯哄帥 formula
-- **闂勫嫪娆㈢€涙顔?*閿涙艾顩ч弸婊呮暏閹寸柉顩﹂垾婊€绗傛导鐘绘娴?/ 缂佹瑨顔囪ぐ鏇炲閺傚洣娆㈤垾婵撶礉閸欘亣鍏樼挧?`+record-upload-attachment` 鏉╂瑦娼柧鎹愮熅閿涘牐顕扮€涙顔?閳?鐠囨槒顔囪ぐ?閳?娑撳﹣绱剁槐鐘虫綏 閳?閸ョ偛鍟撶拋鏉跨秿閿?
-- **娴滃搫鎲崇€涙顔?/ 閻劍鍩涚€涙顔?*閿涙俺鐨熺拠鏇熸濞夈劍鍓?`user_id_type` 娑撳孩澧界悰宀冮煩娴犳枻绱檜ser / bot閿涘妯婂?
-- **history 娴ｈ法鏁ら弬鐟扮础**閿涙瓪+record-history-list` 閹?`table-id + record-id` 閺屻儴顕楃拋鏉跨秿閸樺棗褰堕敍灞肩瑝閺€顖涘瘮閺佺銆冮崢鍡楀蕉閹殿偅寮?
-- **workspace 閻樿埖鈧?*閿涙艾鍑￠幒銉ュ弳 `+base-create / +base-get / +base-copy`
-- **`+base-create / +base-copy` 缂佹挻鐏夋潻鏂挎礀鐟欏嫯瀵?*閿涙艾鍨卞鐑樺灗婢跺秴鍩楅幋鎰閸氬函绱濋崶鐐差槻娑擃厼绻€妞よ瀵岄崝銊ㄧ箲閸ョ偞鏌?Base 閻ㄥ嫭鐖ｇ拠鍡曚繆閹垬鈧倽瀚㈡潻鏂挎礀缂佹挻鐏夐柌灞界敨閸欘垵顔栭梻顕€鎽奸幒銉礄婵?`base.url`閿涘绱濈憰浣风楠炴儼绻戦崶?
-- **`+base-create / +base-copy` 閸欏銈介幀褑顫夐崚?*閿涙瓪--folder-token`閵嗕梗--time-zone`閵嗕礁顦查崚鑸垫閻?`--name` 闁姤妲搁崣顖炩偓澶愩€嶉妴鍌滄暏閹撮攱鐥呴張澶屽閸掝偉顩﹀Ч鍌涙閿涘奔绗夌憰浣疯礋娴滃棜绻栨禍娑樺讲闁寮弫浼搭杺婢舵牗澧﹂弬顓ㄧ幢閼崇晫娲块幒銉ュ灡瀵?婢跺秴鍩楃亸杈╂纯閹恒儲澧界悰?
-- **`+base-create / +base-copy` 閺夊啴妾烘径鍕倞閿涘潌ot 閸掓稑缂撻敍?*閿涙俺瀚?Base 閻㈠崬绨查悽銊ㄩ煩娴犳枻绱檅ot閿涘鍨卞鐚寸礉閸掓稑缂撻幋鏍ь槻閸掕埖鍨氶崝鐔锋倵姒涙顓荤紒褏鐢绘担璺ㄦ暏 bot 闊偂鍞ゆ稉鍝勭秼閸撳秴褰查悽?user閿涘牊瀵氳ぐ鎾冲 CLI 娑?auth 濡€虫健瀹歌尙娅ヨぐ鏇氱瑬閸欘垳鏁ら惃鍕暏閹寸柉闊╂禒鏂ょ礆濞ｈ濮?`full_access`閿涘牏顓搁悶鍡楁喅閿涘娼堥梽鎰剁礉楠炶泛婀崶鐐差槻娑擃厽妲戠涵顔藉房閺夊啰绮ㄩ弸婊愮礄閹存劕濮?/ 閺冪姴褰查悽?user / 閹哄牊娼堟径杈Е閸欏﹤甯崶鐙呯礆閵嗗倽瀚㈤幒鍫熸綀閺堫亜鐣幋鎰剁礉鐟曚胶鎴风紒顓犵舶閸戝搫鎮楃紒顓炵穿鐎电》绱欑粙宥呮倵闁插秷鐦幒鍫熸綀閹存牜鎴风紒顓犳暏 bot閿涘绱眔wner 鏉烆剛些韫囧懘銆忛崡鏇犲绾喛顓婚敍宀€顩﹀銏℃惍閼奉亝澧界悰?
-- **dashboard 娴ｈ法鏁ら弬鐟扮础**閿涙瓪+dashboard-create` 閸掓稑缂撻崥搴ょ箲閸?`dashboard_id`閿涙雹lock 閻?`data_config` 闁俺绻?JSON 鐎涙顑佹稉韫炊閸忋儻绱濋弨顖涘瘮 `@file.json` 鐠囪褰囬弬鍥︽
-- **advperm 娴ｈ法鏁ら弬鐟扮础**閿涙瓪+advperm-enable` 閸氼垳鏁ゆ妯奸獓閺夊啴妾洪崥搴㈠閼崇晫顓搁悶鍡氼潡閼硅绱檂+role-*`閿涘绱盽+advperm-disable` 閺勵垶鐝搴ㄦ珦閹垮秳缍旈敍灞戒粻閻劌鎮楀鍙夋箒閼奉亜鐣炬稊澶庮潡閼规彃鍙忛柈銊ャ亼閺佸牞绱遍幙宥勭稊閻劍鍩涜箛鍛淬€忔稉?Base 缁狅紕鎮婇崨姗堢幢閸忓牐顕?[lark-base-advperm-enable.md](references/lark-base-advperm-enable.md) / [lark-base-advperm-disable.md](references/lark-base-advperm-disable.md)
-- **role 娴ｈ法鏁ら弬鐟扮础**閿涙瓪+role-create` 娴犲懏鏁幐?`custom_role`閿涙矖+role-update` 闁插洨鏁?Delta Merge閿涘潉role_name` 閸?`role_type` 韫囧懘銆忔慨瀣矒閹绘劒绶甸敍澶涚幢`+role-delete` 娑撳秴褰查柅鍡曠瑬娴犲懏鏁幐浣藉殰鐎规矮绠熺憴鎺曞閿涙稖顫楅懝鏌ュ帳缂冾喗鏁幐?`base_rule_map`閿涘湐ase 缁狙冾槻閸?娑撳娴囬敍澶堚偓涔able_rule_map`閿涘牐銆冪痪褎娼堥梽鎰儓鐠佹澘缍?鐎涙顔岀划鎺戝閿涘鈧梗dashboard_rule_map`閿涘牅鍗庣悰銊ф磸閺夊啴妾洪敍澶堚偓涔ocx_rule_map`閿涘牊鏋冨锝嗘綀闂勬劧绱氶敍娑樺晸鐟欐帟澹婇崜宥呭帥鐠?[role-config.md](references/role-config.md)
-- **鐞涖劌宕?form-id**閿涙岸鈧俺绻?`+form-list` 閼惧嘲褰囬敍娌?form-create` 鏉╂柨娲栭惃?`id` 閸?`form-id`閿涘苯褰查悽銊ょ艾 `+form-questions-*` 閹垮秳缍?
-- **workflow 娴ｈ法鏁ら弬鐟扮础**閿涙艾婀崚娑樼紦閹存牗娲块弬?workflow 閸撳稄绱濊箛鍛淬€忔禒鏃傜矎闂冨懓顕?[lark-base-workflow-schema.md](references/lark-base-workflow-schema.md) 娴滃棜袙閸氬嫯袝閸欐垵娅掗崪宀冨Ν閻愬湱绮嶆禒鍓佹畱缂佹挻鐎敍娑樻倱閺?`+workflow-list` 鏉╂柨娲栭惃鍕瑝閺勵垰鐣弫瀛樼埐閻樺墎绮ㄩ弸鍕剁礉閼汇儵娓剁拠璇插絿鐎瑰本鏆ｇ紒鎾寸€拠铚傚▏閻?`+workflow-get`閵?
-- **data-query 娴ｈ法鏁ら弬鐟扮础**閿涙矮濞囬悽?`+data-query` 閸撳秴绻€妞よ鍘涢梼鍛邦嚢 [lark-base-data-query.md](references/lark-base-data-query.md) 娴滃棜袙 DSL 缂佹挻鐎妴浣规暜閹镐胶娈戠€涙顔岀猾璇茬€烽妴浣戒粵閸氬牆鍤遍弫鏉挎嫲闂勬劕鍩楅弶鈥叉閿涙饱SL 娑擃厾娈?`field_name` 韫囧懘銆忔稉搴ゃ€冪€涙顔岄崥宥囩翱绾喖灏柊宥忕礉閺嬪嫰鈧姴澧犻崗鍫㈡暏 `+field-list` 閼惧嘲褰囬惇鐔风杽鐎涙顔岄崥?
-- **閸忣剙绱?/ lookup 娴ｈ法鏁ら弬鐟扮础**閿涙碍鐎柅鐘恒€冩潏鎯х础閹?where 閺夆€叉閸撳稄绱濋懛鍐茬毌閸忓牊瀣佽ぐ鎾冲鐞涖劎绮ㄩ弸鍕剁幢鐠恒劏銆冮弮鎯邦洣閺屻儲澹橀惄顔界垼鐞涖劎娈戠紒鎾寸€敍灞肩瑝閸忎浇顔忛崙顓″殰閻掓儼顕㈢懛鈧悮婊冪摟濞堥潧鎮?
-- **鐟欏棗娴橀柌宥呮嚒閸氬秶鈥樼拋銈堫潐閸?*閿涙氨鏁ら幋宄板嚒缂佸繑妲戠涵顔光偓婊勫Ω閸濐亙閲滅憴鍡楁禈閺€瑙勫灇娴犫偓娑斿牆鎮曠€涙せ鈧繃妞傞敍瀹?view-rename` 閻╁瓨甯撮幍褑顢戦崡鍐插讲閿涘奔绗夐棁鈧憰浣稿晙鐞涖儰绔撮崣銉р€樼拋?
-- **閸掔娀娅庣涵顔款吇鐟欏嫬鍨敍鍫ｎ唶瑜?/ 鐎涙顔?/ 鐞涱煉绱?*閿涙艾顩ч弸婊呮暏閹村嘲鍑＄紒蹇旀绾喛顕╃憰浣稿灩闂勩倧绱濋獮鏈电瑬閻╊喗鐖ｆ稊鐔告绾噯绱漙+record-delete / +field-delete / +table-delete` 閸欘垳娲块幒銉﹀⒔鐞涘矉绱濇稉宥夋付鐟曚礁鍟€鐞涖儰绔村▎锛勨€樼拋銈忕幢閹笛嗩攽閺冨墎娲块幒銉ョ敨 `--yes` 闁俺绻?CLI 閻ㄥ嫰鐝搴ㄦ珦閸愭瑥鍙嗛弽锟犵崣閵嗗倸褰ч張澶屾窗閺嶅洣绮涢張澶嬵劆娑斿妞傞敍灞藉晙閸忓牏鏁?`+record-get / +field-get / +table-get` 閹?list 閸涙垝鎶ょ涵顔款吇
+- **Base token 闁告瑱绲界欢鐐电磼閻斿墎顏?*闁挎稒姘ㄧ划鐑樼▔閳ь剚鎷呯捄銊︽殢 `--base-token`
+- **`+xxx-list` 閻犲鍟伴弫銈囩棯椤忓嫮浼?*闁挎稒鐡?table-list / +field-list / +record-list / +view-list / +record-history-list / +role-list / +dashboard-list / +dashboard-block-list / +workflow-list` 缂佸倷鐒﹂娑㈢嵁鐠哄搫绲洪悹瀣暟閺併倝鏁嶅☉娆忣棗闂佹彃绻戞晶鐣屾偘鐏炵偓顦ч柛娆樹海閸忔ɑ绋夐懠棰濇斀
+- **`+record-list` limit 濞戞挸锕?*闁挎稒鐡?-limit` 闁哄牃鍋撳?`200`闁靛棗鍊垮〒鍓佹啺娴ｈ绾鑸电閺嗙喖骞戦鑺ヮ槯闊洤鎳橀妴蹇涙偨閵娿儱鐎诲銈囶暜缁辨獋offset` 闂侇偅甯掗·鍐晬婢跺﹤鐎婚柟浣冾潐婵椽宕ｉ弽鐢电缂佸倷鐒﹂娑㈠础閺囩噥鍋уù鑲╁Ь缁夊瓨娼?`200`
+- **閻庢稒顨嗛宀勫矗椤栨艾鏅搁柟顑啫甯ラ柛鎺嬪€栭弻?*闁挎稒鑹鹃悺銊╁磼閵娿儳鎽熸繛鍫濈仛婢х娀宕ｉ姘櫢闁挎稒绋戦崣鏇烆嚕?/ lookup / 缂侇垵宕电划铏光偓娑欘殕椤斿本顪€濡鍚囬柛娆樹海椤曚即鏁嶇仦钘夋櫢閻犱焦婢樼紞宥夊籍鐠鸿櫣瀹夐悹鍝勭枃缁?
+- **闁稿浚鍓欑槐锟犳嚄閽樺顫旈悷鏇氭鐎靛矂宕濋妸锕€鍘掗柛?*闁挎稒姘ㄩ弫銈夊箣閻ゎ垼鍤涢柍銉︾矌閻ｇ粯绋夐埀顒佺▔鐎Ｑ€鍋撳┑鍐ｅ亾濠婂懏鏅搁柟瀛樺姈閻栵絿绮甸柨顖楀亾濠靛啠鍋撳鍐ㄧ伈闁哄偆鍘藉Σ鎼佸触閿曗偓缁辨挾鏁化鏇楀亾濠靛啠鍋撳鍡樼《閻炴稏鍔嶉惇褰掑箑閻戔斁鍋撳┑鍐ｅ亾濠婂嫬鐦婚柡鍐﹀劜濠€鈥愁啅椤曗偓椤ｂ晝鎷冮敂鍏夊亾濠靛洦顦ч柨娑樼焷椤╋箓宕楅崼婵嗙伈闁哄偆鍘藉Σ鎼佸触閿曗偓缁ㄨ尙鎷犻妷銉х处闁稿浚鍓欑槐锛勨偓娑欘殕椤斿矂鏁嶅畝鍐ｅ亾鐏炶偐鐟濋柡鍕靛灠瑜把勬交閺傛寧绀€闁归潧顑呮导鎰板礆閸℃鈧粙寮憴鍕垫敵
+- **lookup 濞戞挸绉靛Σ鍛婎渶濡鍚囧Λ锝嗙墵閳?*闁挎稒顒okup 闁告瑯浜滃﹢顏堟偨閵婏箑鐓曢柡鍕捣閳ユ鎲版担鍦勾闁瑰瓨鐗滈垾妯尖偓鍦仦濞插潡鏌呴崒姘€ら柛銉ユ惈閻ｉ箖寮婚妷锕€顥濇俊顖椻偓宕団偓鐑藉籍閺堥潧鈻忛柣銏╃厜缁辫京鏁宀婃綈閻犱緤绱曢悾濠氬Υ娴ｈ姤纭堕悶娑栧姀娴犳盯宕ラ崼婵囧闁哄鈧弶顐介柛鎺嬪€栭弻鍥ㄥ濡搫甯?formula
+- **闂傚嫬瀚▎銏⑩偓娑欘殕椤?*闁挎稒鑹鹃々褔寮稿鍛殢闁瑰鏌夐々锕傚灳濠娾偓缁楀倹瀵奸悩缁橆€嶅ù?/ 缂備焦鐟ㄩ鍥亹閺囩偛顫ｉ柡鍌氭矗濞嗐垽鍨惧┑鎾剁闁告瑯浜ｉ崗妯兼導?`+record-upload-attachment` 閺夆晜鐟﹀顖炴煣閹规劗鐔呴柨娑樼墣椤曟壆鈧稒顨嗛?闁?閻犲洦妲掗鍥亹?闁?濞戞挸锕ｇ槐鍓佹閻樿櫕缍?闁?闁搞儳鍋涢崯鎾舵媼閺夎法绉块柨?
+- **濞存粌鎼幉宕団偓娑欘殕椤?/ 闁活潿鍔嶉崺娑氣偓娑欘殕椤?*闁挎稒淇洪惃鐔烘嫚閺囩喐顦ф繛澶堝妽閸?`user_id_type` 濞戞挸瀛╂晶鐣屾偘瀹€鍐叐濞寸姵鏋荤槐妾渟er / bot闁挎稑顦Ο濠傤嚕?
+- **history 濞达綀娉曢弫銈夊棘閻熸壆纭€**闁挎稒鐡?record-history-list` 闁?`table-id + record-id` 闁哄被鍎撮妤冩媼閺夎法绉块柛妯烘瑜板爼鏁嶇仦鑲╃憹闁衡偓椤栨稑鐦柡浣侯棎閵嗗啴宕㈤崱妤€钑夐柟娈垮亝瀵?
+- **workspace 闁绘鍩栭埀?*闁挎稒鑹鹃崙锟犲箳閵夈儱寮?`+base-create / +base-get / +base-copy`
+- **`+base-create / +base-copy` 缂備焦鎸婚悘澶嬫交閺傛寧绀€閻熸瑥瀚€?*闁挎稒鑹鹃崹鍗烆嚈閻戞ê鐏楀璺虹Т閸╂骞嬮幇顒€顫犻柛姘嚱缁辨繈宕堕悙宸Щ濞戞搩鍘肩换鈧銈堫唺鐎靛矂宕濋妸銊х闁搞儳鍋為弻?Base 闁汇劌瀚悥锝囨嫚閸℃洑绻嗛柟顓у灛閳ь剙鍊界€氥垺娼婚弬鎸庣缂備焦鎸婚悘澶愭煂鐏炵晫鏁ㄩ柛娆樺灥椤旀牠姊婚鈧幗濂稿箳閵夘垳绀勫┑?`base.url`闁挎稑顧€缁辨繄鎲版担椋庮伇妤犵偞鍎肩换鎴﹀炊?
+- **`+base-create / +base-copy` 闁告瑥顑呴妶浠嬪箑瑜戦～澶愬礆?*闁挎稒鐡?-folder-token`闁靛棔姊?-time-zone`闁靛棔绀侀ˇ鏌ュ礆閼稿灚顦ч柣?`--name` 闂侇喛濮ゅΣ鎼佸矗椤栫偐鍋撴径鎰┾偓宥夊Υ閸屾粍鏆忛柟鎾敱閻ュ懘寮垫径灞筋棗闁告帩鍋夐々锕€效閸屾稒顦ч柨娑樺缁楀鎲版担鐤濞存粌妫滅换鏍ㄧ濞戞ê璁查梺顐㈩槸瀵剟寮导鎼澓濠㈣埖鐗楁晶锕傚棘椤撱劎骞㈤柤宕囨櫕濞插潡骞掗妷銉ョ仭鐎?濠㈣泛绉撮崺妤冧焊鏉堚晜绾柟鎭掑劜婢х晫鎮?
+- **`+base-create / +base-copy` 闁哄鍟村鐑樺緞閸曨厽鍊為柨娑樻綄ot 闁告帗绋戠紓鎾绘晬?*闁挎稒淇虹€?Base 闁汇垹宕花鏌ユ偨閵娿劑鐓╁ù鐘虫灮缁辨獏ot闁挎稑顦崹鍗烆嚈閻氬绀夐柛鎺撶☉缂傛捇骞嬮弽褜妲婚柛鎺曞煐閸ㄦ岸宕濋悢閿嬪€靛娑欘焾椤撹崵绱掕閻㈢粯鎷呯捄銊︽殢 bot 闂婎剦鍋傞崬銈嗙▔閸濆嫮绉奸柛鎾崇Т瑜版煡鎮?user闁挎稑鐗婄€垫俺銇愰幘鍐差枀 CLI 濞?auth 婵☆垪鈧櫕鍋ョ€规瓕灏欏▍銉ㄣ亹閺囨氨鐟柛娆樺灣閺併倝鎯冮崟顓熸殢闁瑰鏌夐棅鈺傜閺傘倗绀嗘繛锝堫嚙婵?`full_access`闁挎稑鐗忛鎼佹偠閸℃鍠呴柨娑橆槹濞煎牓姊介幇鍓佺妤犵偠娉涘﹢顏堝炊閻愬樊妲诲☉鎿冨幗濡叉垹娑甸钘夋埧闁哄鍟扮划銊╁几濠婃劗绀勯柟瀛樺姇婵?/ 闁哄啰濮磋ぐ鏌ユ偨?user / 闁瑰搫鐗婂鍫熷緞鏉堫偉袝闁告瑥锕ょ敮顐﹀炊閻欏懐绀嗛柕鍡楀€界€氥垽骞掗崼鐔哥秬闁哄牜浜滈悾顒勫箣閹板墎绀夐悷鏇氳兌閹撮绱掗鐘佃埗闁告垵鎼幃妤冪磼椤撶偟绌块悗鐢点€嬬槐娆戠矙瀹ュ懏鍊甸梺鎻掔Х閻︻垶骞掗崼鐔哥秬闁瑰瓨鐗滈幋椋庣磼椤撶姵鏆?bot闁挎稑顧€缁辩湐wner 閺夌儐鍓涗簺闊洤鎳橀妴蹇涘础閺囩姴顏痪顓у枦椤撳鏁嶅畝鈧々锕€顫㈤姀鈩冩儘闁煎浜濇晶鐣屾偘?
+- **dashboard 濞达綀娉曢弫銈夊棘閻熸壆纭€**闁挎稒鐡?dashboard-create` 闁告帗绋戠紓鎾诲触鎼淬倗绠查柛?`dashboard_id`闁挎稒闆筶ock 闁?`data_config` 闂侇偅淇虹换?JSON 閻庢稒顨堥浣圭▔闊厾鐐婇柛蹇嬪劵缁辨繈寮ㄩ娑樼槷 `@file.json` 閻犲洩顕цぐ鍥棘閸ワ附顐?
+- **advperm 濞达綀娉曢弫銈夊棘閻熸壆纭€**闁挎稒鐡?advperm-enable` 闁告凹鍨抽弫銈嗩殗濡ジ鐛撻柡澶婂暣濡炬椽宕ユ惔銏狀枀闁煎磭鏅鎼佹偠閸℃凹娼￠柤纭咁嚋缁辨獋+role-*`闁挎稑顧€缁辩浗+advperm-disable` 闁哄嫷鍨堕悵顔筋槹鎼淬劍鐝﹂柟鍨С缂嶆棃鏁嶇仦鎴掔不闁活潿鍔岄幃妤€顔忛崣澶嬬畳闁煎浜滈悾鐐▕婢跺寒娼￠柤瑙勫絻閸欏繘鏌堥妸銉ｄ杭闁轰礁鐗炵槐閬嶅箼瀹ュ嫮绋婇柣顫妽閸╂稖绠涢崨娣偓蹇旂▔?Base 缂佺媴绱曢幃濠囧川濮楀牏骞㈤柛蹇撶墣椤?[lark-base-advperm-enable.md](references/lark-base-advperm-enable.md) / [lark-base-advperm-disable.md](references/lark-base-advperm-disable.md)
+- **role 濞达綀娉曢弫銈夊棘閻熸壆纭€**闁挎稒鐡?role-create` 濞寸姴鎳忛弫顕€骞?`custom_role`闁挎稒鐭?role-update` 闂佹彃娲ㄩ弫?Delta Merge闁挎稑娼塺ole_name` 闁?`role_type` 闊洤鎳橀妴蹇旀叏鐎ｎ剛鐭掗柟缁樺姃缁剁敻鏁嶆径娑氬耿`+role-delete` 濞戞挸绉磋ぐ鏌ユ焻閸℃洜鐟ù鐘叉噺閺侇噣骞愭担钘夋閻庤鐭粻鐔烘喆閹烘洖顥忛柨娑欑椤鎳濋弻銉ュ赋缂傚喚鍠楅弫顕€骞?`base_rule_map`闁挎稑婀恆se 缂佺嫏鍐炬Щ闁?濞戞挸顑堝ù鍥晬婢跺牃鍋撴稊顤篴ble_rule_map`闁挎稑鐗愰妴鍐棯瑜庡鍫ユ⒔閹邦剚鍎撻悹浣规緲缂?閻庢稒顨嗛宀€鍒掗幒鎴濐唺闁挎稑顦埀顑挎dashboard_rule_map`闁挎稑鐗呴崡搴ｆ偘閵娧勭８闁哄鍟村娲晬婢跺牃鍋撴稊顤猳cx_rule_map`闁挎稑鐗婇弸鍐浖閿濆棙缍€闂傚嫭鍔х槐姘舵晬濞戞ê鏅搁悷娆愬笩婢瑰﹪宕滃鍛弗閻?[role-config.md](references/role-config.md)
+- **閻炴稏鍔屽畷?form-id**闁挎稒宀搁埀顒佷亢缁?`+form-list` 闁兼儳鍢茶ぐ鍥晬濞?form-create` 閺夆晜鏌ㄥú鏍儍?`id` 闁?`form-id`闁挎稑鑻ぐ鏌ユ偨閵娿倗鑹?`+form-questions-*` 闁瑰灝绉崇紞?
+- **workflow 濞达綀娉曢弫銈夊棘閻熸壆纭€**闁挎稒鑹惧﹢顏堝礆濞戞绱﹂柟瀛樼墬濞插潡寮?workflow 闁告挸绋勭槐婵婄疀閸涙番鈧繑绂掗弮鍌滅煄闂傚啫鎳撻?[lark-base-workflow-schema.md](references/lark-base-workflow-schema.md) 濞存粌妫滆闁告艾瀚闁告瑦鍨靛▍鎺楀椽瀹€鍐ㄎ濋柣鎰贡缁秵绂掗崜浣圭暠缂備焦鎸婚悗顖炴晬濞戞ɑ鍊遍柡?`+workflow-list` 閺夆晜鏌ㄥú鏍儍閸曨亞鐟濋柡鍕靛灠閻ｎ剟寮€涙鍩愰柣妯哄缁劑寮搁崟鍓佺闁兼眹鍎靛〒鍓佹嫚鐠囨彃绲块悗鐟版湰閺嗭絿绱掗幘瀵糕偓顖滄嫚閾氬倸鈻忛柣?`+workflow-get`闁?
+- **data-query 濞达綀娉曢弫銈夊棘閻熸壆纭€**闁挎稒鐭繛鍥偨?`+data-query` 闁告挸绉寸换鈧銈堫嚙閸樻盯姊奸崨閭﹀殺 [lark-base-data-query.md](references/lark-base-data-query.md) 濞存粌妫滆 DSL 缂備焦鎸婚悗顖炲Υ娴ｈ鏆滈柟闀愯兌濞堟垹鈧稒顨嗛宀€鐚剧拠鑼偓鐑藉Υ娴ｆ垝绮甸柛姘墕閸ら亶寮弶鎸庡闂傚嫭鍔曢崺妤呭级閳ュ弶顐介柨娑欓ケSL 濞戞搩鍘惧▓?`field_name` 闊洤鎳橀妴蹇旂▔鎼淬們鈧啰鈧稒顨嗛宀勫触瀹ュ洨缈辩痪顓у枛鐏忣噣鏌婂蹇曠闁哄瀚伴埀顒傚Т婢х娀宕楅崼銏℃殢 `+field-list` 闁兼儳鍢茶ぐ鍥儑閻旈鏉介悗娑欘殕椤斿矂宕?
+- **闁稿浚鍓欑槐?/ lookup 濞达綀娉曢弫銈夊棘閻熸壆纭€**闁挎稒纰嶉悗顖炴焻閻樻亽鈧啯娼忛幆褏纭€闁?where 闁哄鈧弶顐介柛鎾崇▌缁辨繈鎳涢崘鑼瘜闁稿繐鐗婄€ｄ浇銇愰幘鍐差枀閻炴稏鍔庣划銊╁几閸曞墎骞㈤悹鎭掑姀閵嗗啴寮幆閭︽矗闁哄被鍎叉竟姗€鎯勯鐣屽灱閻炴稏鍔庡▓鎴犵磼閹惧鈧垶鏁嶇仦鑲╃憹闁稿繋娴囬蹇涘礄椤撯€虫闁绘帗鍎奸銏㈡嚊閳ь剟鎮鍐憻婵炲牓娼ч幃?
+- **閻熸瑥妫楀ù姗€鏌屽鍛殥闁告艾绉堕垾妯兼媼閵堝牜娼愰柛?*闁挎稒姘ㄩ弫銈夊箣瀹勬澘鍤掔紓浣哥箲濡叉垹娑甸鍏夊亾濠婂嫬惟闁告繍浜欓柌婊呮喆閸℃绂堥柡鈧憴鍕亣濞寸姭鍋撳☉鏂跨墕閹洜鈧稒銇涢埀顒佺箖濡炲倿鏁嶇€?view-rename` 闁烩晛鐡ㄧ敮鎾箥瑜戦、鎴﹀础閸愭彃璁查柨娑樺缁楀妫侀埀顒傛啺娴ｇ鏅欓悶娑栧劙缁旀挳宕ｉ妷褉鈧鎷?
+- **闁告帞濞€濞呭海娑甸娆惧悋閻熸瑥瀚崹顖炴晬閸綆鍞剁憸?/ 閻庢稒顨嗛?/ 閻炴侗鐓夌槐?*闁挎稒鑹鹃々褔寮稿鍛殢闁规潙鍢查崙锛勭磼韫囨梹顫栫痪顓у枦椤曗晝鎲版担绋跨仼闂傚嫨鍊х槐婵嬬嵁閺堢數鐟柣鈺婂枟閻栵絾绋婇悢鍛婎潠缁绢収鍣槐婕?record-delete / +field-delete / +table-delete` 闁告瑯鍨冲ú鍧楀箳閵夛箑鈷旈悶娑樼焿缁辨繃绋夊澶嬩粯閻熸洑绀侀崯鈧悶娑栧劙缁旀潙鈻庨敍鍕ㄢ偓妯兼媼閵堝繒骞㈤柟绗涘棭鏀介柡鍐ㄥ濞插潡骞掗妷銉ф暔 `--yes` 闂侇偅淇虹换?CLI 闁汇劌瀚伴悵顔筋槹鎼淬劍鐝﹂柛鎰懃閸欏棝寮介敓鐘靛矗闁靛棗鍊歌ぐ褔寮垫径灞剧獥闁哄秴娲ｇ划娑㈠嫉婢跺鍔嗗☉鏂款槹濡炲倿鏁嶇仦钘夋櫃闁稿繐鐗忛弫?`+record-get / +field-get / +table-get` 闁?list 闁告稒鍨濋幎銈囨兜椤旀鍚?
 
-## Wiki 闁剧偓甯撮悧瑙勭暕婢跺嫮鎮婇敍鍫㈠閸掝偄鍙ч柨顕嗙磼閿?
+## Wiki 闂佸墽鍋撶敮鎾偋鐟欏嫮鏆曞璺哄閹﹪鏁嶉崼銏狀棗闁告帩鍋勯崣褔鏌ㄩ鍡欑＜闁?
 
-閻儴鐦戞惔鎾绘懠閹恒儻绱檂/wiki/TOKEN`閿涘鍎楅崥搴″讲閼宠姤妲告禍鎴炴瀮濡楋絻鈧胶鏁哥€涙劘銆冮弽绗衡偓浣割樋缂佺銆冮弽鑲╃搼娑撳秴鎮撶猾璇茬€烽惃鍕瀮濡楋絻鈧?*娑撳秷鍏橀惄瀛樺复閸嬪洩顔?URL 娑擃厾娈?token 鐏忚鲸妲?file_token**閿涘苯绻€妞よ鍘涢弻銉嚄鐎圭偤妾猾璇茬€烽崪宀€婀＄€?token閵?
+闁活厹鍎撮惁鎴炴償閹剧粯鎳犻柟鎭掑劵缁辨獋/wiki/TOKEN`闁挎稑顦抽崕妤呭触鎼粹€宠闁煎疇濮ゅΣ鍛婄閹寸偞鐎俊妤嬬祷閳ь兛鑳堕弫鍝モ偓娑欏姌閵嗗啴寮界粭琛″亾娴ｅ壊妯嬬紓浣侯棎閵嗗啴寮介懖鈺冩惣濞戞挸绉撮幃鎾剁尵鐠囪尙鈧兘鎯冮崟顒佺€俊妤嬬祷閳?*濞戞挸绉烽崗姗€鎯勭€涙ê澶嶉柛瀣穿椤?URL 濞戞搩鍘惧▓?token 閻忓繗椴稿Σ?file_token**闁挎稑鑻换鈧銈堫嚙閸樻盯寮婚妷顭戝殑閻庡湱鍋ゅ顖滅尵鐠囪尙鈧兘宕畝鈧﹢锛勨偓?token闁?
 
-### 婢跺嫮鎮婂ù浣衡柤
+### 濠㈣泛瀚幃濠偯规担琛℃煠
 
-1. **娴ｈ法鏁?`wiki.spaces.get_node` 閺屻儴顕楅懞鍌滃仯娣団剝浼?*
+1. **濞达綀娉曢弫?`wiki.spaces.get_node` 闁哄被鍎撮妤呮嚍閸屾粌浠ǎ鍥ｅ墲娴?*
    ```bash
    lark-cli wiki spaces get_node --params '{"token":"&lt;wiki_token&gt;"}'
    ```
 
-2. **娴犲氦绻戦崶鐐电波閺嬫粈鑵戦幓鎰絿閸忔娊鏁穱鈩冧紖**
-   - `node.obj_type`閿涙碍鏋冨锝囪閸ㄥ绱檇ocx/doc/sheet/bitable/slides/file/mindnote閿?
-   - `node.obj_token`閿?*閻喎鐤勯惃鍕瀮濡?token**閿涘牏鏁ゆ禍搴℃倵缂侇厽鎼锋担婊愮礆
-   - `node.title`閿涙碍鏋冨锝嗙垼妫?
+2. **濞寸姴姘︾换鎴﹀炊閻愮數娉㈤柡瀣矆閼垫垿骞撻幇顒€绲块柛蹇斿▕閺侇厽绌遍埄鍐х礀**
+   - `node.obj_type`闁挎稒纰嶉弸鍐浖閿濆洩顫﹂柛銊ヮ儜缁辨獓ocx/doc/sheet/bitable/slides/file/mindnote闁?
+   - `node.obj_token`闁?*闁活亞鍠庨悿鍕儍閸曨剚鐎俊?token**闁挎稑鐗忛弫銈嗙鎼粹剝鍊电紓渚囧幗閹奸攱鎷呭鎰
+   - `node.title`闁挎稒纰嶉弸鍐浖閿濆棛鍨煎Λ?
 
-3. **閺嶈宓?`obj_type` 闁瀚ㄩ崥搴ｇ敾閸涙垝鎶?*
+3. **闁哄秷顫夊畵?`obj_type` 闂侇偄顦扮€氥劑宕ユ惔锝囨暰闁告稒鍨濋幎?*
 
-   | obj_type | 鐠囧瓨妲?| 閸氬海鐢婚崨鎴掓姢 |
+   | obj_type | 閻犲洤鐡ㄥΣ?| 闁告艾娴烽悽濠氬川閹存帗濮?|
          |----------|------|-----------|
-   | `docx` | 閺傛壆澧楁禍鎴炴瀮濡?| `drive file.comments.*`閵嗕梗docx.*` |
-   | `doc` | 閺冄呭娴滄垶鏋冨?| `drive file.comments.*` |
-   | `sheet` | 閻㈤潧鐡欑悰銊︾壐 | `sheets.*` |
-   | `bitable` | 婢舵氨娣悰銊︾壐 | `lark-cli base +...`閿涘牅绱崗鍫礆閿涙稑顩ч弸?shortcut 娑撳秷顩惄鏍电礉閸愬秶鏁?`lark-cli base <resource> <method>`閿?*娑撳秷顩?*閺€纭呰泲 `lark-cli api /open-apis/bitable/v1/...` |
-   | `slides` | 楠炶崵浼呴悧?| `drive.*` |
-   | `file` | 閺傚洣娆?| `drive.*` |
-   | `mindnote` | 閹繄娣€电厧娴?| `drive.*` |
+   | `docx` | 闁哄倹澹嗘晶妤佺閹寸偞鐎俊?| `drive file.comments.*`闁靛棔姊梔ocx.*` |
+   | `doc` | 闁哄唲鍛暭濞存粍鍨堕弸鍐浖?| `drive file.comments.*` |
+   | `sheet` | 闁汇垽娼ч悺娆戞偘閵婏妇澹?| `sheets.*` |
+   | `bitable` | 濠㈣埖姘ㄥǎ顔炬偘閵婏妇澹?| `lark-cli base +...`闁挎稑鐗呯槐顓㈠礂閸剛绀嗛柨娑欑☉椤┭囧几?shortcut 濞戞挸绉烽々顐︽儎閺嶇數绀夐柛鎰Ф閺?`lark-cli base <resource> <method>`闁?*濞戞挸绉烽々?*闁衡偓绾懓娉?`lark-cli api /open-apis/bitable/v1/...` |
+   | `slides` | 妤犵偠宕垫导鍛存偋?| `drive.*` |
+   | `file` | 闁哄倸娲ｅ▎?| `drive.*` |
+   | `mindnote` | 闁诡剚绻勫ǎ顔锯偓鐢靛帶濞?| `drive.*` |
 
-4. **閹?wiki 鐟欙絾鐎介崙铏规畱 `obj_token` 瑜版挻鍨?Base token 娴ｈ法鏁?*
-   - 瑜?`obj_type=bitable` 閺冭绱漙node.obj_token` 鐏忚鲸妲搁崥搴ｇ敾 `base` 閸涙垝鎶ゆ惔鏂惧▏閻劎娈戦惇鐔风杽 token閵?
-   - 娑旂喎姘ㄩ弰顖濐嚛閿涙艾顩ч弸婊冨斧婵绶崗銉︽Ц `/wiki/...` 闁剧偓甯撮敍灞肩瑝鐟曚焦濡?`wiki_token` 閻╁瓨甯存繅鐐电舶 `--base-token`閵?
+4. **闁?wiki 閻熸瑱绲鹃悗浠嬪礄閾忚鐣?`obj_token` 鐟滅増鎸婚崹?Base token 濞达綀娉曢弫?*
+   - 鐟?`obj_type=bitable` 闁哄啳顔愮槐婕檔ode.obj_token` 閻忓繗椴稿Σ鎼佸触鎼达絿鏁?`base` 闁告稒鍨濋幎銈嗘償閺傛儳鈻忛柣顫妿濞堟垿鎯囬悢椋庢澖 token闁?
+   - 濞戞梻鍠庡銊╁及椤栨繍鍤涢柨娑欒壘椤┭囧几濠婂啫鏂у┑顔碱儓缁额參宕楅妷锔叫?`/wiki/...` 闂佸墽鍋撶敮鎾晬鐏炶偐鐟濋悷鏇氱劍婵?`wiki_token` 闁烩晛鐡ㄧ敮瀛樼箙閻愮數鑸?`--base-token`闁?
 
-5. **婵″倹鐏夊鑼病閹躲儰绨?token 闁挎瑱绱濋崘宥呮礀闁偓濡偓閺?wiki**
-   - 婵″倹鐏夐崨鎴掓姢鏉╂柨娲?`param baseToken is invalid`閵嗕梗base_token invalid`閵嗕梗not found`閿涘苯鑻熸稉鏃傛暏閹撮攱娓堕崚婵堢舶閻ㄥ嫭妲?`/wiki/...` 闁剧偓甯撮幋?`wiki_token`閿涘奔绱崗鍫熲偓鈧悿鎴斺偓婊勫Ω wiki token 瑜版挻鍨氭禍?base token閳ユ縿鈧?
-   - 鏉╂瑦妞傛稉宥堫洣閺€纭呰泲 `bitable/v1` API閿涙稑绨茬粩瀣祮闁插秵鏌婇幍褑顢?`lark-cli wiki spaces get_node`閿涘瞼鈥樼拋?`obj_type=bitable` 閸氬函绱濋弨鍦暏 `node.obj_token` 闁插秵鏌婇幍褑顢?`lark-cli base +...`閵?
+5. **濠碘€冲€归悘澶婎啅閼碱剛鐥呴柟韬插劙缁?token 闂佹寧鐟辩槐婵嬪礃瀹ュ懏绀€闂侇偀鍋撴俊顐熷亾闁?wiki**
+   - 濠碘€冲€归悘澶愬川閹存帗濮㈤弶鈺傛煥濞?`param baseToken is invalid`闁靛棔姊梑ase_token invalid`闁靛棔姊梟ot found`闁挎稑鑻懟鐔哥▔閺冨倹鏆忛柟鎾敱濞撳爼宕氬┑鍫㈣埗闁汇劌瀚Σ?`/wiki/...` 闂佸墽鍋撶敮鎾箣?`wiki_token`闁挎稑濂旂槐顓㈠礂閸啿鍋撻埀顒勬偪閹存柡鍋撳鍕?wiki token 鐟滅増鎸婚崹姘?base token闁炽儲绺块埀?
+   - 閺夆晜鐟﹀鍌涚▔瀹ュ牜娲ｉ柡鈧涵鍛版巢 `bitable/v1` API闁挎稒绋戠花鑼博鐎ｎ亜绁梺鎻掔У閺屽﹪骞嶈椤?`lark-cli wiki spaces get_node`闁挎稑鐬奸垾妯兼媼?`obj_type=bitable` 闁告艾鍑界槐婵嬪绩閸︻厽鏆?`node.obj_token` 闂佹彃绉甸弻濠囧箥瑜戦、?`lark-cli base +...`闁?
 
-### 閺屻儴顕楃粈杞扮伐
+### 闁哄被鍎撮妤冪矆鏉炴壆浼?
 
 ```bash
-# 閺屻儴顕?wiki 閼哄倻鍋?
+# 闁哄被鍎撮?wiki 闁煎搫鍊婚崑?
 lark-cli wiki spaces get_node --params '{"token":"Pgrr***************UnRb"}'
 ```
 
-鏉╂柨娲栫紒鎾寸亯缁€杞扮伐閿?
+閺夆晜鏌ㄥú鏍磼閹惧浜紒鈧潪鎵紣闁?
 ```json
 {
   "node": {
     "obj_type": "docx",
     "obj_token": "UAJ***************E9nic",
-    "title": "ai friendly 濞村鐦?- 1 閸擃垱婀?,
+    "title": "ai friendly 婵炴潙顑堥惁?- 1 闁告搩鍨卞﹢?,
     "node_type": "origin",
     "space_id": "6946843325487906839"
   }
 }
 ```
 
-## Base 闁剧偓甯寸憴锝嗙€界憴鍕灟
-| 闁剧偓甯寸猾璇茬€?| 閺嶇厧绱?| 婢跺嫮鎮婇弬鐟扮础 |
+## Base 闂佸墽鍋撶敮瀵告喆閿濆棛鈧晫鎲撮崟顐㈢仧
+| 闂佸墽鍋撶敮瀵哥尵鐠囪尙鈧?| 闁哄秶鍘х槐?| 濠㈣泛瀚幃濠囧棘閻熸壆纭€ |
 |---------|------|---------|
-| 閻╁瓨甯?Base 闁剧偓甯?| `/base/{token}` | 閻╁瓨甯撮幓鎰絿娴ｆ粈璐?`--base-token` |
-| Wiki 閻儴鐦戞惔鎾绘懠閹?| `/wiki/{token}` | 閸忓牐鐨熼悽?`wiki.spaces.get_node`閿涘苯褰?`node.obj_token` |
-### URL 閸欏倹鏆熼幓鎰絿
+| 闁烩晛鐡ㄧ敮?Base 闂佸墽鍋撶敮?| `/base/{token}` | 闁烩晛鐡ㄧ敮鎾箵閹邦剙绲垮ù锝嗙矆鐠?`--base-token` |
+| Wiki 闁活厹鍎撮惁鎴炴償閹剧粯鎳犻柟?| `/wiki/{token}` | 闁稿繐鐗愰惃鐔兼偨?`wiki.spaces.get_node`闁挎稑鑻ぐ?`node.obj_token` |
+### URL 闁告瑥鍊归弳鐔煎箵閹邦剙绲?
 ```
 https://{domain}/base/{base-token}?table={table-id}&view={view-id}
 ```
-- `/base/{token}` 閳?`--base-token`
-- `?table={id}` 閳?`--table-id`
-- `?view={id}` 閳?`--view-id`
-### 缁備焦顒涙禍瀣€?
-- **缁備焦顒?*鐏忓棗鐣弫?URL 閻╁瓨甯存担婊€璐?`--base-token` 閸欏倹鏆熸导鐘插弳
-- **缁備焦顒?*鐏?wiki_token 閻╁瓨甯存担婊€璐?`--base-token`
+- `/base/{token}` 闁?`--base-token`
+- `?table={id}` 闁?`--table-id`
+- `?view={id}` 闁?`--view-id`
+### 缂佸倷鐒﹂娑欑鐎ｎ喓鈧?
+- **缂佸倷鐒﹂?*閻忓繐妫楅悾顒勫极?URL 闁烩晛鐡ㄧ敮瀛樻媴濠娾偓鐠?`--base-token` 闁告瑥鍊归弳鐔稿閻樻彃寮?
+- **缂佸倷鐒﹂?*閻?wiki_token 闁烩晛鐡ㄧ敮瀛樻媴濠娾偓鐠?`--base-token`
 
-## 鐢瓕顫嗛柨娆掝嚖闁喐鐓?
+## 閻㈩垱鐡曢～鍡涙煥濞嗘帩鍤栭梺顐ゅ枑閻?
 
-| 闁挎瑨顕ら惍?| 閸氼偂绠?| 鐟欙絽鍠呴弬瑙勵攳 |
+| 闂佹寧鐟ㄩ銈夋儘?| 闁告凹鍋傜粻?| 閻熸瑱绲介崰鍛村棘鐟欏嫷鏀?|
 |--------|------|----------|
-| 1254064 | 閺冦儲婀￠弽鐓庣础闁挎瑨顕?| 閻劍顕犵粔鎺撴闂傚瓨鍩戦敍宀勬姜鐎涙顑佹稉?/ 缁夋帞楠?|
-| 1254068 | 鐡掑懘鎽奸幒銉︾壐瀵繘鏁婄拠?| 閻?`{text, link}` 鐎电钖?|
-| 1254066 | 娴滃搫鎲崇€涙顔岄柨娆掝嚖 | 閻?`[{id:"ou_xxx"}]`閿涘苯鑻熺涵顔款吇 `user_id_type` |
-| 1254045 | 鐎涙顔岄崥宥勭瑝鐎涙ê婀?| 濡偓閺屻儱鐡у▓闈涙倳閿涘牆鎯堢粚鐑樼壐閵嗕礁銇囩亸蹇撳晸閿?|
-| 1254015 | 鐎涙顔岄崐鑲╄閸ㄥ绗夐崠褰掑帳 | 閸?`+field-list`閿涘苯鍟€閹稿琚崹瀣€柅?|
-| `param baseToken is invalid` / `base_token invalid` | 閹?wiki token閵嗕簚orkspace token 閹存牕鍙炬禒?token 瑜版挻鍨氭禍?`base_token` | 婵″倹鐏夋潏鎾冲弳閺夈儴鍤?`/wiki/...`閿涘苯鍘涢悽?`lark-cli wiki spaces get_node` 閸欐牜婀＄€?`obj_token`閿涙稑缍?`obj_type=bitable` 閺冭绱濋悽?`node.obj_token` 娴ｆ粈璐?`--base-token` 闁插秷鐦敍灞肩瑝鐟曚焦鏁肩挧?`bitable/v1` |
-| formula / lookup 閸掓稑缂撴径杈Е | 閹稿洤宕￠張顏囶嚢閹存牜绮ㄩ弸鍕瑝閸氬牊纭?| 閸忓牐顕?`formula-field-guide.md` / `lookup-field-guide.md`閿涘苯鍟€閹?guide 闁插秴缂撶拠閿嬬湴 |
-| 缁崵绮虹€涙顔?/ 閸忣剙绱＄€涙顔岄崘娆忓弳婢惰精瑙?| 閸欘亣顕扮€涙顔岀悮顐㈢秼閹存劕褰查崘娆忕摟濞?| 閺€閫涜礋閸愭瑥鐡ㄩ崒銊ョ摟濞堢绱濈拋锛勭暬缂佹挻鐏夋禍銈囩舶 formula / lookup / 缁崵绮虹€涙顔岄懛顏勫З娴溠冨毉 |
-| 1254104 | 閹靛綊鍣虹搾?500 閺?| 閸掑棙澹掔拫鍐暏 |
-| 1254291 | 楠炶泛褰傞崘娆忓暱缁?| 娑撹尪顢戦崘娆忓弳 + 閹佃顐奸梻鏉戞鏉?|
+| 1254064 | 闁哄啨鍎插﹢锟犲冀閻撳海纭€闂佹寧鐟ㄩ?| 闁活潿鍔嶉鐘电矓閹烘挻顦ч梻鍌氱摠閸╂垿鏁嶅畝鍕閻庢稒顨堥浣圭▔?/ 缂佸甯炴?|
+| 1254068 | 閻℃帒鎳橀幗濂稿箳閵夛妇澹愮€殿喖绻橀弫濠勬嫚?| 闁?`{text, link}` 閻庣數顢婇挅?|
+| 1254066 | 濞存粌鎼幉宕団偓娑欘殕椤斿矂鏌ㄥ▎鎺濆殩 | 闁?`[{id:"ou_xxx"}]`闁挎稑鑻懟鐔烘兜椤旀鍚?`user_id_type` |
+| 1254045 | 閻庢稒顨嗛宀勫触瀹ュ嫮鐟濋悗娑櫭﹢?| 婵☆偀鍋撻柡灞诲劚閻⊙冣枔闂堟稒鍊抽柨娑樼墕閹牏绮氶悜妯煎闁靛棔绀侀妵鍥╀焊韫囨挸鏅搁柨?|
+| 1254015 | 閻庢稒顨嗛宀勫磹閼测晞顫﹂柛銊ヮ儎缁楀宕犺ぐ鎺戝赋 | 闁?`+field-list`闁挎稑鑻崯鈧柟绋款槺鐞氼偊宕圭€ｎ偆鈧垶鏌?|
+| `param baseToken is invalid` / `base_token invalid` | 闁?wiki token闁靛棔绨歰rkspace token 闁瑰瓨鐗曢崣鐐?token 鐟滅増鎸婚崹姘?`base_token` | 濠碘€冲€归悘澶嬫綇閹惧啿寮抽柡澶堝劥閸?`/wiki/...`闁挎稑鑻崢娑㈡偨?`lark-cli wiki spaces get_node` 闁告瑦鐗滃﹢锛勨偓?`obj_token`闁挎稒绋戠紞?`obj_type=bitable` 闁哄啳顔愮槐婵嬫偨?`node.obj_token` 濞达絾绮堢拹?`--base-token` 闂佹彃绉烽惁顖炴晬鐏炶偐鐟濋悷鏇氱劍閺佽偐鎸?`bitable/v1` |
+| formula / lookup 闁告帗绋戠紓鎾村緞鏉堫偉袝 | 闁圭娲ゅ畷锟犲嫉椤忓浂鍤㈤柟瀛樼墱缁劑寮搁崟顏嗙憹闁告艾鐗婄涵?| 闁稿繐鐗愰?`formula-field-guide.md` / `lookup-field-guide.md`闁挎稑鑻崯鈧柟?guide 闂佹彃绉寸紓鎾舵嫚闁垮婀?|
+| 缂侇垵宕电划铏光偓娑欘殕椤?/ 闁稿浚鍓欑槐锛勨偓娑欘殕椤斿矂宕樺▎蹇撳汲濠㈡儼绮剧憴?| 闁告瑯浜ｉ鎵偓娑欘殕椤斿瞼鎮銏㈢Ъ闁瑰瓨鍔曡ぐ鏌ュ礃濞嗗繒鎽熸繛?| 闁衡偓闁稖绀嬮柛鎰懃閻°劑宕掗妸銉ф憻婵炲牏顣槐婵堟媼閿涘嫮鏆紓浣规尰閻忓绂嶉妶鍥╄埗 formula / lookup / 缂侇垵宕电划铏光偓娑欘殕椤斿矂鎳涢鍕楀ù婧犲啫姣?|
+| 1254104 | 闁归潧缍婇崳铏规惥?500 闁?| 闁告帒妫欐竟鎺旀嫬閸愵亝鏆?|
+| 1254291 | 妤犵偠娉涜ぐ鍌炲礃濞嗗繐鏆辩紒?| 濞戞捁灏、鎴﹀礃濞嗗繐寮?+ 闁逛絻顫夐濂告⒒閺夋垶顐介弶?|
 
-## 閸欏倽鈧啯鏋冨?
+## 闁告瑥鍊介埀顒€鍟弸鍐浖?
 
-- [lark-base-shortcut-field-properties.md](references/lark-base-shortcut-field-properties.md) 閳?`+field-create/+field-update` JSON 鐟欏嫯瀵栭敍鍫熷腹閼芥劧绱?
-- [role-config.md](references/role-config.md) 閳?鐟欐帟澹婇弶鍐闁板秶鐤嗙拠锕佇?
-- [lark-base-shortcut-record-value.md](references/lark-base-shortcut-record-value.md) 閳?`+record-upsert` 閸婂吋鐗稿蹇氼潐閼煎喛绱欓幒銊ㄥ礃閿?
-- [formula-field-guide.md](references/formula-field-guide.md) 閳?formula 鐎涙顔岄崘娆愮《閵嗕礁鍤遍弫鎵閺夌喆鈧竼urrentValue 鐟欏嫬鍨妴浣芥硶鐞涖劏顓哥粻妤伳佸蹇ョ礄瀵櫣鍎撻幒銊ㄥ礃閿?
-- [lookup-field-guide.md](references/lookup-field-guide.md) 閳?lookup 鐎涙顔岄柊宥囩枂鐟欏嫬鍨妴浜€here/aggregate 缁撅附娼妴浣风瑢 formula 閻ㄥ嫬褰囬懜?
-- [lark-base-view-set-filter.md](references/lark-base-view-set-filter.md) 閳?鐟欏棗娴樼粵娑⑩偓澶愬帳缂?
-- [lark-base-record-list.md](references/lark-base-record-list.md) 閳?鐠佹澘缍嶉崚妤勩€冪拠璇插絿娑撳骸鍨庢い?
-- [lark-base-advperm-enable.md](references/lark-base-advperm-enable.md) 閳?`+advperm-enable` 閸氼垳鏁ゆ妯奸獓閺夊啴妾?
-- [lark-base-advperm-disable.md](references/lark-base-advperm-disable.md) 閳?`+advperm-disable` 閸嬫粎鏁ゆ妯奸獓閺夊啴妾?
-- [lark-base-role-list.md](references/lark-base-role-list.md) 閳?`+role-list` 閸掓鍤憴鎺曞
-- [lark-base-role-get.md](references/lark-base-role-get.md) 閳?`+role-get` 閼惧嘲褰囩憴鎺曞鐠囷附鍎?
-- [lark-base-role-create.md](references/lark-base-role-create.md) 閳?`+role-create` 閸掓稑缂撶憴鎺曞
-- [lark-base-role-update.md](references/lark-base-role-update.md) 閳?`+role-update` 閺囧瓨鏌婄憴鎺曞
-- [lark-base-role-delete.md](references/lark-base-role-delete.md) 閳?`+role-delete` 閸掔娀娅庣憴鎺曞
-- [lark-base-dashboard.md](references/lark-base-dashboard.md) 閳?dashboard 閸涙垝鎶ょ槐銏犵穿閿涘牊鐦℃稉顏勬嚒娴犮倕鍑￠幏鍡楀煂閻欘剛鐝涢弬鍥ㄣ€傞敍?
-- [lark-base-dashboard-block.md](references/lark-base-dashboard-block.md) 閳?dashboard block 閸涙垝鎶ょ槐銏犵穿閿涘牊鐦℃稉顏勬嚒娴犮倕鍑￠幏鍡楀煂閻欘剛鐝涢弬鍥ㄣ€傞敍?
-- [dashboard-block-data-config.md](references/dashboard-block-data-config.md) 閳?Block data_config 缂佹挻鐎妴浣告禈鐞涖劎琚崹瀣ㄢ偓涔玦lter 鐟欏嫬鍨?
-- [lark-base-workflow.md](references/lark-base-workflow.md) 閳?workflow 閸涙垝鎶ょ槐銏犵穿
-- [lark-base-workflow-schema.md](references/lark-base-workflow-schema.md) 閳?`+workflow-create/+workflow-update` JSON body 閺佺増宓佺紒鎾寸€拠锕佇掗敍灞藉瘶閸氼偉袝閸欐垵娅掗崣濠傛倗缁槒濡悙鍦畱闁板秶鐤嗙憴鍕灟閿涘牆宸遍悜鍫熷腹閼芥劧绱?
-- [lark-base-data-query.md](references/lark-base-data-query.md) 閳?`+data-query` 閼辨艾鎮庨崚鍡樼€介敍鍦朣L 缂佹挻鐎妴浣规暜閹镐礁鐡у▓鐢佃閸ㄥ鈧浇浠涢崥鍫濆毐閺佸府绱?
-- [examples.md](references/examples.md) 閳?鐎瑰本鏆ｉ幙宥勭稊缁€杞扮伐閿涘牆缂撶悰銊ｂ偓浣割嚤閸忋儯鈧胶鐡柅澶堚偓浣规纯閺傚府绱?
+- [lark-base-shortcut-field-properties.md](references/lark-base-shortcut-field-properties.md) 闁?`+field-create/+field-update` JSON 閻熸瑥瀚€垫牠鏁嶉崼鐔疯吂闁艰姤鍔х槐?
+- [role-config.md](references/role-config.md) 闁?閻熸瑦甯熸竟濠囧级閸愵喗顎欓梺鏉跨Ф閻ゅ棛鎷犻敃浣?
+- [lark-base-shortcut-record-value.md](references/lark-base-shortcut-record-value.md) 闁?`+record-upsert` 闁稿﹤鍚嬮悧绋款嚕韫囨凹娼愰柤鐓庡枦缁辨瑩骞掗妸銊ョ闁?
+- [formula-field-guide.md](references/formula-field-guide.md) 闁?formula 閻庢稒顨嗛宀勫礃濞嗘劗銆婇柕鍡曠閸ら亶寮幍顔碱唺闁哄鍠嗛埀顑跨urrentValue 閻熸瑥瀚崹顖炲Υ娴ｈ姤纭堕悶娑栧姀椤撳摜绮诲Δ浼充礁顕ｈ箛銉х鐎殿喛娅ｉ崕鎾诲箳閵娿劌绀冮柨?
+- [lookup-field-guide.md](references/lookup-field-guide.md) 闁?lookup 閻庢稒顨嗛宀勬煀瀹ュ洨鏋傞悷娆忓閸垶濡存禍鈧琱ere/aggregate 缂佹拝闄勫顐﹀Υ娴ｉ鐟?formula 闁汇劌瀚ぐ鍥嚋?
+- [lark-base-view-set-filter.md](references/lark-base-view-set-filter.md) 闁?閻熸瑥妫楀ù妯肩驳濞戔懇鍋撴径鎰赋缂?
+- [lark-base-record-list.md](references/lark-base-record-list.md) 闁?閻犱焦婢樼紞宥夊礆濡ゅ嫨鈧啰鎷犵拠鎻掔悼濞戞挸楠搁崹搴亜?
+- [lark-base-advperm-enable.md](references/lark-base-advperm-enable.md) 闁?`+advperm-enable` 闁告凹鍨抽弫銈嗩殗濡ジ鐛撻柡澶婂暣濡?
+- [lark-base-advperm-disable.md](references/lark-base-advperm-disable.md) 闁?`+advperm-disable` 闁稿绮庨弫銈嗩殗濡ジ鐛撻柡澶婂暣濡?
+- [lark-base-role-list.md](references/lark-base-role-list.md) 闁?`+role-list` 闁告帗顨呴崵顓犳喆閹烘洖顥?
+- [lark-base-role-get.md](references/lark-base-role-get.md) 闁?`+role-get` 闁兼儳鍢茶ぐ鍥╂喆閹烘洖顥忛悹鍥烽檮閸?
+- [lark-base-role-create.md](references/lark-base-role-create.md) 闁?`+role-create` 闁告帗绋戠紓鎾舵喆閹烘洖顥?
+- [lark-base-role-update.md](references/lark-base-role-update.md) 闁?`+role-update` 闁哄洤鐡ㄩ弻濠勬喆閹烘洖顥?
+- [lark-base-role-delete.md](references/lark-base-role-delete.md) 闁?`+role-delete` 闁告帞濞€濞呭海鎲撮幒鏇烆棌
+- [lark-base-dashboard.md](references/lark-base-dashboard.md) 闁?dashboard 闁告稒鍨濋幎銈囨閵忕姷绌块柨娑樼墛閻︹剝绋夐鍕殥濞寸姰鍊曢崙锟犲箯閸℃鐓傞柣娆樺墰閻濇盯寮崶銊ｂ偓鍌炴晬?
+- [lark-base-dashboard-block.md](references/lark-base-dashboard-block.md) 闁?dashboard block 闁告稒鍨濋幎銈囨閵忕姷绌块柨娑樼墛閻︹剝绋夐鍕殥濞寸姰鍊曢崙锟犲箯閸℃鐓傞柣娆樺墰閻濇盯寮崶銊ｂ偓鍌炴晬?
+- [dashboard-block-data-config.md](references/dashboard-block-data-config.md) 闁?Block data_config 缂備焦鎸婚悗顖炲Υ娴ｅ憡绂堥悶娑栧妿鐞氼偊宕圭€ｃ劉鍋撴稊鐜ter 閻熸瑥瀚崹?
+- [lark-base-workflow.md](references/lark-base-workflow.md) 闁?workflow 闁告稒鍨濋幎銈囨閵忕姷绌?
+- [lark-base-workflow-schema.md](references/lark-base-workflow-schema.md) 闁?`+workflow-create/+workflow-update` JSON body 闁轰胶澧楀畵浣虹磼閹惧鈧垳鎷犻敃浣囨帡鏁嶇仦钘夌樁闁告凹鍋夎闁告瑦鍨靛▍鎺楀矗婵犲倹鍊楃紒顐ｆ婵☆參鎮欓崷顓熺暠闂佹澘绉堕悿鍡欐喆閸曨偄鐏熼柨娑樼墕瀹搁亶鎮滈崼鐔疯吂闁艰姤鍔х槐?
+- [lark-base-data-query.md](references/lark-base-data-query.md) 闁?`+data-query` 闁艰鲸鑹鹃幃搴ㄥ礆閸℃鈧粙鏁嶉崷鏈 缂備焦鎸婚悗顖炲Υ娴ｈ鏆滈柟闀愮閻⊙冣枔閻絻顫﹂柛銊ヮ儍閳ь兛娴囨禒娑㈠触閸繂姣愰柡浣稿簻缁?
+- [examples.md](references/examples.md) 闁?閻庣懓鏈弳锝夊箼瀹ュ嫮绋婄紒鈧潪鎵紣闁挎稑鐗嗙紓鎾舵偘閵婏絺鍋撴担鍓插殼闁稿繈鍎埀顑胯兌閻☆偊鏌呮径鍫氬亾娴ｈ绾柡鍌氬簻缁?
 
-## 閸涙垝鎶ら崚鍡欑矋
+## 闁告稒鍨濋幎銈夊礆閸℃瑧鐭?
 
-> **閹笛嗩攽閸撳秴绻€閸嬫熬绱?* 娴犲簼绗呯悰銊ョ暰娴ｅ秴鍩岄崨鎴掓姢閸氬函绱濋崝鈥崇箑閸忓牓妲勭拠璇差嚠鎼存柨鎳℃禒銈囨畱 reference 閺傚洦銆傞敍灞藉晙鐠嬪啰鏁ら崨鎴掓姢閵?
+> **闁圭瑳鍡╂斀闁告挸绉寸换鈧柛瀣啲缁?* 濞寸姴绨肩粭鍛偘閵娿儳鏆板ù锝呯Т閸╁矂宕ㄩ幋鎺撳Б闁告艾鍑界槐婵嬪礉閳ュ磭绠戦柛蹇撶墦濡插嫮鎷犵拠宸殸閹煎瓨鏌ㄩ幊鈩冪閵堝洦鐣?reference 闁哄倸娲﹂妴鍌炴晬鐏炶棄鏅欓悹瀣暟閺併倝宕ㄩ幋鎺撳Б闁?
 
-| 閸涙垝鎶ら崚鍡欑矋 | 鐠囧瓨妲?|
+| 闁告稒鍨濋幎銈夊礆閸℃瑧鐭?| 閻犲洤鐡ㄥΣ?|
 |----------|------|
 | [`table commands`](references/lark-base-table.md) | `+table-list / +table-get / +table-create / +table-update / +table-delete` |
 | [`field commands`](references/lark-base-field.md) | `+field-list / +field-get / +field-create / +field-update / +field-delete / +field-search-options` |

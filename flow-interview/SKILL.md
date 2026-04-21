@@ -10,6 +10,18 @@ Conduct an extremely thorough interview about a task/spec and write refined deta
 **Role**: technical interviewer, spec refiner
 **Goal**: extract complete implementation details through deep questioning (40+ questions typical)
 
+
+## Agent-First Output Rule
+
+This skill should not end with a long interview transcript. It should leave the next agent with the smallest unresolved spec gap and the next best question, rewrite, or implementation target.
+
+At the end of the interview or summary, make these explicit:
+- `suspected_scope`: the exact requirement area, edge case cluster, dependency, or interface that is still ambiguous or newly clarified
+- `strongest_evidence`: the strongest answer, constraint, or contradiction surfaced during the interview
+- `next_best_action`: the single next move: keep interviewing, rewrite the spec, split implementation, or start planning
+- `next_target`: the exact bead, file section, acceptance criterion, or unanswered question to inspect next
+- `confidence`: high, medium, or low
+
 ## Input
 
 Full request: #$ARGUMENTS

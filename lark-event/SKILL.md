@@ -9,24 +9,23 @@ metadata:
 
 # event (v1)
 
-> **閸撳秶鐤嗛弶鈥叉閿?* 閸忓牓妲勭拠?[`../lark-shared/SKILL.md`](../lark-shared/SKILL.md) 娴滃棜袙鐠併倛鐦夐妴浣规綀闂勬劕顦╅悶鍡楁嫲鐎瑰鍙忕憴鍕灟閵?
+> **闁告挸绉堕悿鍡涘级閳ュ弶顐介柨?* 闁稿繐鐗撳Σ鍕嫚?[`../lark-shared/SKILL.md`](../lark-shared/SKILL.md) 濞存粌妫滆閻犱降鍊涢惁澶愬Υ娴ｈ缍€闂傚嫭鍔曢ˇ鈺呮偠閸℃瀚查悗鐟邦槸閸欏繒鎲撮崟顐㈢仧闁?
 
 
-## Agent-First Output Rule
+## Execution-Focused Rule
 
-`event` output must tell the next agent exactly which subscription, route, event type, sink, or websocket state matters most instead of just saying that listening started or nothing arrived.
+For `event` workflows, optimize for correct subscription setup, route filtering, and output handling. The AI should make the listening path explicit before starting a long-running stream.
 
-Always make these explicit:
-- `suspected_scope`: subscription, regex route, output sink, auth, websocket state, or event type
-- `strongest_evidence`: the key NDJSON sample, connection state, silence window, or error
-- `next_best_action`: the single best next listening or verification step
-- `next_target`: the exact route, event type, output file, or websocket session to inspect next
-- `confidence`: high, medium, or low
+When guiding execution, make sure the result clearly states:
+- which shortcut or event command to use first
+- which event type, route pattern, or sink is being targeted
+- which auth mode or prerequisite must be satisfied before subscribing
+- which output file or terminal stream should be inspected after startup
 
-## Shortcuts閿涘牊甯归懡鎰喘閸忓牅濞囬悽顭掔礆
+## Shortcuts闁挎稑鐗婄敮褰掓嚒閹邦亞鍠橀柛蹇撶墔婵炲洭鎮介…鎺旂
 
-Shortcut 閺勵垰顕敮鍝ユ暏閹垮秳缍旈惃鍕彯缁狙冪殱鐟佸拑绱檂lark-cli event +<verb> [flags]`閿涘鈧倹婀?Shortcut 閻ㄥ嫭鎼锋担婊€绱崗鍫滃▏閻劊鈧?
+Shortcut 闁哄嫷鍨伴顔炬暜閸濄儲鏆忛柟鍨С缂嶆棃鎯冮崟顖滃蒋缂佺嫏鍐閻熶礁鎷戠槐妾俵ark-cli event +<verb> [flags]`闁挎稑顦埀顒€鍊瑰﹢?Shortcut 闁汇劌瀚幖閿嬫媴濠娾偓缁鳖參宕楅崼婊冣枏闁活潿鍔婇埀?
 
-| Shortcut | 鐠囧瓨妲?|
+| Shortcut | 閻犲洤鐡ㄥΣ?|
 |----------|------|
 | [`+subscribe`](references/lark-event-subscribe.md) | Subscribe to Lark events via WebSocket long connection (read-only, NDJSON output); bot-only; supports compact agent-friendly format, regex routing, file output |

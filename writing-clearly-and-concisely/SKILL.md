@@ -1,9 +1,20 @@
 ---
 name: writing-clearly-and-concisely
-description: Use when writing prose humans will read—documentation, commit messages, error messages, explanations, reports, or UI text. Applies Strunk's timeless rules for clearer, stronger, more professional writing.
+description: Use when writing prose humans will read鈥攄ocumentation, commit messages, error messages, explanations, reports, or UI text. Applies Strunk's timeless rules for clearer, stronger, more professional writing.
 ---
 
 # Writing Clearly and Concisely
+
+
+## Agent-First Output Rule
+
+This skill should improve prose without obscuring what the next agent needs to do. Clear writing should preserve decisions, unresolved gaps, and the next target instead of sanding them away.
+
+When rewriting technical prose, keep these explicit whenever relevant:
+- the exact decision or claim being made
+- the strongest supporting fact or evidence
+- the next action or follow-up still required
+- the exact file, section, command, or artifact the next agent should inspect
 
 ## Overview
 
@@ -72,7 +83,7 @@ The rules above are summarized from Strunk's original text. For complete explana
 | Headings, quotations, formatting | `04-a-few-matters-of-form.md` | 1,000 |
 | Word choice, common errors | `05-words-and-expressions-commonly-misused.md` | 4,000 |
 
-**Most tasks need only `03-elementary-principles-of-composition.md`** — it covers active voice, positive form, concrete language, and omitting needless words.
+**Most tasks need only `03-elementary-principles-of-composition.md`** 鈥?it covers active voice, positive form, concrete language, and omitting needless words.
 
 ## AI Writing Patterns to Avoid
 
@@ -86,7 +97,7 @@ LLMs regress to statistical means, producing generic, puffy prose. Avoid:
 
 Be specific, not grandiose. Say what it actually does.
 
-For comprehensive research on why these patterns occur, see `signs-of-ai-writing.md`. Wikipedia editors developed this guide to detect AI-generated submissions — their patterns are well-documented and field-tested.
+For comprehensive research on why these patterns occur, see `signs-of-ai-writing.md`. Wikipedia editors developed this guide to detect AI-generated submissions 鈥?their patterns are well-documented and field-tested.
 
 ## Bottom Line
 

@@ -9,139 +9,138 @@ metadata:
 
 # docs (v1)
 
-**CRITICAL 閳?瀵偓婵澧?MUST 閸忓牏鏁?Read 瀹搞儱鍙跨拠璇插絿 [`../lark-shared/SKILL.md`](../lark-shared/SKILL.md)閿涘苯鍙炬稉顓炲瘶閸氼偉顓荤拠浣碘偓浣规綀闂勬劕顦╅悶?*
+**CRITICAL 闁?鐎殿喒鍋撳┑顔碱儏婢?MUST 闁稿繐鐗忛弫?Read 鐎规悶鍎遍崣璺ㄦ嫚鐠囨彃绲?[`../lark-shared/SKILL.md`](../lark-shared/SKILL.md)闁挎稑鑻崣鐐▔椤撶偛鐦堕柛姘煎亯椤撹崵鎷犳担纰樺亾娴ｈ缍€闂傚嫭鍔曢ˇ鈺呮偠?*
 
 
-## Agent-First Output Rule
+## Execution-Focused Rule
 
-`docs` results should help the next agent localize the exact document object, token type, block, or permission boundary instead of stopping at "document failed".
+For `docs` workflows, optimize for choosing the right document object, token type, and write method. The AI should avoid ambiguous token handling and mutate only after the target object is confirmed.
 
-Always make these explicit:
-- `suspected_scope`: docx, doc, wiki, `file_token`, `obj_token`, block, section, image, or attachment
-- `strongest_evidence`: the key URL pattern, token resolution result, block lookup, or command error
-- `next_best_action`: the single highest-value next read, resolve, or write step
-- `next_target`: the exact token, block id, command, or reference section to inspect next
-- `confidence`: high, medium, or low
+When guiding execution, make sure the result clearly states:
+- which document type is in play: `docx`, `doc`, `wiki`, attachment, image, or folder-backed object
+- which token or block id must be resolved first
+- which command should be used next
+- which read or search step is required before attempting an update
 
-## 閺嶇绺惧鍌氬悍
+## 闁哄秶顭堢缓鎯ь潡閸屾艾鎮?
 
-### 閺傚洦銆傜猾璇茬€锋稉?Token
+### 闁哄倸娲﹂妴鍌滅尵鐠囪尙鈧攱绋?Token
 
-妞嬬偘鍔熷鈧弨鎯ч挬閸欓鑵戦敍灞肩瑝閸氬瞼琚崹瀣畱閺傚洦銆傞張澶夌瑝閸氬瞼娈?URL 閺嶇厧绱￠崪?Token 婢跺嫮鎮婇弬鐟扮础閵嗗倸婀潻娑滎攽閺傚洦銆傞幙宥勭稊閿涘牆顩уǎ璇插鐠囧嫯顔戦妴浣风瑓鏉炶姤鏋冩禒鍓佺搼閿涘妞傞敍灞界箑妞よ鍘涢懢宄板絿濮濓絿鈥橀惃?`file_token`閵?
+濡炲鍋橀崝鐔奉嚕閳ь剟寮ㄩ幆褔鎸柛娆擃暒閼垫垿鏁嶇仦鑲╃憹闁告艾鐬肩悮顐﹀垂鐎ｎ剚鐣遍柡鍌氭处閵嗗倿寮垫径澶岀憹闁告艾鐬煎▓?URL 闁哄秶鍘х槐锟犲椽?Token 濠㈣泛瀚幃濠囧棘閻熸壆纭€闁靛棗鍊稿﹢顏呮交濞戞粠鏀介柡鍌氭处閵嗗倿骞欏鍕▕闁挎稑鐗嗛々褍菐鐠囨彃顫ｉ悹鍥у椤旀垿濡存担椋庣憮閺夌偠濮ら弸鍐╃閸撲胶鎼奸柨娑橆槹濡炲倿鏁嶇仦鐣岀畱濡炪倛顕ч崢娑㈡嚔瀹勬澘绲挎慨婵撶悼閳ユ﹢鎯?`file_token`闁?
 
-### 閺傚洦銆?URL 閺嶇厧绱℃稉?Token 婢跺嫮鎮?
+### 闁哄倸娲﹂妴?URL 闁哄秶鍘х槐鈩冪▔?Token 濠㈣泛瀚幃?
 
-| URL 閺嶇厧绱?| 缁€杞扮伐                                                      | Token 缁鐎?| 婢跺嫮鎮婇弬鐟扮础 |
+| URL 闁哄秶鍘х槐?| 缂佲偓鏉炴壆浼?                                                     | Token 缂侇偉顕ч悗?| 濠㈣泛瀚幃濠囧棘閻熸壆纭€ |
 |----------|---------------------------------------------------------|-----------|----------|
-| `/docx/` | `https://example.larksuite.com/docx/doxcnxxxxxxxxx`    | `file_token` | URL 鐠侯垰绶炴稉顓犳畱 token 閻╁瓨甯存担婊€璐?`file_token` 娴ｈ法鏁?|
-| `/doc/` | `https://example.larksuite.com/doc/doccnxxxxxxxxx`     | `file_token` | URL 鐠侯垰绶炴稉顓犳畱 token 閻╁瓨甯存担婊€璐?`file_token` 娴ｈ法鏁?|
-| `/wiki/` | `https://example.larksuite.com/wiki/wikcnxxxxxxxxx`    | `wiki_token` | 閳跨媴绗?**娑撳秷鍏橀惄瀛樺复娴ｈ法鏁?*閿涘矂娓剁憰浣稿帥閺屻儴顕楅懢宄板絿閻喎鐤勯惃?`obj_token` |
-| `/sheets/` | `https://example.larksuite.com/sheets/shtcnxxxxxxxxx`  | `file_token` | URL 鐠侯垰绶炴稉顓犳畱 token 閻╁瓨甯存担婊€璐?`file_token` 娴ｈ法鏁?|
-| `/drive/folder/` | `https://example.larksuite.com/drive/folder/fldcnxxxx` | `folder_token` | URL 鐠侯垰绶炴稉顓犳畱 token 娴ｆ粈璐熼弬鍥︽婢?token 娴ｈ法鏁?|
+| `/docx/` | `https://example.larksuite.com/docx/doxcnxxxxxxxxx`    | `file_token` | URL 閻犱警鍨扮欢鐐寸▔椤撶姵鐣?token 闁烩晛鐡ㄧ敮瀛樻媴濠娾偓鐠?`file_token` 濞达綀娉曢弫?|
+| `/doc/` | `https://example.larksuite.com/doc/doccnxxxxxxxxx`     | `file_token` | URL 閻犱警鍨扮欢鐐寸▔椤撶姵鐣?token 闁烩晛鐡ㄧ敮瀛樻媴濠娾偓鐠?`file_token` 濞达綀娉曢弫?|
+| `/wiki/` | `https://example.larksuite.com/wiki/wikcnxxxxxxxxx`    | `wiki_token` | 闁宠法濯寸粭?**濞戞挸绉烽崗姗€鎯勭€涙ê澶嶅ù锝堟硶閺?*闁挎稑鐭傚〒鍓佹啺娴ｇ甯ラ柡灞诲劥椤曟鎳㈠畡鏉跨悼闁活亞鍠庨悿鍕儍?`obj_token` |
+| `/sheets/` | `https://example.larksuite.com/sheets/shtcnxxxxxxxxx`  | `file_token` | URL 閻犱警鍨扮欢鐐寸▔椤撶姵鐣?token 闁烩晛鐡ㄧ敮瀛樻媴濠娾偓鐠?`file_token` 濞达綀娉曢弫?|
+| `/drive/folder/` | `https://example.larksuite.com/drive/folder/fldcnxxxx` | `folder_token` | URL 閻犱警鍨扮欢鐐寸▔椤撶姵鐣?token 濞达絾绮堢拹鐔煎棘閸ワ附顐藉?token 濞达綀娉曢弫?|
 
-### Wiki 闁剧偓甯撮悧瑙勭暕婢跺嫮鎮婇敍鍫濆彠闁款噯绱掗敍?
+### Wiki 闂佸墽鍋撶敮鎾偋鐟欏嫮鏆曞璺哄閹﹪鏁嶉崼婵嗗綘闂佹鍣槐鎺楁晬?
 
-閻儴鐦戞惔鎾绘懠閹恒儻绱檂/wiki/TOKEN`閿涘鍎楅崥搴″讲閼宠姤妲告禍鎴炴瀮濡楋絻鈧胶鏁哥€涙劘銆冮弽绗衡偓浣割樋缂佺銆冮弽鑲╃搼娑撳秴鎮撶猾璇茬€烽惃鍕瀮濡楋絻鈧?*娑撳秷鍏橀惄瀛樺复閸嬪洩顔?URL 娑擃厾娈?token 鐏忚鲸妲?file_token**閿涘苯绻€妞よ鍘涢弻銉嚄鐎圭偤妾猾璇茬€烽崪宀€婀＄€?token閵?
+闁活厹鍎撮惁鎴炴償閹剧粯鎳犻柟鎭掑劵缁辨獋/wiki/TOKEN`闁挎稑顦抽崕妤呭触鎼粹€宠闁煎疇濮ゅΣ鍛婄閹寸偞鐎俊妤嬬祷閳ь兛鑳堕弫鍝モ偓娑欏姌閵嗗啴寮界粭琛″亾娴ｅ壊妯嬬紓浣侯棎閵嗗啴寮介懖鈺冩惣濞戞挸绉撮幃鎾剁尵鐠囪尙鈧兘鎯冮崟顒佺€俊妤嬬祷閳?*濞戞挸绉烽崗姗€鎯勭€涙ê澶嶉柛瀣穿椤?URL 濞戞搩鍘惧▓?token 閻忓繗椴稿Σ?file_token**闁挎稑鑻换鈧銈堫嚙閸樻盯寮婚妷顭戝殑閻庡湱鍋ゅ顖滅尵鐠囪尙鈧兘宕畝鈧﹢锛勨偓?token闁?
 
-#### 婢跺嫮鎮婂ù浣衡柤
+#### 濠㈣泛瀚幃濠偯规担琛℃煠
 
-1. **娴ｈ法鏁?`wiki.spaces.get_node` 閺屻儴顕楅懞鍌滃仯娣団剝浼?*
+1. **濞达綀娉曢弫?`wiki.spaces.get_node` 闁哄被鍎撮妤呮嚍閸屾粌浠ǎ鍥ｅ墲娴?*
    ```bash
    lark-cli wiki spaces get_node --params '{"token":"wiki_token"}'
    ```
 
-2. **娴犲氦绻戦崶鐐电波閺嬫粈鑵戦幓鎰絿閸忔娊鏁穱鈩冧紖**
-   - `node.obj_type`閿涙碍鏋冨锝囪閸ㄥ绱檇ocx/doc/sheet/bitable/slides/file/mindnote閿?
-   - `node.obj_token`閿?*閻喎鐤勯惃鍕瀮濡?token**閿涘牏鏁ゆ禍搴℃倵缂侇厽鎼锋担婊愮礆
-   - `node.title`閿涙碍鏋冨锝嗙垼妫?
+2. **濞寸姴姘︾换鎴﹀炊閻愮數娉㈤柡瀣矆閼垫垿骞撻幇顒€绲块柛蹇斿▕閺侇厽绌遍埄鍐х礀**
+   - `node.obj_type`闁挎稒纰嶉弸鍐浖閿濆洩顫﹂柛銊ヮ儜缁辨獓ocx/doc/sheet/bitable/slides/file/mindnote闁?
+   - `node.obj_token`闁?*闁活亞鍠庨悿鍕儍閸曨剚鐎俊?token**闁挎稑鐗忛弫銈嗙鎼粹剝鍊电紓渚囧幗閹奸攱鎷呭鎰
+   - `node.title`闁挎稒纰嶉弸鍐浖閿濆棛鍨煎Λ?
 
-3. **閺嶈宓?`obj_type` 娴ｈ法鏁ょ€电懓绨查惃?API**
+3. **闁哄秷顫夊畵?`obj_type` 濞达綀娉曢弫銈団偓鐢垫嚀缁ㄦ煡鎯?API**
 
-   | obj_type | 鐠囧瓨妲?| 娴ｈ法鏁ら惃?API |
+   | obj_type | 閻犲洤鐡ㄥΣ?| 濞达綀娉曢弫銈夋儍?API |
    |----------|------|-----------|
-   | `docx` | 閺傛壆澧楁禍鎴炴瀮濡?| `drive file.comments.*`閵嗕梗docx.*` |
-   | `doc` | 閺冄呭娴滄垶鏋冨?| `drive file.comments.*` |
-   | `sheet` | 閻㈤潧鐡欑悰銊︾壐 | `sheets.*` |
-   | `bitable` | 婢舵氨娣悰銊︾壐 | `bitable.*` |
-   | `slides` | 楠炶崵浼呴悧?| `drive.*` |
-   | `file` | 閺傚洣娆?| `drive.*` |
-   | `mindnote` | 閹繄娣€电厧娴?| `drive.*` |
+   | `docx` | 闁哄倹澹嗘晶妤佺閹寸偞鐎俊?| `drive file.comments.*`闁靛棔姊梔ocx.*` |
+   | `doc` | 闁哄唲鍛暭濞存粍鍨堕弸鍐浖?| `drive file.comments.*` |
+   | `sheet` | 闁汇垽娼ч悺娆戞偘閵婏妇澹?| `sheets.*` |
+   | `bitable` | 濠㈣埖姘ㄥǎ顔炬偘閵婏妇澹?| `bitable.*` |
+   | `slides` | 妤犵偠宕垫导鍛存偋?| `drive.*` |
+   | `file` | 闁哄倸娲ｅ▎?| `drive.*` |
+   | `mindnote` | 闁诡剚绻勫ǎ顔锯偓鐢靛帶濞?| `drive.*` |
 
-#### 閺屻儴顕楃粈杞扮伐
+#### 闁哄被鍎撮妤冪矆鏉炴壆浼?
 
 ```bash
-# 閺屻儴顕?wiki 閼哄倻鍋?
+# 闁哄被鍎撮?wiki 闁煎搫鍊婚崑?
 lark-cli wiki spaces get_node --params '{"token":"wiki_token"}'
 ```
 
-鏉╂柨娲栫紒鎾寸亯缁€杞扮伐閿?
+閺夆晜鏌ㄥú鏍磼閹惧浜紒鈧潪鎵紣闁?
 ```json
 {
    "node": {
       "obj_type": "docx",
       "obj_token": "xxxx",
-      "title": "閺嶅洭顣?,
+      "title": "闁哄秴娲。?,
       "node_type": "origin",
       "space_id": "12345678910"
    }
 }
 ```
 
-### 鐠у嫭绨崗宕囬兇
+### 閻犙冨缁噣宕楀畷鍥厙
 
 ```
-Wiki Space (閻儴鐦戠粚娲？)
-閳规柡鏀㈤埞鈧?Wiki Node (閻儴鐦戞惔鎾瑰Ν閻?
-    閳规壕鏀㈤埞鈧?obj_type: docx (閺傛壆澧楅弬鍥ㄣ€?
-    閳?  閳规柡鏀㈤埞鈧?obj_token (閻喎鐤勯弬鍥ㄣ€?token)
-    閳规壕鏀㈤埞鈧?obj_type: doc (閺冄呭閺傚洦銆?
-    閳?  閳规柡鏀㈤埞鈧?obj_token (閻喎鐤勯弬鍥ㄣ€?token)
-    閳规壕鏀㈤埞鈧?obj_type: sheet (閻㈤潧鐡欑悰銊︾壐)
-    閳?  閳规柡鏀㈤埞鈧?obj_token (閻喎鐤勯弬鍥ㄣ€?token)
-    閳规壕鏀㈤埞鈧?obj_type: bitable (婢舵氨娣悰銊︾壐)
-    閳?  閳规柡鏀㈤埞鈧?obj_token (閻喎鐤勯弬鍥ㄣ€?token)
-    閳规柡鏀㈤埞鈧?obj_type: file/slides/mindnote
-        閳规柡鏀㈤埞鈧?obj_token (閻喎鐤勯弬鍥ㄣ€?token)
+Wiki Space (闁活厹鍎撮惁鎴犵矚濞差亝锛?
+闁宠鏌￠弨銏ゅ煘閳?Wiki Node (闁活厹鍎撮惁鎴炴償閹剧懓螡闁?
+    闁宠澹曢弨銏ゅ煘閳?obj_type: docx (闁哄倹澹嗘晶妤呭棘閸ャ劊鈧?
+    闁?  闁宠鏌￠弨銏ゅ煘閳?obj_token (闁活亞鍠庨悿鍕棘閸ャ劊鈧?token)
+    闁宠澹曢弨銏ゅ煘閳?obj_type: doc (闁哄唲鍛暭闁哄倸娲﹂妴?
+    闁?  闁宠鏌￠弨銏ゅ煘閳?obj_token (闁活亞鍠庨悿鍕棘閸ャ劊鈧?token)
+    闁宠澹曢弨銏ゅ煘閳?obj_type: sheet (闁汇垽娼ч悺娆戞偘閵婏妇澹?
+    闁?  闁宠鏌￠弨銏ゅ煘閳?obj_token (闁活亞鍠庨悿鍕棘閸ャ劊鈧?token)
+    闁宠澹曢弨銏ゅ煘閳?obj_type: bitable (濠㈣埖姘ㄥǎ顔炬偘閵婏妇澹?
+    闁?  闁宠鏌￠弨銏ゅ煘閳?obj_token (闁活亞鍠庨悿鍕棘閸ャ劊鈧?token)
+    闁宠鏌￠弨銏ゅ煘閳?obj_type: file/slides/mindnote
+        闁宠鏌￠弨銏ゅ煘閳?obj_token (闁活亞鍠庨悿鍕棘閸ャ劊鈧?token)
 
-Drive Folder (娴滄垹鈹栭梻瀛樻瀮娴犺泛銇?
-閳规柡鏀㈤埞鈧?File (閺傚洣娆?閺傚洦銆?
-    閳规柡鏀㈤埞鈧?file_token (閻╁瓨甯存担璺ㄦ暏)
+Drive Folder (濞存粍鍨归埞鏍⒒鐎涙ɑ鐎ù鐘烘硾閵?
+闁宠鏌￠弨銏ゅ煘閳?File (闁哄倸娲ｅ▎?闁哄倸娲﹂妴?
+    闁宠鏌￠弨銏ゅ煘閳?file_token (闁烩晛鐡ㄧ敮瀛樻媴鐠恒劍鏆?
 ```
 
-## 闁插秷顩︾拠瀛樻閿涙氨鏁鹃弶璺ㄧ椽鏉?
-> **閳跨媴绗?lark-doc skill 娑撳秷鍏橀惄瀛樺复缂傛牞绶鍙夋箒閻㈢粯婢橀崘鍛啇閿涘奔绲?`docs +update` 閸欘垯浜掗弬鏉跨紦缁岃櫣娅ч悽缁樻緲**
-### 閸︾儤娅?1閿涙艾鍑￠柅姘崇箖 docs +fetch 閼惧嘲褰囬崚鐗堟瀮濡楋絽鍞寸€圭懓鎷伴悽缁樻緲 token
-婵″倹鐏夐悽銊﹀煕瀹歌尙绮￠柅姘崇箖 `docs +fetch` 閹峰褰囨禍鍡樻瀮濡楋絽鍞寸€圭櫢绱濋獮鏈电瑬閺傚洦銆傛稉顓炲嚒閺堝鏁鹃弶鍖＄礄鏉╂柨娲栭惃?markdown 娑擃厼瀵橀崥?`<whiteboard token="xxx"/>` 閺嶅洨顒烽敍澶涚礉鐠囧嘲绱╃€佃偐鏁ら幋鍑ょ窗
-1. 鐠佹澘缍嶉悽缁樻緲閻?token
-2. 閺屻儳婀?[`../lark-whiteboard/SKILL.md`](../lark-whiteboard/SKILL.md) 娴滃棜袙婵″倷缍嶇紓鏍帆閻㈢粯婢橀崘鍛啇
-### 閸︾儤娅?2閿涙艾鍨伴崚娑樼紦閻㈢粯婢橀敍宀勬付鐟曚胶绱潏?
-婵″倹鐏夐悽銊﹀煕閸掓岸鈧俺绻?`docs +update` 閸掓稑缂撴禍鍡欌敄閻х晫鏁鹃弶鍖＄礉闂団偓鐟曚胶绱潏鎴炴閿?
-**濮濄儵顎?1閿涙碍瀵滅粚铏规閻㈢粯婢樼拠顓熺《閸掓稑缂?*
-- 閸?`--markdown` 娑擃厾娲块幒銉ょ炊 `<whiteboard type="blank"></whiteboard>`
-- 闂団偓鐟曚礁顦挎稉顏嗏敄閻х晫鏁鹃弶鎸庢閿涘苯婀崥灞肩娑?`--markdown` 闁插矂鍣告径宥咁樋娑?whiteboard 閺嶅洨顒?
-  **濮濄儵顎?2閿涙矮绮犻崫宥呯安娑擃叀顔囪ぐ?token**
-- `docs +update` 閹存劕濮涢崥搴礉鐠囪褰囬崫宥呯安鐎涙顔?`data.board_tokens`
-- `data.board_tokens` 閺勵垱鏌婂铏规暰閺夎法娈?token 閸掓銆冮敍灞芥倵缂侇厾绱潏鎴犳纯閹恒儰濞囬悽銊ㄧ箹闁插瞼娈?token
-  **濮濄儵顎?3閿涙艾绱╃€佃偐绱潏?*
-- 鐠佹澘缍嶉棁鈧憰浣虹椽鏉堟垹娈戦悽缁樻緲 token
-- 閺屻儳婀?[`../lark-whiteboard/SKILL.md`](../lark-whiteboard/SKILL.md) 娴滃棜袙婵″倷缍嶇紓鏍帆閻㈢粯婢橀崘鍛啇
-### 濞夈劍鍓版禍瀣€?
-- 瀹稿弶婀侀悽缁樻緲閸愬懎顔愰弮鐘崇《闁俺绻?lark-doc 閻?`docs +update` 閻╁瓨甯寸紓鏍帆
-- 缂傛牞绶悽缁樻緲闂団偓鐟曚椒濞囬悽銊ょ瑩闂傘劎娈?[`../lark-whiteboard/SKILL.md`](../lark-whiteboard/SKILL.md)
+## 闂佹彃绉烽々锔炬嫚鐎涙ɑ顫栭柨娑欐皑閺侀箖寮剁捄銊фそ閺?
+> **闁宠法濯寸粭?lark-doc skill 濞戞挸绉烽崗姗€鎯勭€涙ê澶嶇紓鍌涚墳缁额偄顔忛崣澶嬬畳闁汇垻绮姗€宕橀崨顓у晣闁挎稑濂旂徊?`docs +update` 闁告瑯鍨禍鎺楀棘閺夎法绱︾紒宀冩濞呇囨偨缂佹ɑ绶?*
+### 闁革妇鍎ゅ▍?1闁挎稒鑹鹃崙锟犳焻濮樺磭绠?docs +fetch 闁兼儳鍢茶ぐ鍥礆閻楀牊鐎俊妤嬬到閸炲鈧湱鎳撻幏浼存偨缂佹ɑ绶?token
+濠碘€冲€归悘澶愭偨閵婏箑鐓曠€规瓕灏欑划锟犳焻濮樺磭绠?`docs +fetch` 闁瑰嘲顦ぐ鍥ㄧ閸℃ɑ鐎俊妤嬬到閸炲鈧湱娅㈢槐婵嬬嵁閺堢數鐟柡鍌氭处閵嗗倹绋夐鐐插殥闁哄牆顦遍弫楣冨级閸栵紕绀勯弶鈺傛煥濞叉牠鎯?markdown 濞戞搩鍘肩€垫﹢宕?`<whiteboard token="xxx"/>` 闁哄秴娲ㄩ鐑芥晬婢舵稓绀夐悹鍥у槻缁扁晝鈧絻鍋愰弫銈夊箣閸戙倗绐?
+1. 閻犱焦婢樼紞宥夋偨缂佹ɑ绶查柣?token
+2. 闁哄被鍎冲﹢?[`../lark-whiteboard/SKILL.md`](../lark-whiteboard/SKILL.md) 濞存粌妫滆濠碘€冲€风紞宥囩磽閺嶎剛甯嗛柣銏㈢帛濠㈡﹢宕橀崨顓у晣
+### 闁革妇鍎ゅ▍?2闁挎稒鑹鹃崹浼村礆濞戞绱﹂柣銏㈢帛濠㈡﹢鏁嶅畝鍕粯閻熸洑鑳剁槐顏呮綇?
+濠碘€冲€归悘澶愭偨閵婏箑鐓曢柛鎺撳哺閳ь剚淇虹换?`docs +update` 闁告帗绋戠紓鎾寸閸℃瑢鏁勯柣褏鏅弫楣冨级閸栵紕绀夐梻鍥ｅ亾閻熸洑鑳剁槐顏呮綇閹寸偞顦ч柨?
+**婵縿鍎甸?1闁挎稒纰嶇€垫粎绮氶搹瑙勵仱闁汇垻绮妯兼嫚椤撶喓銆婇柛鎺撶☉缂?*
+- 闁?`--markdown` 濞戞搩鍘惧ú鍧楀箳閵夈倗鐐?`<whiteboard type="blank"></whiteboard>`
+- 闂傚洠鍋撻悷鏇氱椤︽寧绋夐鍡忔晞闁谎呮櫕閺侀箖寮堕幐搴㈩槯闁挎稑鑻﹢顏堝触鐏炶偐顏卞☉?`--markdown` 闂佹彃鐭傞崳鍛婂緞瀹ュ拋妯嬪☉?whiteboard 闁哄秴娲ㄩ?
+  **婵縿鍎甸?2闁挎稒鐭划鐘诲传瀹ュ懐瀹夊☉鎿冨弨椤斿洩銇?token**
+- `docs +update` 闁瑰瓨鍔曟慨娑㈠触鎼搭垳绀夐悹鍥嚙瑜板洭宕鍛畨閻庢稒顨嗛?`data.board_tokens`
+- `data.board_tokens` 闁哄嫷鍨遍弻濠傤嚈閾忚鏆伴柡澶庢硶濞?token 闁告帗顨夐妴鍐晬鐏炶姤鍊电紓渚囧幘缁鳖亝娼忛幋鐘崇函闁规亽鍎版繛鍥偨閵娿劎绠归梺鎻掔灱濞?token
+  **婵縿鍎甸?3闁挎稒鑹剧槐鈺冣偓浣冨亹缁鳖亝娼?*
+- 閻犱焦婢樼紞宥夋閳ь剛鎲版担铏规そ閺夊牊鍨瑰▓鎴︽偨缂佹ɑ绶?token
+- 闁哄被鍎冲﹢?[`../lark-whiteboard/SKILL.md`](../lark-whiteboard/SKILL.md) 濞存粌妫滆濠碘€冲€风紞宥囩磽閺嶎剛甯嗛柣銏㈢帛濠㈡﹢宕橀崨顓у晣
+### 婵炲鍔嶉崜鐗堢鐎ｎ喓鈧?
+- 鐎圭寮跺﹢渚€鎮界紒妯荤凡闁告劕鎳庨鎰板籍閻樺磭銆婇梺顐ｄ亢缁?lark-doc 闁?`docs +update` 闁烩晛鐡ㄧ敮瀵哥磽閺嶎剛甯?
+- 缂傚倹鐗炵欢顐︽偨缂佹ɑ绶查梻鍥ｅ亾閻熸洑妞掓繛鍥偨閵娿倗鐟╅梻鍌樺妿濞?[`../lark-whiteboard/SKILL.md`](../lark-whiteboard/SKILL.md)
 
-## 韫囶偊鈧喎鍠呯粵?
-- 閻劍鍩涚拠绮光偓婊勫娑撯偓娑擃亣銆冮弽灏栤偓婵冣偓婊勫瘻閸氬秶袨閹兼粎鏁哥€涙劘銆冮弽灏栤偓婵冣偓婊勫閹躲儴銆冮垾婵冣偓婊勬付鏉╂垶澧﹀鈧惃鍕€冮弽灏栤偓婵撶礉閸忓牏鏁?`lark-cli docs +search` 閸嬫俺绁┃鎰絺閻滆埇鈧?
-- `docs +search` 娑撳秵妲搁崣顏呮偝閺傚洦銆?/ Wiki閿涙稓绮ㄩ弸婊堝櫡娴兼氨娲块幒銉ㄧ箲閸?`SHEET` 缁涘绨粚娲？鐎电钖勯妴?
-- 閹峰灝鍩?spreadsheet URL / token 閸氬函绱濋崘宥呭瀼閸?`lark-sheets` 閸嬫艾顕挒鈥冲敶闁劏顕伴崣鏍モ偓浣虹摣闁鈧礁鍟撻崗銉х搼閹垮秳缍旈妴?
+## 闊浂鍋婇埀顒傚枎閸犲懐绮?
+- 闁活潿鍔嶉崺娑氭嫚缁厜鍋撳鍕棟濞戞挴鍋撳☉鎿冧海閵嗗啴寮界亸鏍ゅ亾濠靛啠鍋撳鍕樆闁告艾绉惰ⅷ闁瑰吋绮庨弫鍝モ偓娑欏姌閵嗗啴寮界亸鏍ゅ亾濠靛啠鍋撳鍕棟闁硅翰鍎撮妴鍐灳濠靛啠鍋撳鍕粯閺夆晜鍨舵晶锕€顕ｉ埀顒勬儍閸曨喓鈧啴寮界亸鏍ゅ亾濠垫挾绀夐柛蹇撶墢閺?`lark-cli docs +search` 闁稿淇虹粊顐⑩攦閹邦剙绲洪柣婊嗗焽閳?
+- `docs +search` 濞戞挸绉靛Σ鎼佸矗椤忓懏鍋濋柡鍌氭处閵?/ Wiki闁挎稒绋撶划銊╁几濠婂牆娅″ù鍏兼皑濞插潡骞掗妷銊х闁?`SHEET` 缂佹稑顦花顖滅矚濞差亝锛熼悗鐢殿攰閽栧嫰濡?
+- 闁瑰嘲鐏濋崺?spreadsheet URL / token 闁告艾鍑界槐婵嬪礃瀹ュ懎鐎奸柛?`lark-sheets` 闁稿鑹鹃顔炬寬閳ュ啿鏁堕梺顔哄姀椤曚即宕ｉ弽銉㈠亾娴ｈ櫣鎽ｉ梺顐㈩槶閳ь兛绀侀崯鎾诲礂閵壯呮惣闁瑰灝绉崇紞鏃堝Υ?
 
-## 鐞涖儱鍘栫拠瀛樻 
-`docs +search` 闂勩倓绨￠幖婊呭偍閺傚洦銆?/ Wiki閿涘奔绡冮幍鎸庡閳ユ粌鍘涚€规矮缍呮禍鎴犫敄闂傛潙顕挒鈽呯礉閸愬秴鍨忛崶鐐差嚠鎼存柧绗熼崝?skill 閹垮秳缍旈垾婵堟畱鐠у嫭绨崣鎴犲箛閸忋儱褰涚憴鎺曞閿涙稑缍嬮悽銊﹀煕閸欙絽銇旂拠绮光偓婊嗐€冮弽?/ 閹躲儴銆冮垾婵囨閿涘奔绡冩导妯哄帥娴犲氦绻栭柌灞界磻婵鈧?
+## 閻炴稏鍎遍崢鏍嫚鐎涙ɑ顫?
+`docs +search` 闂傚嫨鍊撶花锟犲箹濠婂懎鍋嶉柡鍌氭处閵?/ Wiki闁挎稑濂旂弧鍐箥閹稿骸顎撻柍銉︾矊閸樻稓鈧鐭紞鍛閹寸姭鏁勯梻鍌涙綑椤曨喚鎸掗埥鍛闁告劕绉撮崹蹇涘炊閻愬樊鍤犻幖瀛樻煣缁楃喖宕?skill 闁瑰灝绉崇紞鏃堝灳濠靛牊鐣遍悹褍瀚花顕€宕ｉ幋鐘茬疀闁稿繈鍎辫ぐ娑氭喆閹烘洖顥忛柨娑欑☉缂嶅鎮介妸锕€鐓曢柛娆欑到閵囨梻鎷犵划鍏夊亾濠婂棎鈧啴寮?/ 闁硅翰鍎撮妴鍐灳濠靛洦顦ч柨娑樺缁″啯瀵煎Ο鍝勫弗濞寸姴姘︾换鏍煂鐏炵晫纾诲┑顔碱儍閳?
 
-## Shortcuts閿涘牊甯归懡鎰喘閸忓牅濞囬悽顭掔礆
+## Shortcuts闁挎稑鐗婄敮褰掓嚒閹邦亞鍠橀柛蹇撶墔婵炲洭鎮介…鎺旂
 
-Shortcut 閺勵垰顕敮鍝ユ暏閹垮秳缍旈惃鍕彯缁狙冪殱鐟佸拑绱檂lark-cli docs +<verb> [flags]`閿涘鈧倹婀?Shortcut 閻ㄥ嫭鎼锋担婊€绱崗鍫滃▏閻劊鈧?
+Shortcut 闁哄嫷鍨伴顔炬暜閸濄儲鏆忛柟鍨С缂嶆棃鎯冮崟顖滃蒋缂佺嫏鍐閻熶礁鎷戠槐妾俵ark-cli docs +<verb> [flags]`闁挎稑顦埀顒€鍊瑰﹢?Shortcut 闁汇劌瀚幖閿嬫媴濠娾偓缁鳖參宕楅崼婊冣枏闁活潿鍔婇埀?
 
-| Shortcut | 鐠囧瓨妲?|
+| Shortcut | 閻犲洤鐡ㄥΣ?|
 |----------|------|
 | [`+search`](references/lark-doc-search.md) | Search Lark docs, Wiki, and spreadsheet files (Search v2: doc_wiki/search) |
 | [`+create`](references/lark-doc-create.md) | Create a Lark document |

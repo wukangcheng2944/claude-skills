@@ -7,6 +7,18 @@ description: Search and retrieve icons from major icon libraries (Lucide, Heroic
 
 Search and retrieve icons from 6 major open-source icon libraries using the Iconify unified API.
 
+
+## Agent-First Output Rule
+
+This skill should narrow icon selection quickly. It should not stop at a broad list of icons without telling the next agent which library, icon id, and delivery format is the best fit for the project.
+
+When returning icon results, make these explicit:
+- `suspected_scope`: the most likely library, style family, and UI context
+- `strongest_evidence`: the package already installed, the design constraints, or the best matching search result
+- `next_best_action`: the single next selection or integration step
+- `next_target`: the exact icon id, import path, SVG URL, or component snippet to use next
+- `confidence`: high, medium, or low
+
 ## Supported Libraries
 
 | Library | Iconify Prefix | Style | Best For |
@@ -42,7 +54,7 @@ The response JSON has an `icons` array with strings like `"lucide:home"`, `"tabl
 
 Two methods available (both verified working):
 
-#### Method A: Iconify API (recommended — works for ALL libraries)
+#### Method A: Iconify API (recommended 鈥?works for ALL libraries)
 
 ```
 https://api.simplesvg.com/{prefix}/{name}.svg
@@ -58,7 +70,7 @@ Examples:
 
 Optional SVG params: `?width=24&height=24&color=%23333`
 
-#### Method B: jsDelivr CDN (fallback — package-specific)
+#### Method B: jsDelivr CDN (fallback 鈥?package-specific)
 
 ```
 https://cdn.jsdelivr.net/npm/lucide-static@latest/icons/{name}.svg
@@ -84,7 +96,7 @@ const HomeIcon = (props) => (
 );
 ```
 
-#### Iconify Runtime (CDN — no build step needed)
+#### Iconify Runtime (CDN 鈥?no build step needed)
 ```html
 <script src="https://code.iconify.design/3/3.1.1/iconify.min.js"></script>
 <span class="iconify" data-icon="lucide:home"></span>

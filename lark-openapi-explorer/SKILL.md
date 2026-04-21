@@ -8,157 +8,156 @@ metadata:
 
 # OpenAPI Explorer
 
-> **閸撳秶鐤嗛弶鈥叉閿?* 閸忓牓妲勭拠?[`../lark-shared/SKILL.md`](../lark-shared/SKILL.md) 娴滃棜袙鐠併倛鐦夐妴浣介煩娴犺棄鍨忛幑銏犳嫲鐎瑰鍙忕憴鍕灟閵?
+> **闁告挸绉堕悿鍡涘级閳ュ弶顐介柨?* 闁稿繐鐗撳Σ鍕嫚?[`../lark-shared/SKILL.md`](../lark-shared/SKILL.md) 濞存粌妫滆閻犱降鍊涢惁澶愬Υ娴ｄ粙鐓╁ù鐘烘閸ㄥ繘骞戦姀鐘冲閻庣懓顦崣蹇曟喆閸曨偄鐏熼柕?
 
-瑜版挾鏁ら幋椋庢畱闂団偓濮?*閺冪姵纭剁悮顐ゅ箛閺?skill 閹?CLI 瀹稿弶鏁為崘?API 鐟曞棛娲?*閺冭绱濇担璺ㄦ暏閺堫剚濡ч懗鎴掔矤妞嬬偘鍔熺€规ɑ鏌?markdown 閺傚洦銆傛惔鎾茶厬闁劕鐪伴幐鏍ㄥ涪閸樼喓鏁?OpenAPI 閹恒儱褰涢敍宀€鍔ч崥搴ㄢ偓姘崇箖 `lark-cli api` 鐟佹瓕鐨熺€瑰本鍨氭禒璇插閵?
+鐟滅増鎸鹃弫銈夊箣妞嬪孩鐣遍梻鍥ｅ亾婵?*闁哄啰濮电涵鍓佹偖椤愩倕绠涢柡?skill 闁?CLI 鐎圭寮堕弫鐐哄礃?API 閻熸洖妫涘ú?*闁哄啳顔愮槐婵囨媴鐠恒劍鏆忛柡鍫墯婵⊙囨嚄閹存帞鐭ゅ瀣仒閸旂喓鈧蓱閺?markdown 闁哄倸娲﹂妴鍌涙償閹捐尪鍘梺顐ｅ姇閻即骞愰弽銊ユ丢闁告鍠撻弫?OpenAPI 闁规亽鍎辫ぐ娑㈡晬瀹€鈧崝褔宕ユ惔銊㈠亾濮樺磭绠?`lark-cli api` 閻熶焦鐡曢惃鐔衡偓鐟版湰閸ㄦ碍绂掔拠鎻掝潳闁?
 
 
-## Agent-First Output Rule
+## Execution-Focused Rule
 
-This skill exists to shrink API search space. It should never stop at "no API found" without naming the most likely module, document, or fallback path for the next agent.
+This skill should optimize for correct API discovery and execution. The AI should narrow quickly to the most likely module and only fall back to raw OpenAPI when existing lark-cli abilities are clearly insufficient.
 
-Always make these explicit:
-- `suspected_scope`: the most likely module, document node, API group, or resource
-- `strongest_evidence`: the key clue from `llms.txt`, module markdown, or API doc
-- `next_best_action`: continue digging, call `lark-cli api`, or fall back to an existing CLI capability
-- `next_target`: the exact module doc, markdown file, or API path to inspect next
-- `confidence`: high, medium, or low
+When guiding execution, make sure the result clearly states:
+- whether an existing `lark-*` skill or registered CLI command already covers the task
+- which module or document should be opened first when raw OpenAPI is needed
+- which exact API path or `lark-cli api` call should be tried next
+- which assumption must be verified before executing the API call
 
-## 閺傚洦銆傛惔鎾剁波閺?
+## 闁哄倸娲﹂妴鍌涙償閹惧墎娉㈤柡?
 
-妞嬬偘鍔?OpenAPI 閺傚洦銆傛禒?markdown 鐏炲倻楠囩紒鍕矏閿?
+濡炲鍋橀崝?OpenAPI 闁哄倸娲﹂妴鍌涚?markdown 閻忕偛鍊绘鍥╃磼閸曨厾鐭忛柨?
 
 ```
-llms.txt                          閳?妞よ泛鐪扮槐銏犵穿閿涘苯鍨崙鐑樺閺堝膩閸ф鏋冨锝夋懠閹?
-  閳规柡鏀?llms-<module>.txt            閳?濡€虫健閺傚洦銆傞敍灞藉瘶閸氼偄濮涢懗鑺ヮ洤鏉?+ 鎼存洖鐪?API 閺傚洦銆傞柧鐐复
-       閳规柡鏀?<api-doc>.md            閳?閸楁洑閲?API 閻ㄥ嫬鐣弫纾嬵嚛閺勫函绱欓弬瑙勭《/鐠侯垰绶?閸欏倹鏆?閸濆秴绨?闁挎瑨顕ら惍渚婄礆
+llms.txt                          闁?濡炪倛娉涢惇鎵閵忕姷绌块柨娑樿嫰閸亪宕欓悜妯侯暡闁哄牆顦拌啯闁秆勵殕閺嬪啫顩奸敐澶嬫嚑闁?
+  闁宠鏌￠弨?llms-<module>.txt            闁?婵☆垪鈧櫕鍋ラ柡鍌氭处閵嗗倿鏁嶇仦钘夌樁闁告凹鍋勬慨娑㈡嚄閼恒儺娲ら弶?+ 閹煎瓨娲栭惇?API 闁哄倸娲﹂妴鍌炴煣閻愵剙澶?
+       闁宠鏌￠弨?<api-doc>.md            闁?闁告娲戦柌?API 闁汇劌瀚悾顒勫极绾惧鍤涢柡鍕嚱缁辨瑩寮憴鍕€?閻犱警鍨扮欢?闁告瑥鍊归弳?闁告繂绉寸花?闂佹寧鐟ㄩ銈夋儘娓氬﹦绀?
 ```
 
-閺傚洦銆傞崗銉ュ經閿?
+闁哄倸娲﹂妴鍌炲礂閵夈儱缍撻柨?
 
-| 閸濅胶澧?| 閸忋儱褰?URL |
+| 闁告繀鑳舵晶?| 闁稿繈鍎辫ぐ?URL |
 |------|----------|
-| 妞嬬偘鍔?(Feishu) | `https://open.feishu.cn/llms.txt` |
+| 濡炲鍋橀崝?(Feishu) | `https://open.feishu.cn/llms.txt` |
 | Lark | `https://open.larksuite.com/llms.txt` |
 
-> 閹碘偓閺堝鏋冨锝勪簰**娑擃厽鏋?*缂傛牕鍟撻妴鍌氼洤閺嬫粎鏁ら幋铚傚▏閻劏瀚抽弬鍥︽唉濞翠緤绱濋棁鈧亸鍡樻瀮濡楋絽鍞寸€瑰湱鐐曠拠鎴滆礋閼昏鲸鏋冮崥搴ょ翻閸戞亽鈧?
+> 闁圭鍋撻柡鍫濐槹閺嬪啫顩奸敐鍕鞍**濞戞搩鍘介弸?*缂傚倹鐗曢崯鎾诲Υ閸屾凹娲ら柡瀣矌閺併倝骞嬮摎鍌氣枏闁活潿鍔忕€氭娊寮崶锔藉攭婵炵繝绶ょ槐婵嬫閳ь剛浜搁崱妯荤€俊妤嬬到閸炲鈧懓婀遍悙鏇犳嫚閹存粏绀嬮柤鏄忛哺閺嬪啴宕ユ惔銈囩炕闁告垶浜介埀?
 
-## 閹告牗甯㈠ù浣衡柤
+## 闁瑰憡鐗楃敮銏犆规担琛℃煠
 
-娑撱儲鐗搁幐澶変簰娑撳顒炴銈夆偓鎰湴濡偓缁鳖澁绱?*娑撳秷顩︾捄铏劄閹存牜瀵藉ù?API**閿?
+濞戞挶鍎查悧鎼佸箰婢跺绨板☉鎾愁儐椤掔偞顨ラ妶澶嗗亾閹邦剛婀存俊顐熷亾缂侀硸婢佺槐?*濞戞挸绉烽々锔炬崉閾忣偒鍔勯柟瀛樼墱鐎佃棄霉?API**闁?
 
-### Step 1閿涙氨鈥樼拋銈囧箛閺堝鍏橀崝娑楃瑝鐡?
+### Step 1闁挎稒姘ㄩ垾妯兼媼閵堝洤绠涢柡鍫濐槼閸忔﹢宕濆☉妤冪憹閻?
 
 ```bash
-# 閸忓牊顥呴弻銉︽Ц閸氾箑鍑￠張澶婎嚠鎼存梻娈?skill 閹存牕鍑″▔銊ュ斀 API
-lark-cli <閸欘垵鍏橀惃鍓唀rvice> --help
+# 闁稿繐鐗婇ˉ鍛村蓟閵夛附笑闁告熬绠戦崙锟犲嫉婢跺鍤犻幖瀛樻⒒濞?skill 闁瑰瓨鐗曢崙鈥斥枖閵娿儱鏂€ API
+lark-cli <闁告瑯鍨甸崗姗€鎯冮崜鍞€rvice> --help
 ```
 
-婵″倹鐏夊鍙夋箒鐎电懓绨查崨鎴掓姢閹?shortcut閿涘瞼娲块幒銉ゅ▏閻㈩煉绱?*娑撳秹娓剁憰浣烘埛缂侇厽瀵查幒?*閵?
+濠碘€冲€归悘澶婎啅閸欏绠掗悗鐢垫嚀缁ㄦ煡宕ㄩ幋鎺撳Б闁?shortcut闁挎稑鐬煎ú鍧楀箳閵夈倕鈻忛柣銏╃厜缁?*濞戞挸绉瑰〒鍓佹啺娴ｇ儤鍩涚紓渚囧幗鐎垫煡骞?*闁?
 
-### Step 2閿涙矮绮犳い璺虹湴缁便垹绱╃€规矮缍呭Ο鈥虫健
+### Step 2闁挎稒鐭划鐘炽亜鐠鸿櫣婀寸紒渚垮灩缁扁晝鈧鐭紞鍛熼垾铏仴
 
-閻?WebFetch 閼惧嘲褰囨い璺虹湴缁便垹绱╅敍灞惧閸掗绗岄棁鈧Ч鍌滄祲閸忓磭娈戝Ο鈥虫健閺傚洦銆傞柧鐐复閿?
+闁?WebFetch 闁兼儳鍢茶ぐ鍥ㄣ亜鐠鸿櫣婀寸紒渚垮灩缁扁晠鏁嶇仦鎯ь棟闁告帡顣︾粭宀勬閳ь剙效閸屾粍绁查柛蹇撶－濞堟垵螣閳ヨ櫕鍋ラ柡鍌氭处閵嗗倿鏌ч悙顒€澶嶉柨?
 
 ```
 WebFetch https://open.feishu.cn/llms.txt
-  閳?閹绘劕褰囬梻顕€顣介敍?閸掓鍤幍鈧張澶嬆侀崸妤佹瀮濡楋綁鎽奸幒銉礉閹垫儳鍤稉?<閻劍鍩涢棁鈧Ч鍌氬彠闁款喛鐦? 閻╃鍙ч惃鍕懠閹?
+  闁?闁圭粯鍔曡ぐ鍥⒒椤曗偓椤ｄ粙鏁?闁告帗顨呴崵顓㈠箥閳ь剟寮垫径瀣嗕線宕稿Δ浣圭€俊妤嬬秮閹藉ジ骞掗妷顖滅闁瑰灚鍎抽崵顓熺▔?<闁活潿鍔嶉崺娑㈡閳ь剙效閸屾艾褰犻梺娆惧枦閻? 闁烩晝顭堥崣褔鎯冮崟顖涙嚑闁?
 ```
 
-- 妞嬬偘鍔熼崫浣哄娴ｈ法鏁?`open.feishu.cn`
-- Lark 閸濅胶澧濇担璺ㄦ暏 `open.larksuite.com`
-- 婵″倷绗夌涵顔肩暰閻劍鍩涢崫浣哄閿涘矂绮拋銈勫▏閻劑顥ｆ稊?
+- 濡炲鍋橀崝鐔煎传娴ｅ搫顤傚ù锝堟硶閺?`open.feishu.cn`
+- Lark 闁告繀鑳舵晶婵囨媴鐠恒劍鏆?`open.larksuite.com`
+- 濠碘€冲€风粭澶屾兜椤旇偐鏆伴柣顫妽閸╂盯宕担鍝勵杺闁挎稑鐭傜划顖滄媼閵堝嫬鈻忛柣顫姂椤ワ絾绋?
 
-### Step 3閿涙矮绮犲Ο鈥虫健閺傚洦銆傜€规矮缍呴崗铚傜秼 API
+### Step 3闁挎稒鐭划鐘参熼垾铏仴闁哄倸娲﹂妴鍌溾偓瑙勭煯缂嶅懘宕楅摎鍌滅Ъ API
 
-閻?WebFetch 閼惧嘲褰囧Ο鈥虫健閺傚洦銆傞敍灞惧閸掓澘鍙挎担?API 閻ㄥ嫭鏋冨锝夋懠閹恒儻绱?
+闁?WebFetch 闁兼儳鍢茶ぐ鍥熼垾铏仴闁哄倸娲﹂妴鍌炴晬鐏炴儳顥濋柛鎺撴緲閸欐寧鎷?API 闁汇劌瀚弸鍐浖閿濆鎳犻柟鎭掑劵缁?
 
 ```
 WebFetch https://open.feishu.cn/llms-docs/zh-CN/llms-<module>.txt
-  閳?閹绘劕褰囬梻顕€顣介敍?閹垫儳鍤稉?<閻劍鍩涢棁鈧Ч? 閻╃鍙ч惃?API 鐠囧瓨妲戦崪灞炬瀮濡楋綁鎽奸幒?
+  闁?闁圭粯鍔曡ぐ鍥⒒椤曗偓椤ｄ粙鏁?闁瑰灚鍎抽崵顓熺▔?<闁活潿鍔嶉崺娑㈡閳ь剙效? 闁烩晝顭堥崣褔鎯?API 閻犲洤鐡ㄥΣ鎴﹀椽鐏炵偓鐎俊妤嬬秮閹藉ジ骞?
 ```
 
-### Step 4閿涙俺骞忛崣?API 鐎瑰本鏆ｇ憴鍕瘱
+### Step 4闁挎稒淇洪獮蹇涘矗?API 閻庣懓鏈弳锝囨喆閸曨喖鐦?
 
-閻?WebFetch 閼惧嘲褰囬崗铚傜秼 API 閺傚洦銆傞敍灞惧絹閸欐牕鐣弫瀵告畱鐠嬪啰鏁ょ憴鍕瘱閿?
+闁?WebFetch 闁兼儳鍢茶ぐ鍥礂閾氬倻绉?API 闁哄倸娲﹂妴鍌炴晬鐏炴儳绲归柛娆愮墪閻ｎ剟寮€靛憡鐣遍悹瀣暟閺併倗鎲撮崟顔肩槺闁?
 
 ```
 WebFetch https://open.feishu.cn/document/server-docs/.../<api>.md
-  閳?閹绘劕褰囬梻顕€顣介敍?鏉╂柨娲栫€瑰本鏆?API 鐟欏嫯瀵栭敍娆籘TP 閺傝纭堕妴涔丷L 鐠侯垰绶為妴浣界熅瀵板嫬寮弫鑸偓浣圭叀鐠囥垹寮弫鑸偓浣筋嚞濮瑰倷缍嬬€涙顔岄敍鍫濇倳缁?缁鐎?韫囧懎锝?鐠囧瓨妲戦敍澶堚偓浣告惙鎼存柨鐡у▓鐐光偓浣瑰闂団偓閺夊啴妾洪妴渚€鏁婄拠顖滅垳"
+  闁?闁圭粯鍔曡ぐ鍥⒒椤曗偓椤ｄ粙鏁?閺夆晜鏌ㄥú鏍偓鐟版湰閺?API 閻熸瑥瀚€垫牠鏁嶅▎绫楾P 闁哄倽顫夌涵鍫曞Υ娑斾阜L 閻犱警鍨扮欢鐐哄Υ娴ｇ晫鐔呯€垫澘瀚顒勫极閼割兘鍋撴担鍦弨閻犲洢鍨瑰顒勫极閼割兘鍋撴担绛嬪殲婵懓鍊风紞瀣偓娑欘殕椤斿矂鏁嶉崼婵囧€崇紒?缂侇偉顕ч悗?闊洤鎳庨敐?閻犲洤鐡ㄥΣ鎴︽晬婢跺牃鍋撴担鍛婃儥閹煎瓨鏌ㄩ悺褍鈻撻悙鍏夊亾娴ｇ懓顣查梻鍥ｅ亾闁哄鍟村娲Υ娓氣偓閺佸﹦鎷犻婊呭灣"
 ```
 
-### Step 5閿涙岸鈧俺绻?CLI 鐠嬪啰鏁?API
+### Step 5闁挎稒宀搁埀顒佷亢缁?CLI 閻犲鍟伴弫?API
 
-娴ｈ法鏁?`lark-cli api` 鐟佹瓕鐨熼敍?
+濞达綀娉曢弫?`lark-cli api` 閻熶焦鐡曢惃鐔兼晬?
 
 ```bash
-# GET 鐠囬攱鐪?
+# GET 閻犲洭鏀遍惇?
 lark-cli api GET /open-apis/<path> --params '{"key":"value"}'
 
-# POST 鐠囬攱鐪?
+# POST 閻犲洭鏀遍惇?
 lark-cli api POST /open-apis/<path> --data '{"key":"value"}'
 
-# PUT 鐠囬攱鐪?
+# PUT 閻犲洭鏀遍惇?
 lark-cli api PUT /open-apis/<path> --data '{"key":"value"}'
 
-# DELETE 鐠囬攱鐪?
+# DELETE 閻犲洭鏀遍惇?
 lark-cli api DELETE /open-apis/<path>
 ```
 
-## 鏉堟挸鍤憴鍕瘱
+## 閺夊牊鎸搁崵顓犳喆閸曨喖鐦?
 
-閸氭垹鏁ら幋宄版啛閻滅増瀵查幒妯肩波閺嬫粍妞傞敍灞惧瘻娴犮儰绗呴弽鐓庣础缂佸嫮绮愰敍?
+闁告碍鍨归弫銈夊箣瀹勭増鍟涢柣婊呭鐎垫煡骞掑Ο鑲╂尝闁哄绮嶅鍌炴晬鐏炴儳鐦诲ù鐘劙缁楀懘寮介悡搴ｇ缂備礁瀚划鎰版晬?
 
-1. **API 閸氬秶袨娑撳骸濮涢懗?*閿涙矮绔撮崣銉ㄧ樈閹诲繗鍫?
-2. **HTTP 閺傝纭舵稉搴ょ熅瀵?*閿涙瓪METHOD /open-apis/...`
-3. **閸忔娊鏁崣鍌涙殶**閿涙艾鍨崙鍝勭箑婵夘偄鎷扮敮鍝ユ暏閸欘垶鈧寮弫?
-4. **閹碘偓闂団偓閺夊啴妾?*閿涙cope 閸掓銆?
-5. **鐠嬪啰鏁ょ粈杞扮伐**閿涙氨绮伴崙?`lark-cli api` 閻ㄥ嫬鐣弫鏉戞嚒娴?
-6. **濞夈劍鍓版禍瀣€?*閿涙岸顣堕悳鍥閸掕翰鈧胶澹掑▓濠勫閺夌喓鐡?
+1. **API 闁告艾绉惰ⅷ濞戞挸楠告慨娑㈡嚄?*闁挎稒鐭粩鎾矗閵夈劎妯堥柟璇茬箺閸?
+2. **HTTP 闁哄倽顫夌涵鑸电▔鎼淬倗鐔呯€?*闁挎稒鐡狹ETHOD /open-apis/...`
+3. **闁稿繑濞婇弫顓㈠矗閸屾稒娈?*闁挎稒鑹鹃崹顏堝礄閸濆嫮绠戝┑澶樺亜閹锋壆鏁崫銉︽殢闁告瑯鍨堕埀顒€顦顒勫极?
+4. **闁圭鍋撻梻鍥ｅ亾闁哄鍟村?*闁挎稒顒璫ope 闁告帗顨夐妴?
+5. **閻犲鍟伴弫銈囩矆鏉炴壆浼?*闁挎稒姘ㄧ划浼村礄?`lark-cli api` 闁汇劌瀚悾顒勫极閺夋垶鍤掑ù?
+6. **婵炲鍔嶉崜鐗堢鐎ｎ喓鈧?*闁挎稒宀搁。鍫曟偝閸ヮ剚顎欓柛鎺曠堪閳ь兛鑳舵竟鎺戔枔婵犲嫬顔婇柡澶屽枔閻?
 
-婵″倹鐏夐悽銊﹀煕娴ｈ法鏁ら懟杈ㄦ瀮娴溿倖绁﹂敍灞界殺娴犮儰绗傞幍鈧張澶婂敶鐎瑰湱鐐曠拠鎴滆礋閼昏鲸鏋冮妴?
+濠碘€冲€归悘澶愭偨閵婏箑鐓曞ù锝堟硶閺併倝鎳熸潏銊︾€ù婧垮€栫粊锕傛晬鐏炵晫娈哄ù鐘劙缁楀倿骞嶉埀顒勫嫉婢跺﹤鏁堕悗鐟版贡閻愭洜鎷犻幋婊嗙闁兼槒椴搁弸鍐Υ?
 
-## 鐎瑰鍙忕憴鍕灟
+## 閻庣懓顦崣蹇曟喆閸曨偄鐏?
 
-- **閸愭瑥鍙?閸掔娀娅庣猾?API**閿涘湧OST/PUT/DELETE閿涘鐨熼悽銊ュ韫囧懘銆忕涵顔款吇閻劍鍩涢幇蹇撴禈
-- 瀵ら缚顔呴崗鍫㈡暏 `--dry-run` 妫板嫯顫嶇拠閿嬬湴閿涘牆顩ч弨顖涘瘮閿?
-- 娑撳秷顩﹂悮婊勭ゴ API 鐠侯垰绶為幋鏍у棘閺佹壋鈧柡鈧柨绻€妞よ绮犻弬鍥ㄣ€傛稉顓″箯閸欐牜鈥樼拋?
-- 濞戝寮烽弫蹇斿妳閹垮秳缍旈敍鍫濆灩闂勩倗鍏㈤妴浣盒╅梽銈嗗灇閸涙鐡戦敍澶嬫閿涘苯鎮滈悽銊﹀煕鐠囧瓨妲戣ぐ鍗炴惙閼煎啫娲?
+- **闁告劖鐟ラ崣?闁告帞濞€濞呭海鐚?API**闁挎稑婀ST/PUT/DELETE闁挎稑顦抽惃鐔兼偨閵娿儱顤呴煫鍥ф嚇閵嗗繒娑甸娆惧悋闁活潿鍔嶉崺娑㈠箛韫囨挻绂?
+- 鐎点倝缂氶鍛村礂閸垺鏆?`--dry-run` 濡澘瀚～宥囨嫚闁垮婀撮柨娑樼墕椤┭囧绩椤栨稑鐦柨?
+- 濞戞挸绉烽々锕傛偖濠婂嫮銈?API 閻犱警鍨扮欢鐐哄箣閺嵮冩闁轰焦澹嬮埀顒佹煛閳ь剚鏌ㄧ换鈧銈堫唺缁娀寮崶銊ｂ偓鍌涚▔椤撯€崇闁告瑦鐗滈垾妯兼媼?
+- 婵炴垵顦鐑藉极韫囨柨濡抽柟鍨С缂嶆棃鏁嶉崼婵嗙仼闂傚嫨鍊楅崗銏ゅΥ娴ｇ洅鈺呮⒔閵堝棗鐏囬柛娑欘焽閻℃垿鏁嶆径瀣槯闁挎稑鑻幃婊堟偨閵婏箑鐓曢悹鍥х摠濡叉垼銇愰崡鐐存儥闁肩厧鍟ú?
 
-## 娴ｈ法鏁ら崷鐑樻珯缁€杞扮伐
+## 濞达綀娉曢弫銈夊捶閻戞ɑ鐝紒鈧潪鎵紣
 
-### 閸︾儤娅?1閿涙氨鏁ら幋鐑芥付鐟曚焦濯烘禍楦跨箻缂囥倧绱欓張顏囶潶 CLI 鐏忎浇顥婇敍?
+### 闁革妇鍎ゅ▍?1闁挎稒姘ㄩ弫銈夊箣閻戣姤浠橀悷鏇氱劍婵儤绂嶆ウ璺ㄧ缂傚洢鍊х槐娆撳嫉椤忓浂娼?CLI 閻忓繋娴囬ˉ濠囨晬?
 
 ```bash
-# Step 1: 绾喛顓?CLI 濞屸剝婀佺亸浣筋棅
+# Step 1: 缁绢収鍠涢?CLI 婵炲备鍓濆﹢浣轰焊娴ｇ瓔妫?
 lark-cli im --help
-# 閳?閸欐垹骞囧▽鈩冩箒 chat_members 閻╃鍙ч惃?create 閸涙垝鎶?
+# 闁?闁告瑦鍨归獮鍥р柦閳╁啯绠?chat_members 闁烩晝顭堥崣褔鎯?create 闁告稒鍨濋幎?
 
-# Step 2-4: 闁俺绻冮弬鍥ㄣ€傞幐鏍ㄥ涪閼惧嘲绶?API 鐟欏嫯瀵?
-# 閳?POST /open-apis/im/v1/chats/:chat_id/members
+# Step 2-4: 闂侇偅淇虹换鍐棘閸ャ劊鈧倿骞愰弽銊ユ丢闁兼儳鍢茬欢?API 閻熸瑥瀚€?
+# 闁?POST /open-apis/im/v1/chats/:chat_id/members
 
-# Step 5: 鐠嬪啰鏁?
+# Step 5: 閻犲鍟伴弫?
 lark-cli api POST /open-apis/im/v1/chats/oc_xxx/members \
   --data '{"id_list":["ou_xxx","ou_yyy"]}' \
   --params '{"member_id_type":"open_id"}'
 ```
 
-### 閸︾儤娅?2閿涙氨鏁ら幋鐑芥付鐟曚浇顔曠純顔惧參閸忣剙鎲?
+### 闁革妇鍎ゅ▍?2闁挎稒姘ㄩ弫銈夊箣閻戣姤浠橀悷鏇氭祰椤旀洜绱旈鎯у弮闁稿浚鍓欓幉?
 
 ```bash
-# Step 1: 绾喛顓?CLI 濞屸剝婀佺亸浣筋棅
+# Step 1: 缁绢収鍠涢?CLI 婵炲备鍓濆﹢浣轰焊娴ｇ瓔妫?
 lark-cli im --help
-# 閳?濞屸剝婀?announcement 閻╃鍙ч崨鎴掓姢
+# 闁?婵炲备鍓濆﹢?announcement 闁烩晝顭堥崣褔宕ㄩ幋鎺撳Б
 
-# Step 2-4: 閹告牗甯㈤弬鍥ㄣ€?
-# 閳?PATCH /open-apis/im/v1/chats/:chat_id/announcement
+# Step 2-4: 闁瑰憡鐗楃敮銏ゅ棘閸ャ劊鈧?
+# 闁?PATCH /open-apis/im/v1/chats/:chat_id/announcement
 
-# Step 5: 鐠嬪啰鏁?
+# Step 5: 閻犲鍟伴弫?
 lark-cli api PATCH /open-apis/im/v1/chats/oc_xxx/announcement \
-  --data '{"revision":"0","requests":["<html>閸忣剙鎲￠崘鍛啇</html>"]}'
+  --data '{"revision":"0","requests":["<html>闁稿浚鍓欓幉锟犲礃閸涱収鍟?/html>"]}'
 ```
 
-## 閸欏倽鈧?
+## 闁告瑥鍊介埀?
 
-- [lark-shared](../lark-shared/SKILL.md) 閳?鐠併倛鐦夐崪灞藉弿鐏炩偓閸欏倹鏆?
-- [lark-skill-maker](../lark-skill-maker/SKILL.md) 閳?婵″倿娓剁亸鍡樺閹烘ê鍩岄惃?API 閸ュ搫瀵叉稉鐑樻煀 Skill
+- [lark-shared](../lark-shared/SKILL.md) 闁?閻犱降鍊涢惁澶愬椽鐏炶棄寮块悘鐐╁亾闁告瑥鍊归弳?
+- [lark-skill-maker](../lark-skill-maker/SKILL.md) 闁?濠碘€冲€垮〒鍓佷焊閸℃ê顕ч柟鐑樏崺宀勬儍?API 闁搞儱鎼€靛弶绋夐悜妯荤厐 Skill

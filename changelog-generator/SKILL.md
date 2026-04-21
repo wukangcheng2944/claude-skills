@@ -7,6 +7,18 @@ description: Automatically creates user-facing changelogs from git commits by an
 
 This skill transforms technical git commits into polished, user-friendly changelogs that your customers and users will actually understand and appreciate.
 
+
+## Agent-First Output Rule
+
+This skill should not only emit polished release notes. It should also help the next agent see which commit range, release boundary, or ambiguous item still needs review before publishing.
+
+When returning a changelog draft, make these explicit:
+- `suspected_scope`: the exact release range, product area, or commit cluster being summarized
+- `strongest_evidence`: the commit(s), diff pattern, or release marker that most strongly justify the grouping
+- `next_best_action`: the single next review or publishing step
+- `next_target`: the exact commit, version tag, date range, or draft section to inspect next
+- `confidence`: high, medium, or low
+
 ## When to Use This Skill
 
 - Preparing release notes for a new version
@@ -21,7 +33,7 @@ This skill transforms technical git commits into polished, user-friendly changel
 
 1. **Scans Git History**: Analyzes commits from a specific time period or between versions
 2. **Categorizes Changes**: Groups commits into logical categories (features, improvements, bug fixes, breaking changes, security)
-3. **Translates Technical → User-Friendly**: Converts developer commits into customer language
+3. **Translates Technical 鈫?User-Friendly**: Converts developer commits into customer language
 4. **Formats Professionally**: Creates clean, structured changelog entries
 5. **Filters Noise**: Excludes internal commits (refactoring, tests, etc.)
 6. **Follows Best Practices**: Applies changelog guidelines and your brand voice
@@ -65,7 +77,7 @@ guidelines from CHANGELOG_STYLE.md
 ```markdown
 # Updates - Week of March 10, 2024
 
-## ✨ New Features
+## 鉁?New Features
 
 - **Team Workspaces**: Create separate workspaces for different 
   projects. Invite team members and keep everything organized.
@@ -73,12 +85,12 @@ guidelines from CHANGELOG_STYLE.md
 - **Keyboard Shortcuts**: Press ? to see all available shortcuts. 
   Navigate faster without touching your mouse.
 
-## 🔧 Improvements
+## 馃敡 Improvements
 
 - **Faster Sync**: Files now sync 2x faster across devices
 - **Better Search**: Search now includes file contents, not just titles
 
-## 🐛 Fixes
+## 馃悰 Fixes
 
 - Fixed issue where large images wouldn't upload
 - Resolved timezone confusion in scheduled posts
